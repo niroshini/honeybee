@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/txtOnConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I want to..."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/yellow" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RadioGroup
+            android:id="@+id/radioGroupMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/radioDele"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Run Face Match"
+                android:textColor="@color/yellow" />
+
+            <RadioButton
+                android:id="@+id/radioWork"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/strWorker"
+                android:textColor="@color/yellow" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnExit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="51dp"
+            android:text="@string/strExit"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnDeleteJobDataMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete All Job Data"
+        android:textColor="@color/white" />
+
+</LinearLayout>
