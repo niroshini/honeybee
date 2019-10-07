@@ -1,0 +1,235 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-53:12
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-53:12
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-53:12
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-53:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-v4:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ce2f6058b582880ec3c9aa6ee9f900c8/support-v4-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/617b01740c113f7e30a40704763698d9/support-fragment-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/848337694e969f557867fc4c71ee4df1/animated-vector-drawable-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/de983ce595cc890b2d4203f95c95cbc2/support-core-ui-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/931dc0732495a48676338e3096e222d8/support-core-utils-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/1606b3689a512e702c708aeff54dc275/support-vector-drawable-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/27df1f4f4d89b5d3f90bafe68e1a11d9/support-media-compat-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/53a136253a346194954ba8d49e55508c/loader-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/0053af6d543e80f2eca2dfa34c8f8cd4/viewpager-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/54d979b97cccdbacfd20983c6e6fa172/coordinatorlayout-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/694c26a5b2f5f971c67e70ae0fee62cd/drawerlayout-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/6686ec5f2e2ab44ae21c1eb445c99a3b/slidingpanelayout-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/25f9131f098f8a4ac4a98754913f6b72/customview-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/a7f0b0af0b8bf1f81bd2e824811a5547/swiperefreshlayout-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/58f91a9ca0994ae02be35d76a8d8620d/asynclayoutinflater-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ec51a15ecdd6ac6bc414bac2bbd5ef52/versionedparcelable-28.0.0/AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/f2e189d9c9c6a4d1eca5e283d6c960d7/cursoradapter-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/f8071bc478da969c504fd95a5be6aaf8/runtime-1.1.1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/aeb7294d6d68d8c7eedcd7bf25b6a920/documentfile-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ade294bed9caf3f29b70e263efe27c86/localbroadcastmanager-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/b550f02102518269b5ae49ce098d1bbd/print-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ecf2828b954b598dde19702f30d5ac54/viewmodel-1.1.1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/a0712c74e2562104cfa1829d4f9a06a2/interpolator-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/780607b29fa9b8b916b13db491ef41f2/livedata-1.1.1/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/178d52fd0f4d875d0c412c649f532470/livedata-core-1.1.1/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/d8ef00b68490a45f49fd0664d6982489/runtime-1.1.1/AndroidManifest.xml:17:1-22:12
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-53:12
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-53:12
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-53:12
+	package
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:3:5-40
+		INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+	android:versionName
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:5:5-30
+		INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:4:5-28
+		INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+uses-feature#android.hardware.wifi.direct
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:9:5-11:35
+	android:required
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:11:9-32
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:10:9-52
+uses-permission#android.permission.BLUETOOTH
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:13:5-68
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:13:22-65
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:14:5-81
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:14:22-78
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:15:5-74
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:15:22-71
+uses-permission#android.permission.CAMERA
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:16:5-65
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:16:22-62
+uses-permission#android.permission.ACCESS_BLUETOOTH_SHARE
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:17:5-81
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:17:22-78
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:18:5-76
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:18:22-73
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:19:5-76
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:19:22-73
+uses-permission#android.permission.CHANGE_NETWORK_STATE
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:20:5-79
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:20:22-76
+uses-permission#android.permission.INTERNET
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:21:5-67
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:21:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:22:5-79
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:22:22-76
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:23:5-75
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:23:22-72
+application
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:25:5-51:19
+MERGED from [com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ec51a15ecdd6ac6bc414bac2bbd5ef52/versionedparcelable-28.0.0/AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ec51a15ecdd6ac6bc414bac2bbd5ef52/versionedparcelable-28.0.0/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:22:18-91
+	android:label
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:28:9-41
+	android:icon
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:27:9-45
+	android:allowBackup
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:26:9-35
+	android:theme
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:29:9-40
+activity#tnefern.honeybeeframework.HoneybeeCrowdActivity
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:30:9-38:20
+	android:label
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:32:13-45
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:31:13-75
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:33:13-37:29
+action#android.intent.action.MAIN
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:34:17-69
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:34:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:36:17-77
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:36:27-74
+activity#tnefern.honeybeeframework.apps.facematch.FaceMatchDelegatorActivity
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:39:9-40:20
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:39:19-76
+activity#tnefern.honeybeeframework.apps.facematch.FaceMatchWorkerActivity
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:41:9-42:20
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:41:19-73
+activity#tnefern.honeybeeframework.apps.facematch.FinishedFaceMatchDelegatorActivity
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:43:9-44:20
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:43:19-109
+activity#tnefern.honeybeeframework.worker.FinishedWorkerActivity
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:45:9-46:20
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:45:19-64
+service#tnefern.honeybeeframework.wifidirect.WiFiDirectWorkerNonOwnerService
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:47:9-87
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:47:18-76
+activity#tnefern.honeybeeframework.apps.mandelbrot.MandelbrotDelegatorActivity
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:48:9-90
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:48:19-78
+activity#tnefern.honeybeeframework.apps.mandelbrot.MandelbrotWorkerActivity
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:49:9-87
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:49:19-75
+activity#tnefern.honeybeeframework.apps.mandelbrot.FinishedMandelbrotDelegatorActivity
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:50:9-98
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:50:19-86
+uses-sdk
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ce2f6058b582880ec3c9aa6ee9f900c8/support-v4-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ce2f6058b582880ec3c9aa6ee9f900c8/support-v4-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/617b01740c113f7e30a40704763698d9/support-fragment-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/617b01740c113f7e30a40704763698d9/support-fragment-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/848337694e969f557867fc4c71ee4df1/animated-vector-drawable-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/848337694e969f557867fc4c71ee4df1/animated-vector-drawable-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/de983ce595cc890b2d4203f95c95cbc2/support-core-ui-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/de983ce595cc890b2d4203f95c95cbc2/support-core-ui-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/931dc0732495a48676338e3096e222d8/support-core-utils-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/931dc0732495a48676338e3096e222d8/support-core-utils-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/1606b3689a512e702c708aeff54dc275/support-vector-drawable-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/1606b3689a512e702c708aeff54dc275/support-vector-drawable-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/27df1f4f4d89b5d3f90bafe68e1a11d9/support-media-compat-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/27df1f4f4d89b5d3f90bafe68e1a11d9/support-media-compat-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/53a136253a346194954ba8d49e55508c/loader-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/53a136253a346194954ba8d49e55508c/loader-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/0053af6d543e80f2eca2dfa34c8f8cd4/viewpager-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/0053af6d543e80f2eca2dfa34c8f8cd4/viewpager-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/54d979b97cccdbacfd20983c6e6fa172/coordinatorlayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/54d979b97cccdbacfd20983c6e6fa172/coordinatorlayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/694c26a5b2f5f971c67e70ae0fee62cd/drawerlayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/694c26a5b2f5f971c67e70ae0fee62cd/drawerlayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/6686ec5f2e2ab44ae21c1eb445c99a3b/slidingpanelayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/6686ec5f2e2ab44ae21c1eb445c99a3b/slidingpanelayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/25f9131f098f8a4ac4a98754913f6b72/customview-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/25f9131f098f8a4ac4a98754913f6b72/customview-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/a7f0b0af0b8bf1f81bd2e824811a5547/swiperefreshlayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/a7f0b0af0b8bf1f81bd2e824811a5547/swiperefreshlayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/58f91a9ca0994ae02be35d76a8d8620d/asynclayoutinflater-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/58f91a9ca0994ae02be35d76a8d8620d/asynclayoutinflater-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ec51a15ecdd6ac6bc414bac2bbd5ef52/versionedparcelable-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ec51a15ecdd6ac6bc414bac2bbd5ef52/versionedparcelable-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/f2e189d9c9c6a4d1eca5e283d6c960d7/cursoradapter-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/f2e189d9c9c6a4d1eca5e283d6c960d7/cursoradapter-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/f8071bc478da969c504fd95a5be6aaf8/runtime-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/f8071bc478da969c504fd95a5be6aaf8/runtime-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/aeb7294d6d68d8c7eedcd7bf25b6a920/documentfile-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/aeb7294d6d68d8c7eedcd7bf25b6a920/documentfile-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ade294bed9caf3f29b70e263efe27c86/localbroadcastmanager-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ade294bed9caf3f29b70e263efe27c86/localbroadcastmanager-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/b550f02102518269b5ae49ce098d1bbd/print-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/b550f02102518269b5ae49ce098d1bbd/print-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ecf2828b954b598dde19702f30d5ac54/viewmodel-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ecf2828b954b598dde19702f30d5ac54/viewmodel-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/a0712c74e2562104cfa1829d4f9a06a2/interpolator-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/a0712c74e2562104cfa1829d4f9a06a2/interpolator-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/780607b29fa9b8b916b13db491ef41f2/livedata-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/780607b29fa9b8b916b13db491ef41f2/livedata-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/178d52fd0f4d875d0c412c649f532470/livedata-core-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/178d52fd0f4d875d0c412c649f532470/livedata-core-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/d8ef00b68490a45f49fd0664d6982489/runtime-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/d8ef00b68490a45f49fd0664d6982489/runtime-1.1.1/AndroidManifest.xml:20:5-44
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml

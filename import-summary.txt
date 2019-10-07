@@ -1,0 +1,182 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .DS_Store
+* .idea/
+* .idea/workspace.xml
+* ReadMe.txt
+* app/
+* app/build.gradle
+* app/src/
+* app/src/main/
+* app/src/main/AndroidManifest.xml
+* app/src/main/java/
+* app/src/main/java/tnefern/
+* app/src/main/java/tnefern/honeybeeframework/
+* app/src/main/java/tnefern/honeybeeframework/HoneybeeCrowdActivity.java
+* app/src/main/java/tnefern/honeybeeframework/apps/
+* app/src/main/java/tnefern/honeybeeframework/apps/facematch/
+* app/src/main/java/tnefern/honeybeeframework/apps/facematch/FaceConstants.java
+* app/src/main/java/tnefern/honeybeeframework/apps/facematch/FaceInfo.java
+* app/src/main/java/tnefern/honeybeeframework/apps/facematch/FaceMatchDelegatorActivity.java
+* app/src/main/java/tnefern/honeybeeframework/apps/facematch/FaceMatchQueenBee.java
+* app/src/main/java/tnefern/honeybeeframework/apps/facematch/FaceMatchWorkerActivity.java
+* app/src/main/java/tnefern/honeybeeframework/apps/facematch/FaceMatchWorkerBee.java
+* app/src/main/java/tnefern/honeybeeframework/apps/facematch/FaceRequest.java
+* app/src/main/java/tnefern/honeybeeframework/apps/facematch/FaceResult.java
+* app/src/main/java/tnefern/honeybeeframework/apps/facematch/FinishedFaceMatchDelegatorActivity.java
+* app/src/main/java/tnefern/honeybeeframework/apps/facematch/JpegFilter.java
+* app/src/main/java/tnefern/honeybeeframework/apps/facematch/SearchImage.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/Complex.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/DrawMandel.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/FinishedMandelbrotDelegatorActivity.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/MandelConstants.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/MandelInfo.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/MandelResultComparator.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/Mandelbrot.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/MandelbrotDelegatorActivity.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/MandelbrotQueenBee.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/MandelbrotRequest.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/MandelbrotResult.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/MandelbrotWorkerActivity.java
+* app/src/main/java/tnefern/honeybeeframework/apps/mandelbrot/MandelbrotWorkerBee.java
+* app/src/main/java/tnefern/honeybeeframework/common/
+* app/src/main/java/tnefern/honeybeeframework/common/AppInfo.java
+* app/src/main/java/tnefern/honeybeeframework/common/CommonConstants.java
+* app/src/main/java/tnefern/honeybeeframework/common/CompletedJob.java
+* app/src/main/java/tnefern/honeybeeframework/common/ConnectionFactory.java
+* app/src/main/java/tnefern/honeybeeframework/common/FileFactory.java
+* app/src/main/java/tnefern/honeybeeframework/common/FileReceiver.java
+* app/src/main/java/tnefern/honeybeeframework/common/Job.java
+* app/src/main/java/tnefern/honeybeeframework/common/JobInitializer.java
+* app/src/main/java/tnefern/honeybeeframework/common/JobParams.java
+* app/src/main/java/tnefern/honeybeeframework/common/JobPool.java
+* app/src/main/java/tnefern/honeybeeframework/common/JobsGiven.java
+* app/src/main/java/tnefern/honeybeeframework/common/Slave.java
+* app/src/main/java/tnefern/honeybeeframework/common/Victim.java
+* app/src/main/java/tnefern/honeybeeframework/common/VictimThread.java
+* app/src/main/java/tnefern/honeybeeframework/common/WifiP2PdeviceWrapper.java
+* app/src/main/java/tnefern/honeybeeframework/delegator/
+* app/src/main/java/tnefern/honeybeeframework/delegator/AppRequest.java
+* app/src/main/java/tnefern/honeybeeframework/delegator/DelegatorActivity.java
+* app/src/main/java/tnefern/honeybeeframework/delegator/QueenBee.java
+* app/src/main/java/tnefern/honeybeeframework/delegator/ReceivedResults.java
+* app/src/main/java/tnefern/honeybeeframework/delegator/ResultFactory.java
+* app/src/main/java/tnefern/honeybeeframework/delegator/ResultsRead.java
+* app/src/main/java/tnefern/honeybeeframework/delegator/StealFromWorkersThread.java
+* app/src/main/java/tnefern/honeybeeframework/delegator/WorkerInfo.java
+* app/src/main/java/tnefern/honeybeeframework/stats/
+* app/src/main/java/tnefern/honeybeeframework/stats/DoneJobLogger.java
+* app/src/main/java/tnefern/honeybeeframework/stats/JobInfo.java
+* app/src/main/java/tnefern/honeybeeframework/stats/TimeMeter.java
+* app/src/main/java/tnefern/honeybeeframework/wifidirect/
+* app/src/main/java/tnefern/honeybeeframework/wifidirect/DeviceListFragment.java
+* app/src/main/java/tnefern/honeybeeframework/wifidirect/WiFiDirectSearcher.java
+* app/src/main/java/tnefern/honeybeeframework/wifidirect/WiFiDirectWorkerNonOwnerService.java
+* app/src/main/java/tnefern/honeybeeframework/wifidirect/WifiDirectConstants.java
+* app/src/main/java/tnefern/honeybeeframework/worker/
+* app/src/main/java/tnefern/honeybeeframework/worker/FinishedWorkerActivity.java
+* app/src/main/java/tnefern/honeybeeframework/worker/JobsReceived.java
+* app/src/main/java/tnefern/honeybeeframework/worker/ResultTransmitObject.java
+* app/src/main/java/tnefern/honeybeeframework/worker/WorkerActivity.java
+* app/src/main/java/tnefern/honeybeeframework/worker/WorkerBee.java
+* app/src/main/java/tnefern/honeybeeframework/worker/WorkerNotify.java
+* app/src/main/res/
+* app/src/main/res/drawable-hdpi/
+* app/src/main/res/drawable-hdpi/ic_launcher.png
+* app/src/main/res/drawable-hdpi/machine.png
+* app/src/main/res/drawable-ldpi/
+* app/src/main/res/drawable-ldpi/machine.png
+* app/src/main/res/drawable-mdpi/
+* app/src/main/res/drawable-mdpi/ic_launcher.png
+* app/src/main/res/drawable-mdpi/machine.png
+* app/src/main/res/drawable-xhdpi/
+* app/src/main/res/drawable-xhdpi/ic_launcher.png
+* app/src/main/res/drawable-xhdpi/machine.png
+* app/src/main/res/drawable-xxhdpi/
+* app/src/main/res/drawable-xxhdpi/ic_launcher.png
+* app/src/main/res/drawable-xxhdpi/machine.png
+* app/src/main/res/layout/
+* app/src/main/res/layout/activity_delegator_layout.xml
+* app/src/main/res/layout/activity_face_finished_dele_layout.xml
+* app/src/main/res/layout/activity_face_finished_worker_layout.xml
+* app/src/main/res/layout/activity_honeybee_crowd.xml
+* app/src/main/res/layout/activity_mandel_finished_dele_layout.xml
+* app/src/main/res/layout/activity_worker_layout.xml
+* app/src/main/res/layout/delegator_layout.xml
+* app/src/main/res/layout/device_list.xml
+* app/src/main/res/layout/row_devices.xml
+* app/src/main/res/layout/worker_layout.xml
+* app/src/main/res/menu/
+* app/src/main/res/menu/honeybee_crowd.xml
+* app/src/main/res/values-sw600dp/
+* app/src/main/res/values-sw600dp/dimens.xml
+* app/src/main/res/values-sw720dp-land/
+* app/src/main/res/values-sw720dp-land/dimens.xml
+* app/src/main/res/values-v11/
+* app/src/main/res/values-v11/styles.xml
+* app/src/main/res/values-v14/
+* app/src/main/res/values-v14/styles.xml
+* app/src/main/res/values/
+* app/src/main/res/values/dimens.xml
+* app/src/main/res/values/strings.xml
+* app/src/main/res/values/styles.xml
+* app/src/main/resources/
+* app/src/main/resources/tnefern/
+* app/src/main/resources/tnefern/honeybeeframework/
+* app/src/main/resources/tnefern/honeybeeframework/t2.ucls
+* build.gradle
+* gradle/
+* gradle/wrapper/
+* gradle/wrapper/gradle-wrapper.jar
+* gradle/wrapper/gradle-wrapper.properties
+* gradlew
+* gradlew.bat
+* ic_launcher-web.png
+* proguard-project.txt
+* settings.gradle
+* t1.ucls
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:19.1.0
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app/src/main/AndroidManifest.xml
+* res/ => app/src/main/res/
+* src/ => app/src/main/java/
+* src/tnefern/honeybeeframework/t2.ucls => app/src/main/resources/tnefern/honeybeeframework/t2.ucls
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

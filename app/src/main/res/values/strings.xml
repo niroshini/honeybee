@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, HoneybeeCrowdDemoActivity!</string>
+    <string name="app_name">HoneybeeCrowdDemo</string>
+    <string name="strMode">Select app to offload : </string>
+    <string name="strExit">Exit</string>
+    <string name="Scan">strScan</string>
+    <string name="strScan">Scan</string>
+    <string name="btnTxtScan">Scan for Workers</string>
+    <string name="btnTxtStart">Start Offloading</string>
+    <string name="btnBack">Back to Main</string>
+    <string name="txtInfo">Number of available workers = </string>
+    <string name="txtNum">How many Photos?</string>
+    <string name="txtParam2">Param2</string>
+    <string name="txtOK">OK</string>
+    <string name="btnTxtCancel">Cancel</string>
+    <string name="jobParamDialogTitle">Job Params</string>
+    <string name="spinTxt_sel">&lt;Select&gt;</string>
+    <string name="spinTxt_dele">Delegator Mode</string>
+    <string name="spinTxt_wrkr">Worker Mode</string>
+    <string name="txtSelectedMode">Selected Mode : </string>
+    <string name="txtSelectMode">Select a Mode</string>
+    <string name="btnTxtLook">Look for Work</string>
+    <string name="txtBt_not_enabled">Bluetooth was not enabled. Program will exit.</string>
+    <string name="txtBtDisc_failed">Device could not be set as Discoverable. Program
+		will exit.</string>
+    <string name="txtScanning">Scanning...</string>
+    <string name="txtBtnSave">Save</string>
+    <string name="btnTxtSend">Send</string>
+    <string name="btnTxtSteal">Steal</string>
+    <string name="btnTxtTakePhotos">Take Photos</string>
+    <string name="strGo">Go!</string>
+    <string name="strSeleApp">Select App</string>
+    <string name="strPhotoApp">Photo App</string>
+    <string name="strOtherApp">Some Other App</string>
+    <string name="strEmptySpace">"     "</string>
+    <string name="strlblSetPhotoParams">Set parameters for photo requests</string>
+    <string name="strStartLooking">Look for devices</string>
+    <string name="optionText">Text</string>
+    <string name="optionMap">Map</string>
+    <string name="strText">Text</string>
+    <string name="strMap">Map</string>
+    <string name="strIPNumber">Intererst Point #</string>
+    <string name="strAdd">Add</string>
+    <string name="strDone">Done</string>
+    <string name="strClearAll">Clear all</string>
+    <string name="strDelegator">Run Face Match</string>
+    <string name="strWorker">Look for work</string>
+    <string name="strSelectIPMode">&lt;Select&gt;</string>
+    <string name="strOffload">Offload</string>
+    <string name="strLookForWork">Look for work</string>
+    <string name="strLooking">Looking for work...</string>
+    <string name="strConnected">Connected to </string>
+    <string name="app_name_facematch">FaceMatch App</string>
+    <string name="btnTextSearch">Search for faces</string>
+    <string name="lblFound">"Number of faces found in image: "</string>
+    <string name="strLblfaceMatchParams">&quot;Set parameters for facial recognition &quot;</string>
+    <string name="strLblNoOfJobsFaceMatch">&quot;Number of photos: &quot;</string>
+    <string name="strLblfaceMatchSetParams">Set Parameters: </string>
+    <string name="strWorkerSelectApp">Select App</string>
+    <string name="enable_p2p_button">P2P On/Off</string>
+    <string name="discover_peers_button">Discover</string>
+    <string name="connect_peer_button">Connect</string>
+    <string name="disconnect_peer_button">Disconnect</string>
+    <string name="get_file_button">Launch Gallery</string>
+    <string name="empty"></string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="client_text">This device will act as a client. Click on Gallery button to pick a local(stored) file</string>
+    <string name="empty_message">No devices found. Turn on P2P and perform discovery from the Action Bar</string>
+    <string name="p2p_off_warning">Enable P2P from action bar button above or system settings</string>
+    <string name="group_owner_text">"Am I the Group Owner? "</string>
+    <string name="label_me">ME</string>
+    <string name="label_peers">PEERS</string>
+    <string name="action_settings">Action Settings</string>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="orange">#FF9933</color>
+    <color name="yellow">#F7F24E</color>
+    <color name="gray">#A0A0A0</color>
+    
+
+</resources>

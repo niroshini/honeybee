@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tnefern.honeybeeframework"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    package="tnefern.honeybeeframework">
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="17" />
+
+    <uses-sdk android:targetSdkVersion="17" />
 
     <uses-feature
         android:name="android.hardware.wifi.direct"
@@ -28,7 +25,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppBaseTheme" >
         <activity
             android:name="tnefern.honeybeeframework.HoneybeeCrowdActivity"
             android:label="@string/app_name" >
