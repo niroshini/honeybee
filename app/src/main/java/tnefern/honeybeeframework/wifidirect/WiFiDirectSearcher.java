@@ -56,12 +56,11 @@ public class WiFiDirectSearcher {
 				Iterator<WifiP2pDevice> it = clients.iterator();
 				while (it.hasNext()) {
 					WifiP2pDevice dev = it.next();
-//					Log.d("WiFiDirectSearcher", dev.deviceAddress + "   Name:"
-//							+ dev.deviceName);
+					Log.d("WiFiDirectSearcher", dev.deviceAddress + "   Name:" + dev.deviceName);
 				}
 			}
 			String inter = group.getInterface();
-//			Log.d("WiFiDirectSearcher", " networkInterface :" + inter);
+			Log.d("WiFiDirectSearcher", " networkInterface :" + inter);
 		}
 	};
 
@@ -97,14 +96,13 @@ public class WiFiDirectSearcher {
 
 			@Override
 			public void onFailure(int reasonCode) {
-//				Log.d("WiFiDirectSearcher", "Disconnect failed. Reason :"
-//						+ reasonCode);
+				Log.d("WiFiDirectSearcher", "Disconnect failed. Reason :" + reasonCode);
 
 			}
 
 			@Override
 			public void onSuccess() {
-//				Log.d("WiFiDirectSearcher", "Disconnect success.!");
+				Log.d("WiFiDirectSearcher", "Disconnect success.!");
 			}
 
 		});
@@ -127,12 +125,12 @@ public class WiFiDirectSearcher {
 
 			@Override
 			public void onFailure(int reasonCode) {
-//				Log.d("WiFiDirectSearcher: Worker", "discover FAIL");
+				Log.d("discoverPeers:Worker", "discover FAIL");
 			}
 
 			@Override
 			public void onSuccess() {
-//				Log.d("WiFiDirectSearcher: Worker", "discover SUCCESS");
+				Log.d("discoverPeers: Worker", "discover SUCCESS");
 			}
 
 		});
@@ -149,7 +147,7 @@ public class WiFiDirectSearcher {
 			out.close();
 			inputStream.close();
 		} catch (IOException e) {
-			Log.d("WiFiDirectSearcher: Worker", e.toString());
+			Log.d("copyFile", e.toString());
 			return false;
 		}
 		return true;
@@ -182,8 +180,8 @@ public class WiFiDirectSearcher {
 				if (state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
 					// Wifi Direct mode is enabled
 					// activity.setIsWifiP2pEnabled(true);
-//					Log.d("ServerWiFiBroadcastReceiver",
-//							"WIFI_P2P_STATE_ENABLED");
+					Log.d("onReceive",
+							"WIFI_P2P_STATE_ENABLED");
 				} else {
 					// activity.setIsWifiP2pEnabled(false);
 					// activity.resetData();
@@ -225,12 +223,12 @@ public class WiFiDirectSearcher {
 					// we are connected with the other device, request
 					// connection
 					// info to find group owner IP
-
+					Log.d("Receiver", "networkInfo.isConnected!!!");
 					manager.requestConnectionInfo(channel, connectionListener);
 					manager.requestGroupInfo(channel, groupListener);
 				} else {
 					// It's a disconnect
-//					Log.d("ServerWiFiBroadcastReceiver", "Worker disconnect!!!");
+					Log.d("Receiver", "Worker disconnect!!!");
 				}
 
 			} else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION

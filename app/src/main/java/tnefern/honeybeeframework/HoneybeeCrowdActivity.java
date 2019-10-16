@@ -83,7 +83,7 @@ public class HoneybeeCrowdActivity extends Activity {
 
 					// state whether you want the Mandelbrot or
 					// FaceDetection delegator to run
-					startActivityForResult(mandelIntent, 0);
+					startActivityForResult(faceIntent, 0);
 				}
 			});
 		}
@@ -138,7 +138,7 @@ public class HoneybeeCrowdActivity extends Activity {
 		// state whether you want the Mandelbrot or
 		// FaceDetection worker to run
 
-		this.startActivityForResult(mandelIntent, 0);
+		this.startActivityForResult(faceIntent, 0);
 	}
 
 	private void init() {

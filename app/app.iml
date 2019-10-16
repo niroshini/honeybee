@@ -46,6 +46,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/debug/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/assets" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/aidl" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/rs" isTestSource="false" />
@@ -66,7 +67,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testDebug/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/assets" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/aidl" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/rs" isTestSource="false" />

@@ -712,7 +712,7 @@ public class JobPool {
 		return sBuf.toString();
 	}
 
-	public JobParams fetchJobsToTransmitToWorker(int pNumJobs, String pAdr) {
+	public JobParams fetchJobsToTransmitToWorker(int pNumJobs, String pAdr, Context pContext) {
 //		StringBuffer sb = new StringBuffer();
 		ArrayList<Job> list = fetchFilesToWorkerTransmit(pNumJobs);
 		JobParams jParams = null;
@@ -755,7 +755,7 @@ public class JobPool {
 				String zipfile;
 				try {
 					zipfile = FileFactory.getInstance().zipFilesIntoDirectory(
-							arr, CommonConstants.ZIP_FILE_PATH);
+							arr, CommonConstants.ZIP_FILE_PATH, pContext);
 					fileNames.add(zipfile);
 				} catch (IOException e) {
 					e.printStackTrace();

@@ -77,7 +77,7 @@ public abstract class DelegatorActivity extends Activity {
 	private String id = null;
 
 	ProgressDialog progressDialog;
-	private static final String TAG = "FaceMatchActivity";
+	private static final String TAG = "DelegatorActivity";
 	private ArrayList<String> areyouthereList = null;
 	private ArrayAdapter<WorkerInfo> connected = null;
 
@@ -459,6 +459,7 @@ public abstract class DelegatorActivity extends Activity {
 					w.isConnected = true;
 					ConnectionFactory.getInstance().getConnectedWorkerList()
 							.add(w);
+					Log.d("WiFiBroadcastReceiver", "onSuccess!!");
 
 				}
 
@@ -924,9 +925,10 @@ public abstract class DelegatorActivity extends Activity {
 				JobParams params = JobPool.getInstance()
 						.fetchJobsToTransmitToWorker(
 								CommonConstants.WORKER_INIT_JOBS,
-								wifiMACAddress);
+								wifiMACAddress,DelegatorActivity.this);
 				this.dataTosend = params.paramObject;
 				String sendString = getSendString(params.paramMode);
+				Log.d(TAG,"sendString "+sendString);
 
 				OwnerWriteThread task = new OwnerWriteThread(sendString, this);
 				task.start();
@@ -1426,6 +1428,7 @@ public abstract class DelegatorActivity extends Activity {
 		}
 
 		private void sendFile(ClientSocketThread pWifiCon) throws IOException {
+			Log.d(TAG, "sendFile");
 			if (pWifiCon.dataTosend != null
 					&& pWifiCon.dataTosend instanceof File[]) {
 				File[] filesToSend = (File[]) pWifiCon.dataTosend;
@@ -1486,6 +1489,7 @@ public abstract class DelegatorActivity extends Activity {
 		}
 
 		public void run() {
+			Log.d(TAG,"OwnerWriteThread run "+mode);
 			if (mode.equals(CommonConstants.SEND_FILES)) {
 				try {
 					sendFile(cst);

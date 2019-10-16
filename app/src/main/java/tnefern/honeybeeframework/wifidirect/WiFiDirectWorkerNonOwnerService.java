@@ -701,8 +701,8 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 				socket.connect((new InetSocketAddress(host, port)),
 						WifiDirectConstants.SOCKET_TIMEOUT);
 
-				// Log.d("MyFileTransferService", "Worker Client socket - "
-				// + socket.isConnected());
+				 Log.d("WorkerReadWriteThread", "Worker Client socket - "
+				 + socket.isConnected());
 				stream = socket.getOutputStream();
 				ContentResolver cr = context.getContentResolver();
 				is = socket.getInputStream();
@@ -715,8 +715,8 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 					// try {
 					if (readMode <= 0) {
 						readMode = ois.readInt();
-						// Log.d("WorkerReadWriteThread", "ReadINT " +
-						// readMode);
+						 Log.d("WorkerReadWriteThread", "ReadINT " +
+						 readMode);
 					}
 					switch (readMode) {
 					case CommonConstants.READ_INT_MODE:

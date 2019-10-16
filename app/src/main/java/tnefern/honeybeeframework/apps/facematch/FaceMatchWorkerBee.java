@@ -26,6 +26,7 @@ public class FaceMatchWorkerBee extends WorkerBee {
 						|| (extension
 								.equalsIgnoreCase(FaceConstants.FILE_EXTENSION_JPG))) {
 					Integer res = Integer.valueOf(imageSearch.search(pS));
+					Log.d("FaceMatchWorkerBe",pS+" : "+res.toString());
 					cj = new CompletedJob(
 							CommonConstants.READ_STRING_MODE, FileFactory.getInstance()
 									.getFileNameFromFullPath(pS), -1, null);

@@ -3,7 +3,8 @@ package tnefern.honeybeeframework.apps.facematch;
 public class FaceConstants {
 	public static final int START_RESOURCE_DISCOVERY_ACTIVITY = 200981;
 
-	public static final String SAVE_PHOTO_PATH="samplePicsforFaces960";
+//	public static final String SAVE_PHOTO_PATH="samplePicsforFaces960";'
+	public static final String SAVE_PHOTO_PATH="samplePicsforFaces240";
 //	public static final String ZIP_PHOTO_PATH="faceMatch/faceMatchTemp";
 //	public static final String SAVE_PHOTO_NAME="faceImage";
 	public static final int JOB_PARAM_NUMBER=4;
