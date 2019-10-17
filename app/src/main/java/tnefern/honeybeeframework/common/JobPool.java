@@ -757,6 +757,7 @@ public class JobPool {
 					zipfile = FileFactory.getInstance().zipFilesIntoDirectory(
 							arr, CommonConstants.ZIP_FILE_PATH, pContext);
 					fileNames.add(zipfile);
+					Log.d("fetchJobsToTran", zipfile);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -1,4 +1,4 @@
-#Wed Oct 16 14:29:11 AEDT 2019
+#Thu Oct 17 12:06:28 AEDT 2019
 base.0=/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

@@ -35,46 +35,16 @@ public class FaceMatchDelegatorActivity extends DelegatorActivity {
 	private void initFiles() {
 		miscTime = System.currentTimeMillis();
 		fileList = new ArrayList<AppInfo>();
-		String f = Environment.getExternalStorageDirectory().getAbsolutePath()
-				+ "/" + FaceConstants.SAVE_PHOTO_PATH;
-//		String f = this.getExternalFilesDir(FaceConstants.SAVE_PHOTO_PATH).getAbsolutePath();
-		AssetManager assetManager = getAssets();
-
-		/*
-		test code begin
-		 */
-//		try {
-//
-//
-//			File saveDirectory = this.getExternalFilesDir(FaceConstants.SAVE_PHOTO_PATH);
-//			if (!saveDirectory.mkdirs()) {
-//				Log.e(TAG, "Directory not created");
-//			}
-//			Log.d(TAG, "saveDirectory: "+saveDirectory.getPath() );
-//			String[] files = assetManager.list(FaceConstants.SAVE_PHOTO_PATH);
-//			if(files!=null){
-//				Log.d(TAG,"TEST "+ files[0]);
-//				InputStream in= assetManager.open(FaceConstants.SAVE_PHOTO_PATH+"/"+files[0]);
-//				File file = new File(saveDirectory,files[0]);
-//				Log.d(TAG,"TEST file to be "+ file.getAbsolutePath());
-//				file.createNewFile();
-//
-//				FileOutputStream out = new FileOutputStream( file);
-//			}
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		/*
-		test code end
-		 */
-
-		String folderSaved = FileFactory.getInstance().copyAssetFiles(assetManager, FaceConstants.SAVE_PHOTO_PATH,this);
+//		String f = Environment.getExternalStorageDirectory().getAbsolutePath()
+//				+ "/" + FaceConstants.SAVE_PHOTO_PATH;
+//		AssetManager assetManager = getAssets();
+//		String folderSaved = FileFactory.getInstance().copyAssetFiles(assetManager, FaceConstants.SAVE_PHOTO_PATH,this);
+		String folderSaved = getExternalFilesDir(FaceConstants.SAVE_PHOTO_PATH).getAbsolutePath();
 
 		FaceResult.getInstance().setFileList(
 				FileFactory.getInstance().listFiles(new File(folderSaved),
 						new JpegFilter[] { new JpegFilter() }, 0));
-
+//FileName:/storage/emulated/0/samplePicsforFaces240/2ppl copy 2.JPG
 
 		for (File file : FaceResult.getInstance().getFilesInFolder()) {
 			fileList.add(new FaceInfo(file.getAbsolutePath(), file.getName()));

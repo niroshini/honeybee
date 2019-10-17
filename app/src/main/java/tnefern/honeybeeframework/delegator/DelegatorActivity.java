@@ -1436,6 +1436,8 @@ public abstract class DelegatorActivity extends Activity {
 					File zipF = filesToSend[pWifiCon.fileIndex]
 							.getAbsoluteFile();
 
+					Log.d(TAG, "zipF "+zipF.getAbsolutePath());
+
 					pWifiCon.oos.writeInt(CommonConstants.READ_FILE_MODE);
 					pWifiCon.oos.flush();
 

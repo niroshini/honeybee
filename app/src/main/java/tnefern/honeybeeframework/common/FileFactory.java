@@ -305,8 +305,11 @@ public class FileFactory {
 	public final synchronized String zipFilesIntoDirectory(
 			String[] sourceFiles, String zipFileName, Context pContext) throws IOException {
 //		long time = System.currentTimeMillis();
+		Log.d(TAG,zipFileName);
 		StringBuffer zipName = new StringBuffer(
 				getFileNameWithoutExtension(zipFileName));
+
+		Log.d(TAG,zipName.toString());
 		ConnectionFactory.getInstance().relock.lock();
 		zipName.append(fileCount);
 		fileCount++;
@@ -333,7 +336,8 @@ public class FileFactory {
 //		TimeMeter.getInstance().addToZipTime(
 //				(System.currentTimeMillis() - time));
 		
-		return zipName.toString();
+//		return zipName.toString();
+		return f1.getAbsolutePath();
 	}
 
 	private final void zip(File[] sources, ZipOutputStream zos)
@@ -712,7 +716,7 @@ public class FileFactory {
 		return this.fileCount;
 	}
 
-	public File getFile(String path) throws IOException {
+	public File getFile_(String path) throws IOException {
 		File sdDir = Environment.getExternalStorageDirectory();
 		File file = null;
 		if (sdDir.canWrite()) {
@@ -722,8 +726,16 @@ public class FileFactory {
 		return file;
 
 	}
+	public File getFile(String path) throws IOException {
+//		File sdDir = Environment.getExternalStorageDirectory();
+		File file  = new File( path);
+//
 
-	public File[] getFiles(ArrayList<String> list) throws IOException {
+		return file;
+
+	}
+
+	public File[] getFiles_(ArrayList<String> list) throws IOException {
 		File[] files = new File[list.size()];
 
 		Iterator<String> iter = list.listIterator();
@@ -741,6 +753,24 @@ public class FileFactory {
 
 	}
 
+	public File[] getFiles(ArrayList<String> list) throws IOException {
+		File[] files = new File[list.size()];
+
+		Iterator<String> iter = list.listIterator();
+		int i = 0;
+		while (iter.hasNext()) {
+//			File sdDir = context.getExternalFilesDir(null);
+//			File sdDir = Environment.getExternalStorageDirectory();
+			File file = null;
+//			if (sdDir.canWrite()) {
+				files[i] = new File(iter.next());
+//			}
+			i++;
+		}
+
+		return files;
+
+	}
 	public void CopyFiles(String[] files, String newPath) {
 		File sdDir = Environment.getExternalStorageDirectory();
 		// create a File object for the parent directory
