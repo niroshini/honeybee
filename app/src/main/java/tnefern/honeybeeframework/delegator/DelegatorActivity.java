@@ -55,6 +55,7 @@ import android.net.wifi.p2p.WifiP2pManager.PeerListListener;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;

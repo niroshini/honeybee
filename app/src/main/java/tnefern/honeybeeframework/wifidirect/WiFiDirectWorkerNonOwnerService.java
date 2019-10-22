@@ -719,7 +719,7 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 						 readMode);
 					}
 					switch (readMode) {
-					case CommonConstants.READ_INT_MODE:
+					case CommonConstants.READ_INT_MODE://2
 						int readint = ois.readInt();
 						if (readint == CommonConstants.ALL_INIT_JOBS_SENT) {
 							// Log.d("MyFileTransferService",
@@ -778,7 +778,9 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 						}
 						readMode = 0;
 						break;
-					case CommonConstants.READ_STRING_MODE:
+					case CommonConstants.READ_STRING_MODE://2
+						Log.d("WorkerBroadcastReceiver",
+								"case CommonConstants.READ_STRING_MODE:");
 						String readString = ois.readUTF();
 						processString(readString);// niro TODO: handle what to
 													// do on string read

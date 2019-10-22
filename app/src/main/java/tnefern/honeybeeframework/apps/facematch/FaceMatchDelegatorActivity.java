@@ -35,12 +35,14 @@ public class FaceMatchDelegatorActivity extends DelegatorActivity {
 	private void initFiles() {
 		miscTime = System.currentTimeMillis();
 		fileList = new ArrayList<AppInfo>();
-//		String f = Environment.getExternalStorageDirectory().getAbsolutePath()
-//				+ "/" + FaceConstants.SAVE_PHOTO_PATH;
+		String folderSaved = "/storage/emulated/0/Android/data/tnefern.honeybeeframework/files/"+ FaceConstants.SAVE_PHOTO_PATH;
+		//String folderSaved = Environment.getExternalStorageDirectory().getAbsolutePath()
+		//		+ "/" + FaceConstants.SAVE_PHOTO_PATH;
 //		AssetManager assetManager = getAssets();
-//		String folderSaved = FileFactory.getInstance().copyAssetFiles(assetManager, FaceConstants.SAVE_PHOTO_PATH,this);
-		String folderSaved = getExternalFilesDir(FaceConstants.SAVE_PHOTO_PATH).getAbsolutePath();
-
+//		String folderSaved = FileFactory.getInstance().copyAssets2(assetManager, FaceConstants.SAVE_PHOTO_PATH,this);
+//		String folderSaved = FileFactory.getInstance().copyAssetFiles(assetManager, FaceConstants.SAVE_PHOTO_PATH,this);//folderSaved: /storage/emulated/0/Android/data/tnefern.honeybeeframework/files/samplePicsforFaces240
+//		String folderSaved = getExternalFilesDir(FaceConstants.SAVE_PHOTO_PATH).getAbsolutePath();
+		Log.d(TAG,"folderSaved: "+folderSaved);
 		FaceResult.getInstance().setFileList(
 				FileFactory.getInstance().listFiles(new File(folderSaved),
 						new JpegFilter[] { new JpegFilter() }, 0));

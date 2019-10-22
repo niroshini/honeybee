@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-61:12
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-62:12
 MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-v4:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ce2f6058b582880ec3c9aa6ee9f900c8/support-v4-28.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-fragment:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/617b01740c113f7e30a40704763698d9/support-fragment-28.0.0/AndroidManifest.xml:17:1-22:12
@@ -32,9 +32,9 @@ MERGED from [com.android.support:interpolator:28.0.0] /Users/fernando/.gradle/ca
 MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/780607b29fa9b8b916b13db491ef41f2/livedata-1.1.1/AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/178d52fd0f4d875d0c412c649f532470/livedata-core-1.1.1/AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.core:runtime:1.1.1] /Users/fernando/.gradle/caches/transforms-2/files-2.1/d8ef00b68490a45f49fd0664d6982489/runtime-1.1.1/AndroidManifest.xml:17:1-22:12
-INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-61:12
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:2:1-62:12
 	package
 		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:3:5-40
 		INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml
@@ -63,44 +63,48 @@ uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:14:5-81
 	android:name
 		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:14:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:15:5-80
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:15:22-77
 uses-permission#android.permission.BLUETOOTH_ADMIN
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:15:5-74
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:16:5-74
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:15:22-71
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:16:22-71
 uses-permission#android.permission.CAMERA
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:16:5-65
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:17:5-65
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:16:22-62
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:17:22-62
 uses-permission#android.permission.ACCESS_BLUETOOTH_SHARE
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:17:5-81
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:18:5-81
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:17:22-78
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:18:22-78
 uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:18:5-76
-	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:18:22-73
-uses-permission#android.permission.CHANGE_WIFI_STATE
 ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:19:5-76
 	android:name
 		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:19:22-73
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:20:5-76
+	android:name
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:20:22-73
 uses-permission#android.permission.CHANGE_NETWORK_STATE
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:20:5-79
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:21:5-79
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:20:22-76
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:21:22-76
 uses-permission#android.permission.INTERNET
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:21:5-67
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:22:5-67
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:21:22-64
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:22:22-64
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:22:5-79
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:23:5-79
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:22:22-76
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:23:22-76
 uses-permission#android.permission.READ_PHONE_STATE
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:23:5-75
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:24:5-75
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:23:22-72
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:24:22-72
 application
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:25:5-59:19
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:26:5-60:19
 MERGED from [com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:22:5-94
 MERGED from [com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:22:5-94
 MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ec51a15ecdd6ac6bc414bac2bbd5ef52/versionedparcelable-28.0.0/AndroidManifest.xml:22:5-23:19
@@ -108,67 +112,67 @@ MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/fernando/.gr
 	android:appComponentFactory
 		ADDED from [com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:22:18-91
 	android:label
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:30:9-41
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:31:9-41
 	android:icon
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:29:9-37
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:30:9-37
 	android:allowBackup
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:28:9-35
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:29:9-35
 	android:theme
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:31:9-40
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:32:9-40
 meta-data#com.robotemi.sdk.metadata.SKILL
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:33:9-35:47
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:34:9-36:47
 	android:value
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:35:13-45
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:36:13-45
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:34:13-59
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:35:13-59
 activity#tnefern.honeybeeframework.HoneybeeCrowdActivity
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:36:9-44:20
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:37:9-45:20
 	android:label
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:38:13-45
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:39:13-45
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:37:13-75
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:38:13-75
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:39:13-43:29
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:40:13-44:29
 action#android.intent.action.MAIN
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:40:17-69
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:41:17-69
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:40:25-66
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:41:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:42:17-77
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:43:17-77
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:42:27-74
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:43:27-74
 activity#tnefern.honeybeeframework.apps.facematch.FaceMatchDelegatorActivity
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:45:9-46:20
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:46:9-47:20
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:45:19-76
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:46:19-76
 activity#tnefern.honeybeeframework.apps.facematch.FaceMatchWorkerActivity
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:47:9-48:20
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:48:9-49:20
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:47:19-73
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:48:19-73
 activity#tnefern.honeybeeframework.apps.facematch.FinishedFaceMatchDelegatorActivity
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:49:9-50:20
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:50:9-51:20
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:49:19-109
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:50:19-109
 activity#tnefern.honeybeeframework.worker.FinishedWorkerActivity
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:51:9-52:20
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:52:9-53:20
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:51:19-64
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:52:19-64
 service#tnefern.honeybeeframework.wifidirect.WiFiDirectWorkerNonOwnerService
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:53:9-87
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:54:9-87
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:53:18-76
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:54:18-76
 activity#tnefern.honeybeeframework.apps.mandelbrot.MandelbrotDelegatorActivity
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:54:9-90
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:55:9-90
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:54:19-78
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:55:19-78
 activity#tnefern.honeybeeframework.apps.mandelbrot.MandelbrotWorkerActivity
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:55:9-87
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:56:9-87
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:55:19-75
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:56:19-75
 activity#tnefern.honeybeeframework.apps.mandelbrot.FinishedMandelbrotDelegatorActivity
-ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:56:9-98
+ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:57:9-98
 	android:name
-		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:56:19-86
+		ADDED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:57:19-86
 uses-sdk
 INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml

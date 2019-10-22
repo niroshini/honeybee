@@ -27,12 +27,19 @@ import tnefern.honeybeeframework.apps.facematch.FaceConstants;
 import tnefern.honeybeeframework.stats.JobInfo;
 import tnefern.honeybeeframework.stats.TimeMeter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import dalvik.system.PathClassLoader;
+
+import static tnefern.honeybeeframework.apps.facematch.FaceConstants.SAVE_PHOTO_PATH;
 
 /**
  * 
@@ -445,6 +452,82 @@ public class FileFactory {
 
 		File[] arr = new File[files.size()];
 		return files.toArray(arr);
+	}
+
+	public String copyAssets2(AssetManager assetManager, String pDir, Activity activty) {
+//        String f = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/" + SAVE_PHOTO_PATH;
+
+		if (ContextCompat.checkSelfPermission(activty, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+			Log.d("copyAssets2", "Permission is not granted");
+			// Permission is not granted
+			if (ActivityCompat.shouldShowRequestPermissionRationale(activty,
+					Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+				// Show an explanation to the user *asynchronously* -- don't block
+				// this thread waiting for the user's response! After the user
+				// sees the explanation, try again to request the permission.
+			} else {
+				// No explanation needed; request the permission
+				ActivityCompat.requestPermissions(activty,
+						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+						100);
+			}
+		}
+
+		String folder_main = pDir;
+
+		File saveDirectory = new File(Environment.getExternalStorageDirectory(), folder_main);
+
+
+		saveDirectory.mkdirs();
+//        File newFolder = new File(f);
+//        boolean b = newFolder.mkdir();
+
+		Log.d(TAG, "copyAssessts Path:"+saveDirectory.getAbsolutePath() );
+//		AssetManager assetManager = getAssets();
+		String[] files = null;
+		try {
+			files = assetManager.list(pDir);
+		} catch (IOException e) {
+			Log.e("tag", "Failed to get asset file list.", e);
+		}
+
+		if (files != null) for (String filename : files) {
+			InputStream in = null;
+			OutputStream out = null;
+			try {
+				in = assetManager.open(pDir+"/"+filename);
+
+				File file = new File(saveDirectory,filename);
+				file.createNewFile();
+
+//                String filepath = f+"/"+filename;
+				Log.d(TAG, "Before write: "+file.getAbsolutePath() );
+
+//                File outFile = new File(filepath);
+				out = new FileOutputStream(file);
+				copyFile(in, out);
+				Log.d(TAG, "After write:"+file.getAbsolutePath() );
+			} catch(IOException e) {
+				Log.e("tag", "Failed to copy asset file: " + filename, e);
+			}
+			finally {
+				if (in != null) {
+					try {
+						in.close();
+					} catch (IOException e) {
+						// NOOP
+					}
+				}
+				if (out != null) {
+					try {
+						out.close();
+					} catch (IOException e) {
+						// NOOP
+					}
+				}
+			}
+		}
+		return saveDirectory.getAbsolutePath();
 	}
 
 	public String copyAssetFiles(AssetManager pAm, String pDir, Context context){

@@ -23,102 +23,105 @@
 16    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 16-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:14:5-81
 16-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:14:22-78
-17    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-17-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:15:5-74
-17-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:15:22-71
-18    <uses-permission android:name="android.permission.CAMERA" />
-18-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:16:5-65
-18-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:16:22-62
-19    <uses-permission android:name="android.permission.ACCESS_BLUETOOTH_SHARE" />
-19-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:17:5-81
-19-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:17:22-78
-20    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-20-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:18:5-76
-20-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:18:22-73
-21    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+17    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+17-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:15:5-80
+17-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:15:22-77
+18    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+18-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:16:5-74
+18-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:16:22-71
+19    <uses-permission android:name="android.permission.CAMERA" />
+19-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:17:5-65
+19-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:17:22-62
+20    <uses-permission android:name="android.permission.ACCESS_BLUETOOTH_SHARE" />
+20-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:18:5-81
+20-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:18:22-78
+21    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 21-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:19:5-76
 21-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:19:22-73
-22    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-22-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:20:5-79
-22-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:20:22-76
-23    <uses-permission android:name="android.permission.INTERNET" />
-23-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:21:5-67
-23-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:21:22-64
-24    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-24-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:22:5-79
-24-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:22:22-76
-25    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-25-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:23:5-75
-25-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:23:22-72
-26
-27    <application
-27-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:25:5-59:19
-28        android:allowBackup="true"
-28-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:28:9-35
-29        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
-29-->[com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:22:18-91
-30        android:debuggable="true"
-31        android:icon="@drawable/bee"
-31-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:29:9-37
-32        android:label="@string/app_name"
-32-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:30:9-41
-33        android:testOnly="true"
-34        android:theme="@style/AppTheme" >
-34-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:31:9-40
-35        <meta-data
-35-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:33:9-35:47
-36            android:name="com.robotemi.sdk.metadata.SKILL"
-36-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:34:13-59
-37            android:value="@string/app_name" />
-37-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:35:13-45
-38
-39        <activity
-39-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:36:9-44:20
-40            android:name="tnefern.honeybeeframework.HoneybeeCrowdActivity"
-40-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:37:13-75
-41            android:label="@string/app_name" >
-41-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:38:13-45
-42            <intent-filter>
-42-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:39:13-43:29
-43                <action android:name="android.intent.action.MAIN" />
-43-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:40:17-69
-43-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:40:25-66
-44
-45                <category android:name="android.intent.category.LAUNCHER" />
-45-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:42:17-77
-45-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:42:27-74
-46            </intent-filter>
-47        </activity>
-48        <activity android:name="tnefern.honeybeeframework.apps.facematch.FaceMatchDelegatorActivity" >
-48-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:45:9-46:20
-48-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:45:19-76
-49        </activity>
-50        <activity android:name="tnefern.honeybeeframework.apps.facematch.FaceMatchWorkerActivity" >
-50-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:47:9-48:20
-50-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:47:19-73
-51        </activity>
-52        <activity android:name="tnefern.honeybeeframework.apps.facematch.FinishedFaceMatchDelegatorActivity" >
-52-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:49:9-50:20
-52-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:49:19-109
-53        </activity>
-54        <activity android:name="tnefern.honeybeeframework.worker.FinishedWorkerActivity" >
-54-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:51:9-52:20
-54-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:51:19-64
-55        </activity>
-56
-57        <service android:name="tnefern.honeybeeframework.wifidirect.WiFiDirectWorkerNonOwnerService" />
-57-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:53:9-87
-57-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:53:18-76
-58
-59        <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.MandelbrotDelegatorActivity" />
-59-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:54:9-90
-59-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:54:19-78
-60        <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.MandelbrotWorkerActivity" />
-60-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:55:9-87
-60-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:55:19-75
-61        <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.FinishedMandelbrotDelegatorActivity" />
-61-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:56:9-98
-61-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:56:19-86
-62    </application>
-63
-64</manifest>
+22    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+22-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:20:5-76
+22-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:20:22-73
+23    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+23-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:21:5-79
+23-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:21:22-76
+24    <uses-permission android:name="android.permission.INTERNET" />
+24-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:22:5-67
+24-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:22:22-64
+25    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+25-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:23:5-79
+25-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:23:22-76
+26    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+26-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:24:5-75
+26-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:24:22-72
+27
+28    <application
+28-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:26:5-60:19
+29        android:allowBackup="true"
+29-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:29:9-35
+30        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+30-->[com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:22:18-91
+31        android:debuggable="true"
+32        android:icon="@drawable/bee"
+32-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:30:9-37
+33        android:label="@string/app_name"
+33-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:31:9-41
+34        android:testOnly="true"
+35        android:theme="@style/AppTheme" >
+35-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:32:9-40
+36        <meta-data
+36-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:34:9-36:47
+37            android:name="com.robotemi.sdk.metadata.SKILL"
+37-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:35:13-59
+38            android:value="@string/app_name" />
+38-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:36:13-45
+39
+40        <activity
+40-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:37:9-45:20
+41            android:name="tnefern.honeybeeframework.HoneybeeCrowdActivity"
+41-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:38:13-75
+42            android:label="@string/app_name" >
+42-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:39:13-45
+43            <intent-filter>
+43-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:40:13-44:29
+44                <action android:name="android.intent.action.MAIN" />
+44-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:41:17-69
+44-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:41:25-66
+45
+46                <category android:name="android.intent.category.LAUNCHER" />
+46-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:43:17-77
+46-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:43:27-74
+47            </intent-filter>
+48        </activity>
+49        <activity android:name="tnefern.honeybeeframework.apps.facematch.FaceMatchDelegatorActivity" >
+49-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:46:9-47:20
+49-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:46:19-76
+50        </activity>
+51        <activity android:name="tnefern.honeybeeframework.apps.facematch.FaceMatchWorkerActivity" >
+51-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:48:9-49:20
+51-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:48:19-73
+52        </activity>
+53        <activity android:name="tnefern.honeybeeframework.apps.facematch.FinishedFaceMatchDelegatorActivity" >
+53-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:50:9-51:20
+53-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:50:19-109
+54        </activity>
+55        <activity android:name="tnefern.honeybeeframework.worker.FinishedWorkerActivity" >
+55-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:52:9-53:20
+55-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:52:19-64
+56        </activity>
+57
+58        <service android:name="tnefern.honeybeeframework.wifidirect.WiFiDirectWorkerNonOwnerService" />
+58-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:54:9-87
+58-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:54:18-76
+59
+60        <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.MandelbrotDelegatorActivity" />
+60-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:55:9-90
+60-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:55:19-78
+61        <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.MandelbrotWorkerActivity" />
+61-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:56:9-87
+61-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:56:19-75
+62        <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.FinishedMandelbrotDelegatorActivity" />
+62-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:57:9-98
+62-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:57:19-86
+63    </application>
+64
+65</manifest>
