@@ -317,6 +317,7 @@ color background_floating_material_light
 color background_material_dark
 color background_material_light
 color black
+color blue
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
 color bright_foreground_inverse_material_dark
@@ -645,6 +646,7 @@ id btnLookforworkers
 id btnNextImage
 id btnbacktomainWorker
 id buttonPanel
+id button_capture
 id cancel_action
 id center
 id center_horizontal
@@ -673,7 +675,7 @@ id fill
 id fill_horizontal
 id fill_vertical
 id forever
-id frag_list
+id frameLayout
 id group_divider
 id home
 id homeAsUp
@@ -681,6 +683,7 @@ id icon
 id icon_group
 id ifRoom
 id image
+id imageView
 id info
 id italic
 id labeldeleDonefaces
@@ -737,6 +740,7 @@ id showCustom
 id showHome
 id showTitle
 id spacer
+id spinner
 id split_action_bar
 id src_atop
 id src_in
@@ -813,6 +817,7 @@ layout activity_mandel_finished_dele_layout
 layout activity_worker_layout
 layout delegator_layout
 layout device_list
+layout fragment_take_photos_dele_layout
 layout notification_action
 layout notification_action_tombstone
 layout notification_media_action

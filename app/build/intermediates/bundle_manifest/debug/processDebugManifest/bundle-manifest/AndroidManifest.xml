@@ -60,6 +60,9 @@
         <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.MandelbrotDelegatorActivity" />
         <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.MandelbrotWorkerActivity" />
         <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.FinishedMandelbrotDelegatorActivity" />
+        <activity android:name="tnefern.honeybeeframework.apps.takephoto.TakePhotoDelegatorActivity" />
+        <activity android:name="tnefern.honeybeeframework.apps.takephoto.TakePhotoWorkerActivity" />
+        <activity android:name="tnefern.honeybeeframework.apps.takephoto.FinishedTakePhotoDelegatorActivity" />
     </application>
 
 </manifest>

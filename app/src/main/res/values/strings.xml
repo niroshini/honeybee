@@ -22,7 +22,8 @@
     <string name="txtSelectedMode">Selected Mode : </string>
     <string name="txtSelectMode">Select a Mode</string>
     <string name="btnTxtLook">Look for Work</string>
-    <string name="txtBt_not_enabled">Bluetooth was not enabled. Program will exit.</string>
+    <string name="txtBt_not_enabled">Bluetooth was not enabled. Program will exit.
+</string>
     <string name="txtBtDisc_failed">Device could not be set as Discoverable. Program
 		will exit.</string>
     <string name="txtScanning">Scanning...</string>
@@ -31,7 +32,7 @@
     <string name="btnTxtSteal">Steal</string>
     <string name="btnTxtTakePhotos">Take Photos</string>
     <string name="strGo">Go!</string>
-    <string name="strSeleApp">Select App</string>
+    <string name="strSeleApp">\u003C Select App \u003E</string>
     <string name="strPhotoApp">Photo App</string>
     <string name="strOtherApp">Some Other App</string>
     <string name="strEmptySpace">"     "</string>
@@ -45,7 +46,7 @@
     <string name="strAdd">Add</string>
     <string name="strDone">Done</string>
     <string name="strClearAll">Clear all</string>
-    <string name="strDelegator">Run Face Match</string>
+    <string name="strDelegator">Delegate</string>
     <string name="strWorker">Look for work</string>
     <string name="strSelectIPMode">&lt;Select&gt;</string>
     <string name="strOffload">Offload</string>
@@ -77,7 +78,7 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="orange">#FF9933</color>
+    <color name="orange">#A3FF9933</color>
     <color name="yellow">#F7F24E</color>
     <color name="gray">#A0A0A0</color>
     

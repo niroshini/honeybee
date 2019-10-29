@@ -23,6 +23,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+
+
     <application
 
 
@@ -55,6 +57,10 @@
         <activity android:name=".apps.mandelbrot.MandelbrotDelegatorActivity"></activity>
         <activity android:name=".apps.mandelbrot.MandelbrotWorkerActivity"></activity>
         <activity android:name=".apps.mandelbrot.FinishedMandelbrotDelegatorActivity"></activity>
+        <activity android:name=".apps.takephoto.TakePhotoDelegatorActivity"></activity>
+        <activity android:name=".apps.takephoto.TakePhotoWorkerActivity" ></activity>
+        <activity android:name="tnefern.honeybeeframework.apps.takephoto.FinishedTakePhotoDelegatorActivity" ></activity>
+
 
 
     </application>
