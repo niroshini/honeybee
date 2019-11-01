@@ -683,7 +683,6 @@ id icon
 id icon_group
 id ifRoom
 id image
-id imageView
 id info
 id italic
 id labeldeleDonefaces
@@ -763,6 +762,7 @@ id textSpacerNoTitle
 id textView3
 id textView4
 id textView5
+id texture
 id time
 id title
 id titleDividerNoCustom
