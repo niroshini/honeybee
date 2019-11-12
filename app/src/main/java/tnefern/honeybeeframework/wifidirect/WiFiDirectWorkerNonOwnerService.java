@@ -701,8 +701,8 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 				socket.connect((new InetSocketAddress(host, port)),
 						WifiDirectConstants.SOCKET_TIMEOUT);
 
-				// Log.d("MyFileTransferService", "Worker Client socket - "
-				// + socket.isConnected());
+				 Log.d("WorkerReadWriteThread", "Worker Client socket - "
+				 + socket.isConnected());
 				stream = socket.getOutputStream();
 				ContentResolver cr = context.getContentResolver();
 				is = socket.getInputStream();
@@ -715,11 +715,11 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 					// try {
 					if (readMode <= 0) {
 						readMode = ois.readInt();
-						// Log.d("WorkerReadWriteThread", "ReadINT " +
-						// readMode);
+						 Log.d("WorkerReadWriteThread", "ReadINT " +
+						 readMode);
 					}
 					switch (readMode) {
-					case CommonConstants.READ_INT_MODE:
+					case CommonConstants.READ_INT_MODE://2
 						int readint = ois.readInt();
 						if (readint == CommonConstants.ALL_INIT_JOBS_SENT) {
 							// Log.d("MyFileTransferService",
@@ -778,7 +778,9 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 						}
 						readMode = 0;
 						break;
-					case CommonConstants.READ_STRING_MODE:
+					case CommonConstants.READ_STRING_MODE://2
+						Log.d("WorkerBroadcastReceiver",
+								"case CommonConstants.READ_STRING_MODE:");
 						String readString = ois.readUTF();
 						processString(readString);// niro TODO: handle what to
 													// do on string read

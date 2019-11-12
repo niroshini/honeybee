@@ -4,9 +4,12 @@ import tnefern.honeybeeframework.apps.facematch.FaceMatchDelegatorActivity;
 import tnefern.honeybeeframework.apps.facematch.FaceMatchWorkerActivity;
 import tnefern.honeybeeframework.apps.mandelbrot.MandelbrotDelegatorActivity;
 import tnefern.honeybeeframework.apps.mandelbrot.MandelbrotWorkerActivity;
+import tnefern.honeybeeframework.apps.takephoto.TakePhotoDelegatorActivity;
+import tnefern.honeybeeframework.apps.takephoto.TakePhotoWorkerActivity;
 import tnefern.honeybeeframework.common.CommonConstants;
 import tnefern.honeybeeframework.worker.WorkerNotify;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -15,12 +18,15 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 /**
  * This is the starting point of any applications implementing Honeybee.
@@ -29,18 +35,21 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
  * @author tnefernando
  * 
  */
-public class HoneybeeCrowdActivity extends Activity {
+public class HoneybeeCrowdActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
 	// mode strings
 	private static String[] modes = null;
 	private static final int SELECT = 0;
-	private static final int PHOTO_APP = 1;
-	private static final int WRKR_MODE = 2;
+	private static final int FACE_MATCH_APP = 1;
+	private static final int TAKE_PHOTOS_APP = 2;
+	private static final int MANDELBROT_APP = 3;
+	private int selectedApp = -1;
 
 	private Button exitButton = null;
 	private Button workButton = null;
 	private Button deleteButton = null;
 	private Button lookforWorkersButton = null;
+	private Spinner spinner = null;
 	private ArrayAdapter<String> modesArrayAdapter = null;
 	private LinearLayout body = null;
 	private View dView = null;
@@ -81,24 +90,41 @@ public class HoneybeeCrowdActivity extends Activity {
 							HoneybeeCrowdActivity.this,
 							MandelbrotDelegatorActivity.class);
 
+					Intent takephotoIntent = new Intent(HoneybeeCrowdActivity.this,
+							TakePhotoDelegatorActivity.class);
+
 					// state whether you want the Mandelbrot or
 					// FaceDetection delegator to run
-					startActivityForResult(mandelIntent, 0);
+
+					switch (selectedApp){
+						case FACE_MATCH_APP:
+							startActivityForResult(faceIntent, 0);
+							break;
+						case TAKE_PHOTOS_APP:
+							startActivityForResult(takephotoIntent, 0);
+							break;
+						case MANDELBROT_APP:
+							startActivityForResult(mandelIntent, 0);
+							break;
+					}
+
 				}
 			});
 		}
 
 	}
 
-	private void initWorker(String pWorkerActivityClass) {
-		final String className = pWorkerActivityClass;
+	private void initWorker() {
+//		final String className = pWorkerActivityClass;
 		if (workButton == null) {
 			workButton = (Button) findViewById(R.id.btnLookforWork);
 			workButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (CONNECTION_MODE == CommonConstants.CONNECTION_MODE_WIFIDIRECT) {
-						startWifiDirectService(className, v);
+						startWifiDirectService( v);
+
+
 					} else if (CONNECTION_MODE == CommonConstants.CONNECTION_MODE_BLUETOOTH) {
 						// if Bluetooth was chosen as method of communication...
 					}
@@ -125,28 +151,52 @@ public class HoneybeeCrowdActivity extends Activity {
 	 * application, is created and passed on to startActivityForResult. This is
 	 * the 'worker' version of initDele() method.
 	 * 
-	 * @param pClassName
 	 * @param v
 	 */
-	public void startWifiDirectService(String pClassName, View v) {
+	public void startWifiDirectService(View v) {
 		Intent faceIntent = new Intent(v.getContext(),
 				FaceMatchWorkerActivity.class);
 
 		Intent mandelIntent = new Intent(v.getContext(),
 				MandelbrotWorkerActivity.class);
 
+		Intent takephotosIntent = new Intent(v.getContext(),
+				TakePhotoWorkerActivity.class);
+
+
 		// state whether you want the Mandelbrot or
 		// FaceDetection worker to run
 
-		this.startActivityForResult(mandelIntent, 0);
+		this.startActivityForResult(faceIntent, 0);
+
+		switch (selectedApp){
+			case FACE_MATCH_APP:
+				this.startActivityForResult(faceIntent, 0);
+				break;
+			case TAKE_PHOTOS_APP:
+				this.startActivityForResult(takephotosIntent, 0);
+				break;
+			case MANDELBROT_APP:
+				this.startActivityForResult(mandelIntent, 0);
+				break;
+		}
 	}
 
 	private void init() {
 		initStringArr();
+
 		exitButton = (Button) findViewById(R.id.btnExit);
 
 		body = (LinearLayout) findViewById(R.id.linLayout);
 		radioGroup = (RadioGroup) findViewById(R.id.radioGroupMode);
+		spinner = (Spinner) findViewById(R.id.spinner);
+
+		ArrayAdapter<String> spinnerArrayAdapter =
+				new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,
+						modes);
+//		spinnerArrayAdapter.se
+		spinner.setAdapter(spinnerArrayAdapter);
+		spinner.setOnItemSelectedListener(this);
 		modeSelect();
 		radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -197,20 +247,40 @@ public class HoneybeeCrowdActivity extends Activity {
 			}
 			body.removeViewInLayout(wView);
 			body.addView(wView);
-			initWorker("tnefern.honeybeeframework.apps.facematch.FaceMatchDelegatorActivity");
+			initWorker();
 		}
 
 	}
 
 	private void initStringArr() {
-		modes = new String[3];
+		modes = new String[4];
 		modes[SELECT] = getResources().getString(R.string.strSeleApp);
-		modes[PHOTO_APP] = getResources().getString(R.string.strPhotoApp);
-		modes[WRKR_MODE] = getResources().getString(R.string.strOtherApp);
+		modes[FACE_MATCH_APP] = "Face detection";
+		modes[TAKE_PHOTOS_APP] = "Take Photos";
+		modes[MANDELBROT_APP] = "Mandelbrot";
 	}
 
 
 	public void onDestroy() {
 		super.onDestroy();
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+		TextView v1 = ((TextView) adapterView.getChildAt(0));
+
+		if (v1!=null){
+			v1.setTextColor(Color.YELLOW);
+			v1.setBackgroundColor(Color.GRAY);
+		}
+
+		selectedApp = i;
+
+
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> adapterView) {
+
 	}
 }

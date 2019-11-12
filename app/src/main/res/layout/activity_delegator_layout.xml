@@ -5,14 +5,11 @@
     android:background="@color/black"
     android:orientation="vertical" >
 
-    <fragment
-        android:id="@+id/frag_list"
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/phone_list_height"
-        class="tnefern.honeybeeframework.wifidirect.DeviceListFragment" >
-
-        <!-- Preview: layout=@layout/row_devices -->
-    </fragment>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/textView4"

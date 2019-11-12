@@ -216,6 +216,10 @@
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-hdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png"
     },
     {
+        "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-hdpi_ic_launcher_background.png.flat",
+        "source": "/Users/fernando/Documents/40thieves/honeybee/app/build/generated/res/pngs/debug/drawable-hdpi/ic_launcher_background.png"
+    },
+    {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-v21_abc_dialog_material_background.xml.flat",
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-v21/abc_dialog_material_background.xml"
     },
@@ -364,6 +368,10 @@
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-mdpi-v4/abc_list_divider_mtrl_alpha.9.png"
     },
     {
+        "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-mdpi_ic_launcher_background.png.flat",
+        "source": "/Users/fernando/Documents/40thieves/honeybee/app/build/generated/res/pngs/debug/drawable-mdpi/ic_launcher_background.png"
+    },
+    {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable_abc_ic_ab_back_material.xml.flat",
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable/abc_ic_ab_back_material.xml"
     },
@@ -410,6 +418,10 @@
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-xxhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png"
+    },
+    {
+        "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-anydpi-v21_ic_launcher_background.xml.flat",
+        "source": "/Users/fernando/Documents/40thieves/honeybee/app/build/generated/res/pngs/debug/drawable-anydpi-v21/ic_launcher_background.xml"
     },
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",
@@ -772,6 +784,10 @@
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-mdpi-v4/abc_scrubber_primary_mtrl_alpha.9.png"
     },
     {
+        "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_launcher_background.png.flat",
+        "source": "/Users/fernando/Documents/40thieves/honeybee/app/build/generated/res/pngs/debug/drawable-xxhdpi/ic_launcher_background.png"
+    },
+    {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/layout_notification_action_tombstone.xml.flat",
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/res/layout/notification_action_tombstone.xml"
     },
@@ -834,6 +850,10 @@
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-xxxhdpi-v4/abc_btn_radio_to_on_mtrl_015.png"
+    },
+    {
+        "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable_bee.png.flat",
+        "source": "/Users/fernando/Documents/40thieves/honeybee/app/src/main/res/drawable/bee.png"
     },
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/color_abc_tint_btn_checkable.xml.flat",
@@ -902,6 +922,10 @@
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-mdpi_machine.png.flat",
         "source": "/Users/fernando/Documents/40thieves/honeybee/app/src/main/res/drawable-mdpi/machine.png"
+    },
+    {
+        "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-xhdpi_ic_launcher_background.png.flat",
+        "source": "/Users/fernando/Documents/40thieves/honeybee/app/build/generated/res/pngs/debug/drawable-xhdpi/ic_launcher_background.png"
     },
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_btn_check_to_on_mtrl_015.png.flat",
@@ -1132,12 +1156,12 @@
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/res/drawable-hdpi-v4/notification_bg_normal_pressed.9.png"
     },
     {
-        "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_menu_cut_mtrl_alpha.png.flat",
-        "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-xhdpi-v4/abc_ic_menu_cut_mtrl_alpha.png"
-    },
-    {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_ic_commit_search_api_mtrl_alpha.png.flat",
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-mdpi-v4/abc_ic_commit_search_api_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_menu_cut_mtrl_alpha.png.flat",
+        "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-xhdpi-v4/abc_ic_menu_cut_mtrl_alpha.png"
     },
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-ldrtl-xxhdpi-v17_abc_ic_menu_cut_mtrl_alpha.png.flat",
@@ -1222,6 +1246,10 @@
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_textfield_default_mtrl_alpha.9.png.flat",
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-mdpi-v4/abc_textfield_default_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "/Users/fernando/Documents/40thieves/honeybee/app/src/main/res/drawable-v24/ic_launcher_foreground.xml"
     },
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_ic_star_black_16dp.png.flat",
@@ -1484,6 +1512,10 @@
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-mdpi-v4/abc_ic_star_black_48dp.png"
     },
     {
+        "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/layout_fragment_take_photos_dele_layout.xml.flat",
+        "source": "/Users/fernando/Documents/40thieves/honeybee/app/src/main/res/layout/fragment_take_photos_dele_layout.xml"
+    },
+    {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/layout_activity_face_finished_worker_layout.xml.flat",
         "source": "/Users/fernando/Documents/40thieves/honeybee/app/src/main/res/layout/activity_face_finished_worker_layout.xml"
     },
@@ -1506,6 +1538,10 @@
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-hdpi-v4/abc_textfield_search_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-ldpi_ic_launcher_background.png.flat",
+        "source": "/Users/fernando/Documents/40thieves/honeybee/app/build/generated/res/pngs/debug/drawable-ldpi/ic_launcher_background.png"
     },
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_tab_indicator_mtrl_alpha.9.png.flat",
@@ -1626,6 +1662,10 @@
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_ic_star_black_36dp.png.flat",
         "source": "/Users/fernando/.gradle/caches/transforms-2/files-2.1/8516ac599c0f39cda6e75249f41fc5c3/appcompat-v7-28.0.0/res/drawable-xxhdpi-v4/abc_ic_star_black_36dp.png"
+    },
+    {
+        "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable-xxxhdpi_ic_launcher_background.png.flat",
+        "source": "/Users/fernando/Documents/40thieves/honeybee/app/build/generated/res/pngs/debug/drawable-xxxhdpi/ic_launcher_background.png"
     },
     {
         "merged": "/Users/fernando/Documents/40thieves/honeybee/app/build/intermediates/res/merged/debug/drawable_abc_seekbar_thumb_material.xml.flat",

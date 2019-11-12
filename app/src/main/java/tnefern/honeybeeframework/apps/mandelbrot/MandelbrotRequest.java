@@ -9,7 +9,7 @@ import tnefern.honeybeeframework.delegator.QueenBee;
 
 public class MandelbrotRequest implements AppRequest {
 
-	private int numberOfRows = 300;// gives a numberOfRows*numberOfRows matrix
+	private int numberOfRows = 500;// gives a numberOfRows*numberOfRows matrix
 	private ArrayList<AppInfo> rowList = null;
 	private int iter = 3000;
 	private double xc = -0.5;// -0.5

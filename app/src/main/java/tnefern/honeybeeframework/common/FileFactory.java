@@ -23,14 +23,23 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import tnefern.honeybeeframework.apps.facematch.FaceConstants;
 import tnefern.honeybeeframework.stats.JobInfo;
 import tnefern.honeybeeframework.stats.TimeMeter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.AssetManager;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import dalvik.system.PathClassLoader;
+
+import static tnefern.honeybeeframework.apps.facematch.FaceConstants.SAVE_PHOTO_PATH;
 
 /**
  * 
@@ -41,6 +50,8 @@ public class FileFactory {
 	private static FileFactory theInstance = null;
 	private StringBuffer stealTracer = null;
 	private int fileCount = 0;
+
+	public final static String TAG = "FileFactory";
 
 	public static FileFactory getInstance() {
 		if (theInstance != null) {
@@ -299,17 +310,21 @@ public class FileFactory {
 	}
 
 	public final synchronized String zipFilesIntoDirectory(
-			String[] sourceFiles, String zipFileName) throws IOException {
+			String[] sourceFiles, String zipFileName, Context pContext) throws IOException {
 //		long time = System.currentTimeMillis();
+		Log.d(TAG,zipFileName);
 		StringBuffer zipName = new StringBuffer(
 				getFileNameWithoutExtension(zipFileName));
+
+		Log.d(TAG,zipName.toString());
 		ConnectionFactory.getInstance().relock.lock();
 		zipName.append(fileCount);
 		fileCount++;
 		ConnectionFactory.getInstance().relock.unlock();
 		zipName.append(".");
 		zipName.append(getFileExtension(zipFileName));
-		File sdDir = Environment.getExternalStorageDirectory();
+//		File sdDir = Environment.getExternalStorageDirectory();
+		File sdDir = pContext.getExternalFilesDir(null);
 		File[] sources = new File[sourceFiles.length];
 		for (int i = 0; i < sourceFiles.length; i++) {
 			if(sourceFiles[i]!=null){
@@ -321,13 +336,15 @@ public class FileFactory {
 		}
 		// File dir = new File(directory);
 		File f1 = new File(sdDir, zipName.toString());
+		f1.createNewFile();
 		ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(f1));
 		zip(sources, zos);
 		zos.close();
 //		TimeMeter.getInstance().addToZipTime(
 //				(System.currentTimeMillis() - time));
 		
-		return zipName.toString();
+//		return zipName.toString();
+		return f1.getAbsolutePath();
 	}
 
 	private final void zip(File[] sources, ZipOutputStream zos)
@@ -437,6 +454,204 @@ public class FileFactory {
 		return files.toArray(arr);
 	}
 
+	public String copyAssets2(AssetManager assetManager, String pDir, Activity activty) {
+//        String f = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/" + SAVE_PHOTO_PATH;
+
+		if (ContextCompat.checkSelfPermission(activty, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+			Log.d("copyAssets2", "Permission is not granted");
+			// Permission is not granted
+			if (ActivityCompat.shouldShowRequestPermissionRationale(activty,
+					Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+				// Show an explanation to the user *asynchronously* -- don't block
+				// this thread waiting for the user's response! After the user
+				// sees the explanation, try again to request the permission.
+			} else {
+				// No explanation needed; request the permission
+				ActivityCompat.requestPermissions(activty,
+						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+						100);
+			}
+		}
+
+		String folder_main = pDir;
+
+		File saveDirectory = new File(Environment.getExternalStorageDirectory(), folder_main);
+
+
+		saveDirectory.mkdirs();
+//        File newFolder = new File(f);
+//        boolean b = newFolder.mkdir();
+
+		Log.d(TAG, "copyAssessts Path:"+saveDirectory.getAbsolutePath() );
+//		AssetManager assetManager = getAssets();
+		String[] files = null;
+		try {
+			files = assetManager.list(pDir);
+		} catch (IOException e) {
+			Log.e("tag", "Failed to get asset file list.", e);
+		}
+
+		if (files != null) for (String filename : files) {
+			InputStream in = null;
+			OutputStream out = null;
+			try {
+				in = assetManager.open(pDir+"/"+filename);
+
+				File file = new File(saveDirectory,filename);
+				file.createNewFile();
+
+//                String filepath = f+"/"+filename;
+				Log.d(TAG, "Before write: "+file.getAbsolutePath() );
+
+//                File outFile = new File(filepath);
+				out = new FileOutputStream(file);
+				copyFile(in, out);
+				Log.d(TAG, "After write:"+file.getAbsolutePath() );
+			} catch(IOException e) {
+				Log.e("tag", "Failed to copy asset file: " + filename, e);
+			}
+			finally {
+				if (in != null) {
+					try {
+						in.close();
+					} catch (IOException e) {
+						// NOOP
+					}
+				}
+				if (out != null) {
+					try {
+						out.close();
+					} catch (IOException e) {
+						// NOOP
+					}
+				}
+			}
+		}
+		return saveDirectory.getAbsolutePath();
+	}
+
+	public String copyAssetFiles(AssetManager pAm, String pDir, Context context){
+		String[] files = null;
+		File saveDirectory = null;
+		try {
+			files = pAm.list( pDir);
+			saveDirectory = context.getExternalFilesDir(pDir);
+			if (!saveDirectory.mkdirs()) {
+				Log.e(TAG, "Directory not created");
+			}
+//			File saveDirectory = new File(Environment.getExternalStorageDirectory()+File.separator+ context.getPackageName()+File.separator+ pDir +File.separator);
+			Log.d(TAG, "saveDirectory: "+saveDirectory.getPath() );
+			// create direcotory if it doesn't exists
+			saveDirectory.mkdirs();
+
+
+
+			if (files != null) for (String filename : files) {
+				InputStream in = null;
+				OutputStream out = null;
+				try {
+					in = pAm.open(pDir+"/"+filename);
+//					String filepath = Environment.getExternalStorageDirectory() + "/"
+//							+ context.getPackageName() + "/"
+//							+ pDir+"/"+filename;
+					Log.d(TAG, "Before write: "+filename );
+
+
+
+//					 File f = new File(
+//							Environment.getExternalStorageDirectory() + "/"
+//									+ context.getPackageName() + "/"
+//									+ pDir+filename
+//									);
+
+//					Log.d(TAG, "Before write2: "+filepath);
+//					File f = new File(filepath);
+
+					// create a directory
+
+
+//					File dirs = new File(f.getParent());
+//					if (!dirs.exists()){
+//						Log.d(TAG, "!dirs.exists() ");
+//						dirs.mkdirs();
+//						f.createNewFile();
+//					}
+//					else if(dirs.isDirectory()){
+//						Log.d(TAG, "isDirectory ");
+//						f.createNewFile();
+//						if(dirs.canWrite()){
+//							Log.d(TAG, "canWrite ");
+//						}
+//					}else{
+//						Log.d(TAG, "ELSE! ");
+//						f.createNewFile();
+//					}
+
+//					File outFile = new File(filepath);
+					File file = new File(saveDirectory,filename);
+					file.createNewFile();
+
+					out = new FileOutputStream( file); // filename.png, .mp3, .mp4 ...
+					if(out != null){
+						Log.e( TAG, "Output Stream Opened successfully");
+					}
+
+//					out = new FileOutputStream(f);
+					copyFile(in, out);
+
+
+//					Log.d(TAG, "after write Path:"+out..getAbsolutePath() );
+				} catch(IOException e) {
+					Log.e("tag", "Failed to copy asset file: " + filename, e);
+				}
+				finally {
+					if (in != null) {
+						try {
+							in.close();
+						} catch (IOException e) {
+							// NOOP
+						}
+					}
+					if (out != null) {
+						try {
+							out.close();
+						} catch (IOException e) {
+							// NOOP
+						}
+					}
+				}
+
+			}
+
+		} catch (IOException e) {
+			Log.e(TAG, "Failed to get asset file list.", e);
+		}
+		return saveDirectory.getAbsolutePath();
+	}
+//	public Collection<File> listFiles(AssetManager pAm, String pDir){
+//
+//		Vector<File> vfiles = new Vector<File>();
+//		String[] files = null;
+//		try {
+//			files = pAm.list( pDir);
+//
+//
+//
+//		if (files != null) for (String filename : files) {
+//			vfiles.add(new File(pAm.open(pDir+"/"+filename)));
+//			pAm.
+//
+//		}
+//
+//		} catch (IOException e) {
+//			Log.e(TAG, "Failed to get asset file list.", e);
+//		}
+//
+//
+//
+//		return vfiles;
+//
+//	}
 	public Collection<File> listFiles(File directory, FilenameFilter[] filter,
 			int recurse2) {
 
@@ -450,7 +665,7 @@ public class FileFactory {
 					if (filter == null
 							|| filefilter.accept(directory, entry.getName())) {
 						files.add(entry);
-						Log.v("FileUtils", "Added: " + entry.getName());
+						Log.d("FileUtils", "Added: " + entry.getName());
 					}
 				}
 				// if ((recurse <= -1) || (recurse > 0 && entry.isDirectory()))
@@ -584,7 +799,7 @@ public class FileFactory {
 		return this.fileCount;
 	}
 
-	public File getFile(String path) throws IOException {
+	public File getFile_(String path) throws IOException {
 		File sdDir = Environment.getExternalStorageDirectory();
 		File file = null;
 		if (sdDir.canWrite()) {
@@ -594,8 +809,16 @@ public class FileFactory {
 		return file;
 
 	}
+	public File getFile(String path) throws IOException {
+//		File sdDir = Environment.getExternalStorageDirectory();
+		File file  = new File( path);
+//
 
-	public File[] getFiles(ArrayList<String> list) throws IOException {
+		return file;
+
+	}
+
+	public File[] getFiles_(ArrayList<String> list) throws IOException {
 		File[] files = new File[list.size()];
 
 		Iterator<String> iter = list.listIterator();
@@ -613,6 +836,24 @@ public class FileFactory {
 
 	}
 
+	public File[] getFiles(ArrayList<String> list) throws IOException {
+		File[] files = new File[list.size()];
+
+		Iterator<String> iter = list.listIterator();
+		int i = 0;
+		while (iter.hasNext()) {
+//			File sdDir = context.getExternalFilesDir(null);
+//			File sdDir = Environment.getExternalStorageDirectory();
+			File file = null;
+//			if (sdDir.canWrite()) {
+				files[i] = new File(iter.next());
+//			}
+			i++;
+		}
+
+		return files;
+
+	}
 	public void CopyFiles(String[] files, String newPath) {
 		File sdDir = Environment.getExternalStorageDirectory();
 		// create a File object for the parent directory

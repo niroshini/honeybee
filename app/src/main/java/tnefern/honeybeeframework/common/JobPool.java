@@ -399,23 +399,23 @@ public class JobPool {
 		}
 	}
 
-	public Job isJobExists_old(Job pJob) {
-		if (pJob != null) {
-			if (this.allJobs != null && this.allJobs.length > 0) {
-				for (int i = 0; i < allJobs.length; i++) {
-					if (pJob.equals(allJobs[i])) {
-						return allJobs[i];
-					}
-				}
-				return null;
-			} else {
-				return null;
-			}
-
-		} else {
-			return null;
-		}
-	}
+//	public Job isJobExists_old(Job pJob) {
+//		if (pJob != null) {
+//			if (this.allJobs != null && this.allJobs.length > 0) {
+//				for (int i = 0; i < allJobs.length; i++) {
+//					if (pJob.equals(allJobs[i])) {
+//						return allJobs[i];
+//					}
+//				}
+//				return null;
+//			} else {
+//				return null;
+//			}
+//
+//		} else {
+//			return null;
+//		}
+//	}
 
 	public void initJobPool(AppRequest pReq) {
 		allJobs = new Job[pReq.getNumberOfJobs()];
@@ -484,13 +484,13 @@ public class JobPool {
 	// return jobList;
 	// }
 
-	public ConcurrentLinkedQueue<Job> initJobsForOwn() {
-		// for (int i = 0; i < partitionsPerDelegator; i++) {
-		for (int i = 0; i < allJobs.length; i++) {
-			jobList.add(allJobs[i]);// test
-		}
-		return jobList;
-	}
+//	public ConcurrentLinkedQueue<Job> initJobsForOwn() {
+//		// for (int i = 0; i < partitionsPerDelegator; i++) {
+//		for (int i = 0; i < allJobs.length; i++) {
+//			jobList.add(allJobs[i]);// test
+//		}
+//		return jobList;
+//	}
 
 	public synchronized ConcurrentLinkedQueue<Job> getJobList() {
 		// public ArrayBlockingQueue<Job> getJobList() {
@@ -697,22 +697,22 @@ public class JobPool {
 		return stolenGoods;
 	}
 
-	public String getJobsForTransmission_(int pInd) {
-		int startInd = pInd * partitionsPerNode;
-		StringBuffer sBuf = new StringBuffer();
+//	public String getJobsForTransmission_(int pInd) {
+//		int startInd = pInd * partitionsPerNode;
+//		StringBuffer sBuf = new StringBuffer();
+//
+//		sBuf.append(CommonConstants.PARAM_SYMBOL);
+//		for (int i = startInd; i < startInd + partitionsPerNode; i++) {
+//			sBuf.append(allJobs[i].jobParams);
+//			sBuf.append(CommonConstants.PARTITION_BREAK);
+//		}
+//
+//		sBuf.append(CommonConstants.MSG_BREAK);
+//
+//		return sBuf.toString();
+//	}
 
-		sBuf.append(CommonConstants.PARAM_SYMBOL);
-		for (int i = startInd; i < startInd + partitionsPerNode; i++) {
-			sBuf.append(allJobs[i].jobParams);
-			sBuf.append(CommonConstants.PARTITION_BREAK);
-		}
-
-		sBuf.append(CommonConstants.MSG_BREAK);
-
-		return sBuf.toString();
-	}
-
-	public JobParams fetchJobsToTransmitToWorker(int pNumJobs, String pAdr) {
+	public JobParams fetchJobsToTransmitToWorker(int pNumJobs, String pAdr, Context pContext) {
 //		StringBuffer sb = new StringBuffer();
 		ArrayList<Job> list = fetchFilesToWorkerTransmit(pNumJobs);
 		JobParams jParams = null;
@@ -755,8 +755,9 @@ public class JobPool {
 				String zipfile;
 				try {
 					zipfile = FileFactory.getInstance().zipFilesIntoDirectory(
-							arr, CommonConstants.ZIP_FILE_PATH);
+							arr, CommonConstants.ZIP_FILE_PATH, pContext);
 					fileNames.add(zipfile);
+					Log.d("fetchJobsToTran", zipfile);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -27,8 +27,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Run Face Match"
+                android:text="Delegate"
                 android:textColor="@color/yellow" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="@color/orange"
+                android:textColor="@color/blue" />
 
             <RadioButton
                 android:id="@+id/radioWork"
@@ -47,6 +54,8 @@
             android:layout_marginRight="51dp"
             android:text="@string/strExit"
             android:textColor="@color/white" />
+
+
     </RelativeLayout>
 
     <RelativeLayout

@@ -340,7 +340,7 @@ public class JobInitializer {
 
 	}
 
-	private void stealFromMe(OutputStream pOut) throws IOException {
+	private void stealFromMe(OutputStream pOut, Context pContext) throws IOException {
 		Log.d("stealFromMe",
 				"stealFromMe");
 		Victim v = null;
@@ -407,7 +407,7 @@ public class JobInitializer {
 
 							String s = FileFactory.getInstance()
 									.zipFilesIntoDirectory(sNames,
-											CommonConstants.ZIP_FILE_PATH);
+											CommonConstants.ZIP_FILE_PATH,pContext);
 							File file = FileFactory.getInstance().getFile(s);
 
 							this.victim = new VictimThread(pOut, FileFactory
@@ -435,7 +435,7 @@ public class JobInitializer {
 
 							String s = FileFactory.getInstance()
 									.zipFilesIntoDirectory(sNames,
-											CommonConstants.ZIP_FILE_PATH);
+											CommonConstants.ZIP_FILE_PATH, pContext);
 							File file = FileFactory.getInstance().getFile(s);
 							break;
 
@@ -492,7 +492,7 @@ public class JobInitializer {
 
 	}
 
-	private void stealFromDelegator(WorkerInfo pInfo) throws IOException {
+	private void stealFromDelegator(WorkerInfo pInfo, Context pContext) throws IOException {
 		if (!JobPool.getInstance().isJobListEmpty()) {
 			GetJobsForStealing gjfs = new GetJobsForStealing();
 			Future<Job[]> stolenJ = JobPool.getInstance()
@@ -564,7 +564,7 @@ public class JobInitializer {
 
 							String s = FileFactory.getInstance()
 									.zipFilesIntoDirectory(sNames,
-											CommonConstants.ZIP_FILE_PATH);
+											CommonConstants.ZIP_FILE_PATH,pContext);
 							File file = FileFactory.getInstance().getFile(s);
 
 							// this.victim = new
@@ -666,7 +666,7 @@ public class JobInitializer {
 											.getInstance()
 											.zipFilesIntoDirectory(
 													iter.next(),
-													CommonConstants.ZIP_FILE_PATH);
+													CommonConstants.ZIP_FILE_PATH, pContext);
 									// fileNames.add(zipfile);
 									filesToSend[si] = FileFactory.getInstance()
 											.getFile(zipfile);
@@ -685,7 +685,7 @@ public class JobInitializer {
 											.getInstance()
 											.zipFilesIntoDirectory(
 													arr,
-													CommonConstants.ZIP_FILE_PATH);
+													CommonConstants.ZIP_FILE_PATH,pContext);
 									// fileNames.add(zipfile);
 									filesToSend[si] = FileFactory.getInstance()
 											.getFile(zipfile);
@@ -732,7 +732,7 @@ public class JobInitializer {
 		if (isSlave) {// I am a worker
 			Log.d("WorkerReadWriteThread",
 					"I am a worker: Delegator trying to steal from me");
-			stealFromMe(pOut);
+			stealFromMe(pOut,parentActivity);
 
 		} else {// I am a delegating device
 			if (JobInitializer.isJobFinished) {
@@ -751,7 +751,7 @@ public class JobInitializer {
 
 			} else {
 				 Log.d("Delegator", "I am being a Victim");
-				stealFromMe(pOut);
+				stealFromMe(pOut,parentActivity);
 				TimeMeter.getInstance().addToVictimTime(
 						new JobInfo(null, System.currentTimeMillis() - t));
 			}
@@ -776,7 +776,7 @@ public class JobInitializer {
 				}
 
 			} else {
-				stealFromDelegator(pWorker);
+				stealFromDelegator(pWorker,parentActivity);
 				TimeMeter.getInstance().addToVictimTime(
 						new JobInfo(null, System.currentTimeMillis() - t));
 			}
