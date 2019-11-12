@@ -10,7 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
-import android.hardware.Camera;
+//import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -78,7 +78,7 @@ public class ShowPhotoFragment extends Fragment {
     private boolean mFlashSupported;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
-    private boolean istakingPhotos;
+    private boolean isTakingPhotos = false;
 
     private static final String IMAGE_PREFIX = "TP";
     private static final String IMAGE_FOLDER = "TakenPhotos";
@@ -96,7 +96,7 @@ public class ShowPhotoFragment extends Fragment {
             }
                 finally{
                 //also call the same runnable to call it at regular interval
-                handler.postDelayed(this, 3*1000); //10*1000 is your interval (in this case 10 seconds)
+                handler.postDelayed(this, 5*1000); //10*1000 is your interval (in this case 10 seconds)
             }
 
         }
@@ -145,15 +145,15 @@ public class ShowPhotoFragment extends Fragment {
 //
 //    }
 
-    public void setCameraPreview(CameraPreview pCp){
-
-//        this.mCameraPreview = pCp;
-    }
-
-    public void setCamera(Camera pCam){
-
-//        this.mCamera = pCam;
-    }
+//    public void setCameraPreview(CameraPreview pCp){
+//
+////        this.mCameraPreview = pCp;
+//    }
+//
+//    public void setCamera(Camera pCam){
+//
+////        this.mCamera = pCam;
+//    }
 
     private void openCamera(){
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -164,6 +164,10 @@ public class ShowPhotoFragment extends Fragment {
             try {
                 cameraId = manager.getCameraIdList()[0];
                 CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
+
+                if(characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY){
+                     Log.d(TAG,"Legacy");
+                }
                 StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
                 assert map != null;
                 imageDimension = map.getOutputSizes(SurfaceTexture.class)[0];
@@ -225,6 +229,7 @@ public class ShowPhotoFragment extends Fragment {
                     super.onCaptureCompleted(session, request, result);
 //                    Toast.makeText(AndroidCameraApi.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
                     createCameraPreview();
+                    Log.e(TAG, "onCaptureCompleted");
                 }
             };
 //        }
@@ -237,10 +242,10 @@ public class ShowPhotoFragment extends Fragment {
 //                openCamera();
 //                dispatchTakePictureIntent();
 
-//                takePicture();
+                takePicture();
 
-                handler.post(photoRunnable);
-                istakingPhotos = true;
+//                handler.post(photoRunnable);
+//                isTakingPhotos = true;
 //                captureButton.setEnabled(false);
             }
         });
@@ -305,48 +310,70 @@ public class ShowPhotoFragment extends Fragment {
 //        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    Camera.PictureCallback mPicture = new Camera.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-            File pictureFile = getOutputMediaFile();
-            if (pictureFile == null) {
-                return;
-            }
-            try {
-                FileOutputStream fos = new FileOutputStream(pictureFile);
-                fos.write(data);
-                fos.close();
-            } catch (FileNotFoundException e) {
+//    Camera.PictureCallback mPicture = new Camera.PictureCallback() {
+//        @Override
+//        public void onPictureTaken(byte[] data, Camera camera) {
+//            File pictureFile = getOutputMediaFile();
+//            if (pictureFile == null) {
+//                return;
+//            }
+//            try {
+//                FileOutputStream fos = new FileOutputStream(pictureFile);
+//                fos.write(data);
+//                fos.close();
+//            } catch (FileNotFoundException e) {
+//
+//            } catch (IOException e) {
+//            }
+//        }
+//
+//    };
 
-            } catch (IOException e) {
-            }
+//    private static File getOutputMediaFile() {
+//        File mediaStorageDir = new File(
+//                Environment
+//                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+//                "MyCameraApp");
+//        if (!mediaStorageDir.exists()) {
+//            if (!mediaStorageDir.mkdirs()) {
+//                Log.d("MyCameraApp", "failed to create directory");
+//                return null;
+//            }
+//        }
+//        // Create a media file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+//                .format(new Date());
+//        File mediaFile;
+//        mediaFile = new File(mediaStorageDir.getPath() + File.separator
+//                + "IMG_" + timeStamp + ".jpg");
+//
+//        return mediaFile;
+//    }
+
+    private void setOrientation(CameraCharacteristics characteristics, CaptureRequest.Builder captureBuilder){
+
+        try {
+            int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
+            Log.d(TAG, "Preview Dev rotation: "+rotation);//temi is 3
+
+
+        int sensorOrientation =  characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+        Log.d(TAG, "Preview SENSOR_ORIENTATION: "+sensorOrientation);
+        int surfaceRotation = ORIENTATIONS.get(rotation);
+        Log.d(TAG, "Preview surfaceRotation: "+surfaceRotation);
+        int jpegOrientation =
+                (surfaceRotation + sensorOrientation + 270) % 360;
+        Log.d(TAG, "Preview jpegOrientation: "+jpegOrientation);
+//            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+
+        captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, jpegOrientation);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-    };
-
-    private static File getOutputMediaFile() {
-        File mediaStorageDir = new File(
-                Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                "MyCameraApp");
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("MyCameraApp", "failed to create directory");
-                return null;
-            }
-        }
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                .format(new Date());
-        File mediaFile;
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                + "IMG_" + timeStamp + ".jpg");
-
-        return mediaFile;
     }
-
     protected void createCameraPreview() {
         try {
+            Log.d(TAG,"createCameraPreview");
             SurfaceTexture texture = textureView.getSurfaceTexture();
             assert texture != null;
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -355,9 +382,20 @@ public class ShowPhotoFragment extends Fragment {
                 captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
                 captureRequestBuilder.addTarget(surface);
 
+
+
+
+
+            CameraManager manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+            CameraCharacteristics characteristics = null;
+            characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
+
+            setOrientation(characteristics, captureRequestBuilder);
+
                 cameraDevice.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback(){
                     @Override
                     public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
+                        Log.d(TAG,"createCameraPreview: onConfigured");
                         //The camera is already closed
                         if (null == cameraDevice) {
                             return;
@@ -369,30 +407,36 @@ public class ShowPhotoFragment extends Fragment {
                     @Override
                     public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
 //                        Toast.makeText(AndroidCameraApi.this, "Configuration change", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG,"createCameraPreview: FAILED");
                     }
                 }, null);
 //            }
 
-        } catch (Exception e) {
+        } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
     protected void updatePreview() {
+        Log.d(TAG,"updatePreview");
         if(null == cameraDevice) {
             Log.e(TAG, "updatePreview error, return");
         }
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+//        captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 180);
+        Log.d(TAG,"captureRequestBuilder.set");
             try {
                 cameraCaptureSessions.setRepeatingRequest(captureRequestBuilder.build(), null, mBackgroundHandler);
-            } catch (Exception e) {
+                Log.d(TAG,"cameraCaptureSessions.set");
+            } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
 //        }
 
     }
     private void closeCamera() {
+        Log.d(TAG,"closeCamera");
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (null != cameraDevice) {
 
@@ -410,6 +454,7 @@ public class ShowPhotoFragment extends Fragment {
 
 //    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void takePicture() {
+        Log.d(TAG, "takePicture");
         if(null == cameraDevice) {
             Log.e(TAG, "cameraDevice is null");
             return;
@@ -423,6 +468,8 @@ public class ShowPhotoFragment extends Fragment {
             }
             int width = 640;
             int height = 480;
+//            int width = 300;
+//            int height = 200;
             if (jpegSizes != null && 0 < jpegSizes.length) {
                 width = jpegSizes[0].getWidth();
                 height = jpegSizes[0].getHeight();
@@ -435,8 +482,20 @@ public class ShowPhotoFragment extends Fragment {
             captureBuilder.addTarget(reader.getSurface());
             captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
             // Orientation
-            int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
-            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+//            int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
+//            Log.d(TAG, "Dev rotation: "+rotation);//temi is 3
+//            int sensorOrientation =  characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+//            Log.d(TAG, "SENSOR_ORIENTATION: "+sensorOrientation);
+//            int surfaceRotation = ORIENTATIONS.get(rotation);
+//            Log.d(TAG, "surfaceRotation: "+surfaceRotation);
+//            int jpegOrientation =
+//                    (surfaceRotation + sensorOrientation + 270) % 360;
+//            Log.d(TAG, "jpegOrientation: "+jpegOrientation);
+////            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+//            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, jpegOrientation);
+            setOrientation(characteristics, captureBuilder);
+
+
             final File folder = getActivity().getExternalFilesDir(IMAGE_FOLDER);
             if (!folder.mkdirs()) {
                 Log.e(TAG, "Directory not created");
@@ -449,6 +508,7 @@ public class ShowPhotoFragment extends Fragment {
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
+                    Log.d(TAG, "onImageAvailable");
                     Image image = null;
                     try {
                         image = reader.acquireLatestImage();
@@ -459,10 +519,14 @@ public class ShowPhotoFragment extends Fragment {
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
+                        throw new IllegalStateException("Unable to write image to buffer.", e);
+                    }
+                    finally {
                         if (image != null) {
                             image.close();
+                        }
+                        if(reader != null) {
+                            reader.close();
                         }
                     }
                 }
@@ -485,6 +549,7 @@ public class ShowPhotoFragment extends Fragment {
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
 //                    Toast.makeText(AndroidCameraApi.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
+                    Log.d(TAG,"onCaptureCompleted ");
                     createCameraPreview();
                 }
             };
@@ -492,6 +557,7 @@ public class ShowPhotoFragment extends Fragment {
                 @Override
                 public void onConfigured(CameraCaptureSession session) {
                     try {
+                        Log.d(TAG,"onConfigured ");
                         session.capture(captureBuilder.build(), captureListener, mBackgroundHandler);
                     } catch (CameraAccessException e) {
                         e.printStackTrace();
@@ -499,6 +565,7 @@ public class ShowPhotoFragment extends Fragment {
                 }
                 @Override
                 public void onConfigureFailed(CameraCaptureSession session) {
+                    Log.d(TAG,"onConfigureFailed ");
                 }
             }, mBackgroundHandler);
         } catch (CameraAccessException | IOException e) {
@@ -512,9 +579,7 @@ public class ShowPhotoFragment extends Fragment {
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
     protected void stopBackgroundThread() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             mBackgroundThread.quitSafely();
-        }
         try {
             mBackgroundThread.join();
             mBackgroundThread = null;
@@ -532,9 +597,9 @@ public class ShowPhotoFragment extends Fragment {
         if (textureView.isAvailable()) {
             openCamera();
 
-            if(istakingPhotos){
-                handler.post(photoRunnable);
-            }
+//            if(isTakingPhotos){
+//                handler.post(photoRunnable);
+//            }
         } else {
             textureView.setSurfaceTextureListener(textureListener);
         }
@@ -542,10 +607,10 @@ public class ShowPhotoFragment extends Fragment {
     @Override
     public void onPause() {
         Log.e(TAG, "onPause");
-        //closeCamera();
-        if(istakingPhotos){
-            handler.removeCallbacks(photoRunnable);
-        }
+        closeCamera();
+//        if(isTakingPhotos){
+//            handler.removeCallbacks(photoRunnable);
+//        }
 
         stopBackgroundThread();
         super.onPause();
@@ -584,3 +649,5 @@ public class ShowPhotoFragment extends Fragment {
         at java.lang.Thread.run(Thread.java:818)
 
      **/
+
+    //TODO when adding taken photos to the job pool, check if>0 bytes.

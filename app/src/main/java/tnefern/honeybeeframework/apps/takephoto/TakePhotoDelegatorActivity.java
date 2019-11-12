@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +33,7 @@ import tnefern.honeybeeframework.common.JobPool;
 import tnefern.honeybeeframework.delegator.AppRequest;
 import tnefern.honeybeeframework.delegator.DelegatorActivity;
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class TakePhotoDelegatorActivity extends DelegatorActivity {
 
 	private ArrayList<AppInfo> fileList = null;
@@ -45,8 +48,8 @@ public class TakePhotoDelegatorActivity extends DelegatorActivity {
 	static final int REQUEST_TAKE_PHOTO = 1;
 	String currentPhotoPath;
 
-	private Camera mCamera;
-	private CameraPreview mCameraPreview;
+//	private Camera mCamera;
+//	private CameraPreview mCameraPreview;
 
 	public void initJobs() {
 		initFiles();
@@ -58,12 +61,12 @@ public class TakePhotoDelegatorActivity extends DelegatorActivity {
 	public void initCustomUI() {
 
 
-		mCamera = getCameraInstance();
-		mCameraPreview = new CameraPreview(this, mCamera);
+//		mCamera = getCameraInstance();
+//		mCameraPreview = new CameraPreview(this, mCamera);
 
 		ShowPhotoFragment frag = new ShowPhotoFragment();
-		frag.setCameraPreview(mCameraPreview);
-		frag.setCamera(mCamera);
+//		frag.setCameraPreview(mCameraPreview);
+//		frag.setCamera(mCamera);
 		this.loadFragment(frag);
 
 	}
