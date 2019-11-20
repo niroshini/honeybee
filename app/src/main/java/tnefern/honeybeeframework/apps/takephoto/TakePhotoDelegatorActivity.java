@@ -29,6 +29,8 @@ import tnefern.honeybeeframework.R;
 import tnefern.honeybeeframework.common.AppInfo;
 import tnefern.honeybeeframework.common.CommonConstants;
 import tnefern.honeybeeframework.common.FileFactory;
+import tnefern.honeybeeframework.common.Job;
+import tnefern.honeybeeframework.common.JobParams;
 import tnefern.honeybeeframework.common.JobPool;
 import tnefern.honeybeeframework.delegator.AppRequest;
 import tnefern.honeybeeframework.delegator.DelegatorActivity;
@@ -42,6 +44,7 @@ public class TakePhotoDelegatorActivity extends DelegatorActivity {
 	private String TAG= "TakePhotoDelegatorActivity";
 	private TakePhotoRequest photo;
 	static final int REQUEST_IMAGE_CAPTURE = 1;
+	static final int ADD_OP_PHOTO = 2;
 //	ImageView im;
 	private ShowPhotoFragment frag;
 
@@ -165,7 +168,7 @@ public class TakePhotoDelegatorActivity extends DelegatorActivity {
 				FileFactory.getInstance().listFiles(new File(folderSaved),
 						new JpegFilter[] { new JpegFilter() }, 0));
 //FileName:/storage/emulated/0/samplePicsforFaces240/2ppl copy 2.JPG
-
+///storage/emulated/0/Android/data/tnefern.honeybeeframework/files/TakenPhotos/TP20191112_170555_0.JPG
 		for (File file : TakePhotoResult.getInstance().getFilesInFolder()) {
 			fileList.add(new TakePhotoInfo(file.getAbsolutePath(), file.getName()));
 		}
@@ -184,6 +187,16 @@ public class TakePhotoDelegatorActivity extends DelegatorActivity {
 	@Override
 	public void onJobDone() {
 		super.onJobDone();
+		TakePhotoResult.getInstance().setFileList(
+				FileFactory.getInstance().listFiles(JobPool.getInstance(). getAllJobs(),
+						new JpegFilter[] { new JpegFilter() }, 0));
+////FileName:/storage/emulated/0/samplePicsforFaces240/2ppl copy 2.JPG
+/////storage/emulated/0/Android/data/tnefern.honeybeeframework/files/TakenPhotos/TP20191112_170555_0.JPG
+//		for (File file : TakePhotoResult.getInstance().getFilesInFolder()) {
+//			fileList.add(new TakePhotoInfo(file.getAbsolutePath(), file.getName()));
+//		}
+//		Log.d(TAG,"fileList size: "+fileList.size());
+
 		Intent deleIntent = new Intent(this, FinishedTakePhotoDelegatorActivity.class);
 		this.startActivityForResult(deleIntent,
 				TakePhotoConstants.FINISHED_DELEGATOR);
@@ -197,9 +210,9 @@ public class TakePhotoDelegatorActivity extends DelegatorActivity {
 			Bundle extras = data.getExtras();
 			Bitmap imageBitmap = (Bitmap) extras.get("data");
 			Log.e(TAG,"activity PRE setImageBitmap");
-			frag.setImageBitmap(imageBitmap);
+//			frag.setImageBitmap(imageBitmap);
 		}
-		Log.e(TAG,"activity setImageBitmap");
+//		Log.e(TAG,"activity setImageBitmap");
 //        super.onActivityResult(requestCode, resultCode, data);
 	}
 

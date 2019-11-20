@@ -8,9 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+//import android.graphics.Camera;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 //import android.hardware.Camera;
+import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -35,11 +37,15 @@ import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.Surface;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,9 +60,259 @@ import java.util.Date;
 import java.util.List;
 
 import tnefern.honeybeeframework.R;
+import tnefern.honeybeeframework.common.CommonConstants;
+import tnefern.honeybeeframework.common.Job;
+import tnefern.honeybeeframework.common.JobParams;
+import tnefern.honeybeeframework.common.JobPool;
 
 import static tnefern.honeybeeframework.R.layout.fragment_take_photos_dele_layout;
 @RequiresApi(api = Build.VERSION_CODES.M)
+public class ShowPhotoFragment extends Fragment {
+    private View view;
+    private Camera mCamera;
+    private CameraPreview mPreview;
+
+    String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
+    private static final int PERMISSION_ALL = 105;
+    private static String TAG = "ShowPhotoFragment";
+    private static final String IMAGE_PREFIX = "TP";
+    private static final String IMAGE_FOLDER = "TakenPhotos";
+    private int photo_count = 0;
+    private static final int PHOTO_LIMIT=10;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(fragment_take_photos_dele_layout, container, false);
+
+        if(!hasAllPermissions(getActivity(), PERMISSIONS)) {
+            getActivity().requestPermissions( PERMISSIONS, PERMISSION_ALL);
+        }
+
+        if(!checkCameraHardware(getActivity())){
+            Log.d(TAG,"No Camera");
+        }else{
+            Log.d(TAG,"Camera exists");
+        }
+
+//        framelayout preview = (framelayout)view.findviewbyid(r.id.camera_preview);
+//        preview.addview(mcamerapreview);
+//        im = (ImageView)view.findViewById(R.id.imageView);
+        // Create an instance of Camera
+        mCamera = getCameraInstance();
+        // Create our Preview view and set it as the content of our activity.
+        mPreview = new CameraPreview(this.getActivity(), mCamera);
+        FrameLayout preview = (FrameLayout) view.findViewById(R.id.camera_preview);
+        preview.setLayoutParams(new LinearLayout.LayoutParams(400,400));
+        preview.addView(mPreview);
+
+        Button captureButton = (Button) view.findViewById(R.id.button_capture);
+        captureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JobPool.getInstance().setOpportunisticJobTrue();
+                mCamera.takePicture(null, null, mPicture);
+
+
+
+//                handler.post(photoRunnable);
+//                isTakingPhotos = true;
+//                captureButton.setEnabled(false);
+            }
+        });
+        return view;
+    }
+
+    /** Check if this device has a camera */
+    private boolean checkCameraHardware(Context context) {
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
+        }
+    }
+
+    public static Camera getCameraInstance(){
+        Camera c = null;
+        try {
+            c = Camera.open(); // attempt to get a Camera instance
+        }
+        catch (Exception e){
+            // Camera is not available (in use or does not exist)
+        }
+        return c; // returns null if camera is unavailable
+    }
+
+    public  boolean hasAllPermissions(Context context, String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (getActivity().checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
+        private SurfaceHolder mHolder;
+        private Camera mCamera;
+
+        public CameraPreview(Context context, Camera camera) {
+            super(context);
+            mCamera = camera;
+
+            // Install a SurfaceHolder.Callback so we get notified when the
+            // underlying surface is created and destroyed.
+            mHolder = getHolder();
+            mHolder.addCallback(this);
+            // deprecated setting, but required on Android versions prior to 3.0
+            mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        }
+
+        public void surfaceCreated(SurfaceHolder holder) {
+            // The Surface has been created, now tell the camera where to draw the preview.
+            try {
+                mCamera.setPreviewDisplay(holder);
+                mCamera.startPreview();
+            } catch (IOException e) {
+                Log.d(TAG, "Error setting camera preview: " + e.getMessage());
+            }
+        }
+
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            // empty. Take care of releasing the Camera preview in your activity.
+        }
+
+        public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
+            // If your preview can change or rotate, take care of those events here.
+            // Make sure to stop the preview before resizing or reformatting it.
+
+            if (mHolder.getSurface() == null){
+                // preview surface does not exist
+                return;
+            }
+
+            // stop preview before making changes
+            try {
+                mCamera.stopPreview();
+            } catch (Exception e){
+                // ignore: tried to stop a non-existent preview
+            }
+
+            // set preview size and make any resize, rotate or
+            // reformatting changes here
+
+            // start preview with new settings
+            try {
+                mCamera.setPreviewDisplay(mHolder);
+                mCamera.startPreview();
+
+            } catch (Exception e){
+                Log.d(TAG, "Error starting camera preview: " + e.getMessage());
+            }
+        }
+    }
+
+    private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
+
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            final File folder = getActivity().getExternalFilesDir(IMAGE_FOLDER);
+            if (!folder.mkdirs()) {
+                Log.e(TAG, "Directory not created");
+            }
+            final String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                    .format(new Date());
+            final File pictureFile = new File(folder,IMAGE_PREFIX+timeStamp+"_"+photo_count+".JPG");
+            try {
+                pictureFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (pictureFile == null){
+                Log.d(TAG, "Error creating media file, check storage permissions");
+                return;
+            }
+
+
+
+            try {
+                FileOutputStream fos = new FileOutputStream(pictureFile);
+                fos.write(data);
+                fos.close();
+                Log.d(TAG,"Photo "+photo_count+" saved at: "+pictureFile.getAbsolutePath());
+
+                JobParams jp = new JobParams(
+                        CommonConstants.READ_STRING_MODE);
+                Job j = new Job(pictureFile.getAbsolutePath(),CommonConstants.OPPORTUNISTIC_JOB,CommonConstants.READ_FILES_MODE,
+                        CommonConstants.READ_STRING_MODE);
+                Log.e(TAG,"Opportunistic Photo: "+j.toString());
+                JobPool.getInstance().addJob(j);
+            } catch (FileNotFoundException e) {
+                Log.d(TAG, "File not found: " + e.getMessage());
+            } catch (IOException e) {
+                Log.d(TAG, "Error accessing file: " + e.getMessage());
+            }
+            photo_count++;
+            mCamera.stopPreview();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            mCamera.startPreview();
+
+
+            if(photo_count<PHOTO_LIMIT){
+                mCamera.takePicture(null, null, mPicture);
+            }else{
+                JobPool.getInstance().finaliseOpportunisticJob();
+            }
+
+        }
+    };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        releaseCamera();
+
+    }
+
+    private void releaseCamera(){
+        if (mCamera != null){
+            mCamera.release();        // release the camera for other applications
+            mCamera = null;
+        }
+    }
+
+//    private void setOrientation(CameraCharacteristics characteristics, CaptureRequest.Builder captureBuilder){
+//
+//        try {
+//            int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
+//            Log.d(TAG, "Preview Dev rotation: "+rotation);//temi is 3
+//
+//
+//            int sensorOrientation =  characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+//            Log.d(TAG, "Preview SENSOR_ORIENTATION: "+sensorOrientation);
+//            int surfaceRotation = ORIENTATIONS.get(rotation);
+//            Log.d(TAG, "Preview surfaceRotation: "+surfaceRotation);
+//            int jpegOrientation =
+//                    (surfaceRotation + sensorOrientation + 270) % 360;
+//            Log.d(TAG, "Preview jpegOrientation: "+jpegOrientation);
+////            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+//
+//            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, jpegOrientation);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+}
+/*
 public class ShowPhotoFragment extends Fragment {
     View view;
 //    CameraPreview mCameraPreview;

@@ -1317,6 +1317,17 @@ public abstract class DelegatorActivity extends Activity {
         }
 
     }
+    protected void addOpportunisticJob(JobParams pMsg){
+        try {
+            this.deleStolenThread = JobInitializer
+                    .getInstance(this)
+                    .assignStolenJobsForDelegator(true, pMsg,
+                            getAppRequest().getQueenBee());
+            JobPool.getInstance().submitJobWorker(deleStolenThread);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void processReadsForJobParams(JobParams pMsg, String pWifiAdr) {
         if (pMsg != null) {

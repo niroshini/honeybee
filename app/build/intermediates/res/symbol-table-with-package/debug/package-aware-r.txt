@@ -647,6 +647,7 @@ id btnNextImage
 id btnbacktomainWorker
 id buttonPanel
 id button_capture
+id camera_preview
 id cancel_action
 id center
 id center_horizontal
@@ -762,7 +763,6 @@ id textSpacerNoTitle
 id textView3
 id textView4
 id textView5
-id texture
 id time
 id title
 id titleDividerNoCustom

@@ -22,9 +22,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
 
     <application
@@ -59,7 +57,10 @@
         <activity android:name=".apps.mandelbrot.MandelbrotDelegatorActivity"></activity>
         <activity android:name=".apps.mandelbrot.MandelbrotWorkerActivity"></activity>
         <activity android:name=".apps.mandelbrot.FinishedMandelbrotDelegatorActivity"></activity>
-        <activity android:name=".apps.takephoto.TakePhotoDelegatorActivity"></activity>
+        <activity android:name=".apps.takephoto.TakePhotoDelegatorActivity"
+            android:screenOrientation="landscape">
+            <!-- configure this activity to use landscape orientation -->
+        </activity>
         <activity android:name=".apps.takephoto.TakePhotoWorkerActivity" ></activity>
         <activity android:name="tnefern.honeybeeframework.apps.takephoto.FinishedTakePhotoDelegatorActivity" ></activity>
 

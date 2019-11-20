@@ -16,6 +16,7 @@ public class CommonConstants {
 	public static final int JOB_GIVEN = 2;
 	public static final int JOB_NOT_GIVEN = 3;
 	public static final int JOB_BEEN_STOLEN = 4;
+	public static final int OPPORTUNISTIC_JOB = 5;
 
 	// Work stealing signals
 	// public static final int READY_TO_STEAL_SIGNAL = 999;

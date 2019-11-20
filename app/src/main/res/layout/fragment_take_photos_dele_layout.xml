@@ -7,12 +7,12 @@
 
 
 
-  <TextureView
-      android:id="@+id/texture"
-      android:layout_width="300dp"
-      android:layout_height="300dp"
-      android:layout_above="@+id/button_capture"
-      android:layout_alignParentTop="true"/>
+  <FrameLayout
+      android:id="@+id/camera_preview"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      />
 
 
   <Button

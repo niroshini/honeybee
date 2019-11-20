@@ -48,8 +48,10 @@ public class JobPool {
 	private int partitionsPerNode = 0;
 	private int partitionsForLastWorker = 0;
 	private int partitionsPerDelegator = 0;
-	private Job[] allJobs = null;// for delegator
-	private ConcurrentLinkedQueue<Job> jobList = new ConcurrentLinkedQueue<Job>();// for
+//	private Job[] allJobs = null;// for delegator
+	private ArrayList<Job> allJobs = null;// for delegator
+	private ConcurrentLinkedQueue<Job> jobList =
+		new ConcurrentLinkedQueue<Job>();// for
 																					// worker
 	private HashMap<String, JobsGiven> givenJobsList = new  HashMap<String, JobsGiven>();
 	// private ArrayBlockingQueue<Job> tempjobList = null;// for worker
@@ -63,6 +65,8 @@ public class JobPool {
 	private JobsReceived callBackObj = null;
 	private boolean isAllinitialJobsReceived = false;
 	private CountDownLatch singlecountdown = null;
+	private boolean isOpJobs = false;
+	private boolean isOpJobsFinalised = false;
 	
 //	private boolean isStealRequestSent = false;
 //	private boolean isStealReplyReceived = false;
@@ -79,6 +83,7 @@ public class JobPool {
 	 * temporary job store and add them as they are received. The other thread
 	 * is to deliver jobs already in the job pool to the main activity for
 	 * processing, or for stealing.
+	 * Update: There is a third thread to fetc
 	 */
 	ExecutorService jobUpdateThreadPool = Executors.newFixedThreadPool(5);
 
@@ -303,63 +308,66 @@ public class JobPool {
 
 	public synchronized boolean isJobPoolDone(ArrayList<CompletedJob> pDone) {
 		Log.d("Jobs", " Done jobs : " + completedJobs + " Total : "
-				+ this.allJobs.length);//17th june
-		if (this.completedJobs == this.allJobs.length) {
-			return true;
-		}else if(this.completedJobs >this.allJobs.length){
-			//this is weird. lets try to see duplicates
-			Log.d("Jobs", " Done jobs > all jobs------- ");
-			ArrayList<String>missingCompletedJobs = new ArrayList<String>();
-			HashMap<String, Integer>jobMap = new HashMap<String, Integer>();
-			for(CompletedJob cj:pDone){
-				if(cj.stringValue!=null){
-					Integer intO = jobMap.get(cj.stringValue);
-					if(intO!=null){
-						int intval = intO.intValue();
-						jobMap.put(cj.stringValue, Integer.valueOf(++intval));
-					}else{
-						jobMap.put(cj.stringValue, Integer.valueOf(1));
+				+ this.allJobs.size());//17th june
+		if(!isOpJobs || (isOpJobs && isOpJobsFinalised)){
+			if (this.completedJobs == this.allJobs.size()) {
+				return true;
+			}else if(this.completedJobs >this.allJobs.size()){
+				//this is weird. lets try to see duplicates
+				Log.d("Jobs", " Done jobs > all jobs------- ");
+				ArrayList<String>missingCompletedJobs = new ArrayList<String>();
+				HashMap<String, Integer>jobMap = new HashMap<String, Integer>();
+				for(CompletedJob cj:pDone){
+					if(cj.stringValue!=null){
+						Integer intO = jobMap.get(cj.stringValue);
+						if(intO!=null){
+							int intval = intO.intValue();
+							jobMap.put(cj.stringValue, Integer.valueOf(++intval));
+						}else{
+							jobMap.put(cj.stringValue, Integer.valueOf(1));
+						}
+					}
+
+				}
+
+				//now see which jobs were duplicated
+				Iterator<Entry<String, Integer>> it = jobMap.entrySet().iterator();
+				while (it.hasNext()) {
+					Map.Entry<String, Integer> pairs =  it.next();
+					String key = pairs.getKey();
+					if(pairs.getValue()>1){
+						Log.d("Jobs", "duplicated "+key+" = "+pairs.getValue());
+					}
+
+				}
+
+				//now see which jobs were missed (if any)
+				for(Job j:this.allJobs){
+//				String jobstr= FileFactory.getInstance().getFileNameFromFullPath(j.jobParams);//december
+					String jobstr= j.id;
+					if(!jobMap.containsKey(jobstr)){
+						missingCompletedJobs.add(jobstr);
 					}
 				}
-				
-			}
-			
-			//now see which jobs were duplicated
-			Iterator<Entry<String, Integer>> it = jobMap.entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry<String, Integer> pairs =  it.next();
-				String key = pairs.getKey();
-				if(pairs.getValue()>1){
-					Log.d("Jobs", "duplicated "+key+" = "+pairs.getValue());
+
+				Log.d("Jobs", "****missingJobs****");
+				for(String sj:missingCompletedJobs){
+					Log.d("Jobs", "missing: "+sj);
 				}
-				
-			}
-			
-			//now see which jobs were missed (if any)
-			for(Job j:this.allJobs){
-//				String jobstr= FileFactory.getInstance().getFileNameFromFullPath(j.jobParams);//december
-				String jobstr= j.id;
-				if(!jobMap.containsKey(jobstr)){
-					missingCompletedJobs.add(jobstr);
+				if(missingCompletedJobs.size()>0){
+					return false;
 				}
+				return true;
 			}
-			
-			Log.d("Jobs", "****missingJobs****");
-			for(String sj:missingCompletedJobs){
-				Log.d("Jobs", "missing: "+sj);
-			}
-			if(missingCompletedJobs.size()>0){
-				return false;
-			}
-			return true;
 		}
+
 		return false;
 	}
 	
 	public synchronized boolean isJobPoolDone() {
 //		Log.d("Jobs", " Done jobs : " + completedJobs + " Total : "
 //				+ this.allJobs.length);//17th june
-		if (this.completedJobs >= this.allJobs.length) {
+		if (this.completedJobs >= this.allJobs.size()) {
 			return true;
 		}
 		return false;
@@ -383,10 +391,10 @@ public class JobPool {
 			// return this.jobList.
 			// }
 			// }
-			if (this.allJobs != null && this.allJobs.length > 0) {
-				for (int i = 0; i < allJobs.length; i++) {
-					if (pJob.equals(allJobs[i])) {
-						return allJobs[i];
+			if (this.allJobs != null && this.allJobs.size() > 0) {
+				for (int i = 0; i < allJobs.size(); i++) {
+					if (pJob.equals(allJobs.get(i))) {
+						return allJobs.get(i);
 					}
 				}
 				return null;
@@ -418,7 +426,8 @@ public class JobPool {
 //	}
 
 	public void initJobPool(AppRequest pReq) {
-		allJobs = new Job[pReq.getNumberOfJobs()];
+//		allJobs = new Job[pReq.getNumberOfJobs()];
+		allJobs = new ArrayList<Job>();
 		jobParamMode = pReq.getMode();
 		switch (jobParamMode) {
 		case CommonConstants.READ_STRING_MODE:
@@ -429,7 +438,8 @@ public class JobPool {
 						CommonConstants.READ_STRING_MODE, this.stealMode);
 				j.index = i;
 				j.id = String.valueOf(i);//TODO: Do this in a better way
-				allJobs[i] = j;
+//				allJobs[i] = j;
+				allJobs.add(j);
 				this.jobList.offer(j);
 			}
 			break;
@@ -443,7 +453,7 @@ public class JobPool {
 						CommonConstants.READ_FILE_MODE);
 				j.index = i;
 				j.id = apJobs.get(i).getId();
-				allJobs[i] = j;
+				allJobs.add(j);
 				this.jobList.offer(j);
 			}
 			break;
@@ -455,7 +465,7 @@ public class JobPool {
 						CommonConstants.READ_FILES_MODE, this.stealMode);
 				j.index = i;
 				j.id = apJobs2.get(i).getId();
-				allJobs[i] = j;
+				allJobs.add(j);
 				this.jobList.offer(j);
 			}
 			break;
@@ -468,7 +478,7 @@ public class JobPool {
 						CommonConstants.READ_FILE_MODE2);
 				j.index = i;
 				j.id = apJobs3.get(i).getId();
-				allJobs[i] = j;
+				allJobs.add(j);
 				this.jobList.offer(j);
 			}
 			break;
@@ -529,6 +539,9 @@ public class JobPool {
 
 	public void addJob(Job pJob) {
 		// this.jobList.addLast(pJob);
+		if(pJob.status == CommonConstants.OPPORTUNISTIC_JOB){
+			this.allJobs.add(pJob);
+		}
 		this.jobList.offer(pJob);
 		// if (pJob != null) {
 		// if (pJob.jobParams != null) {
@@ -812,7 +825,7 @@ public class JobPool {
 
 			sBuf.append(CommonConstants.PARAM_SYMBOL);
 			for (int i = startInd; i < startInd + partitionsPerNode; i++) {
-				sBuf.append(allJobs[i].jobParams);
+				sBuf.append(allJobs.get(i).jobParams);
 				sBuf.append(CommonConstants.PARTITION_BREAK);
 			}
 
@@ -825,7 +838,7 @@ public class JobPool {
 			sNames = new String[partitionsPerNode];
 			j = 0;
 			for (int i = startInd; i < startInd + partitionsPerNode; i++) {
-				sNames[j] = allJobs[i].jobParams;
+				sNames[j] = allJobs.get(i).jobParams;
 				j++;
 			}
 
@@ -853,7 +866,7 @@ public class JobPool {
 			sNames = new String[partitionsPerNode];
 			j = 0;
 			for (int i = startInd; i < startInd + partitionsPerNode; i++) {
-				sNames[j] = allJobs[i].jobParams;
+				sNames[j] = allJobs.get(i).jobParams;
 				j++;
 				// get the file names
 			}
@@ -883,7 +896,7 @@ public class JobPool {
 				sNames = new String[partitions];
 				j = 0;
 				for (int i = startInd; i < startInd + partitions; i++) {
-					sNames[j] = allJobs[i].jobParams;
+					sNames[j] = allJobs.get(i).jobParams;
 					j++;
 				}
 
@@ -945,7 +958,7 @@ public class JobPool {
 				sNames = new String[partitionsPerNode];
 				j = 0;
 				for (int i = startInd; i < startInd + partitionsPerNode; i++) {
-					sNames[j] = allJobs[i].jobParams;
+					sNames[j] = allJobs.get(i).jobParams;
 					j++;
 				}
 
@@ -1373,5 +1386,16 @@ public class JobPool {
 		
 		return null;
 	}
-	
+
+	public void setOpportunisticJobTrue(){
+		this.isOpJobs = true;
+	}
+
+	public void finaliseOpportunisticJob(){
+		this.isOpJobsFinalised = true;
+	}
+
+	public Job[] getAllJobs(){
+		return (Job[]) this.allJobs.toArray();
+	}
 }
