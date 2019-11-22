@@ -152,7 +152,7 @@ public abstract class DelegatorActivity extends Activity {
                 android.R.layout.simple_list_item_1);
 
         mNewDevicesArrayAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1);
+                R.layout.custom_layout);
 
         // Find and set up the ListView for newly discovered devices
         newDevicesListView = (ListView) findViewById(R.id.peersFoundList);

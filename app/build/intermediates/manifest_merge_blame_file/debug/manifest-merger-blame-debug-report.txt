@@ -60,90 +60,96 @@
 29-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:25:19-57
 30        android:required="false" />
 30-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:25:58-82
-31
-32    <application
-32-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:28:5-69:19
-33        android:allowBackup="true"
-33-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:31:9-35
-34        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
-34-->[com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:22:18-91
-35        android:debuggable="true"
-36        android:icon="@drawable/bee"
-36-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:32:9-37
-37        android:label="@string/app_name"
-37-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:33:9-41
-38        android:testOnly="true"
-39        android:theme="@style/AppTheme" >
-39-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:34:9-40
-40        <meta-data
-40-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:36:9-38:47
-41            android:name="com.robotemi.sdk.metadata.SKILL"
-41-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:37:13-59
-42            android:value="@string/app_name" />
-42-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:38:13-45
-43
-44        <activity
-44-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:39:9-47:20
-45            android:name="tnefern.honeybeeframework.HoneybeeCrowdActivity"
-45-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:40:13-75
-46            android:label="@string/app_name" >
-46-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:41:13-45
-47            <intent-filter>
-47-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:42:13-46:29
-48                <action android:name="android.intent.action.MAIN" />
-48-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:43:17-69
-48-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:43:25-66
-49
-50                <category android:name="android.intent.category.LAUNCHER" />
-50-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:45:17-77
-50-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:45:27-74
-51            </intent-filter>
-52        </activity>
-53        <activity android:name="tnefern.honeybeeframework.apps.facematch.FaceMatchDelegatorActivity" >
-53-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:48:9-49:20
-53-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:48:19-76
+31    <uses-feature android:name="android.hardware.camera.autofocus" />
+31-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:26:5-70
+31-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:26:19-67
+32    <uses-feature android:name="android.hardware.camera.flash" />
+32-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:27:5-66
+32-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:27:19-63
+33
+34    <application
+34-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:29:5-70:19
+35        android:allowBackup="true"
+35-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:32:9-35
+36        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+36-->[com.android.support:support-compat:28.0.0] /Users/fernando/.gradle/caches/transforms-2/files-2.1/ccf94a4f227dfa4f17156620e28a8b98/support-compat-28.0.0/AndroidManifest.xml:22:18-91
+37        android:debuggable="true"
+38        android:icon="@drawable/bee"
+38-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:33:9-37
+39        android:label="@string/app_name"
+39-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:34:9-41
+40        android:testOnly="true"
+41        android:theme="@style/AppTheme" >
+41-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:35:9-40
+42        <meta-data
+42-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:37:9-39:47
+43            android:name="com.robotemi.sdk.metadata.SKILL"
+43-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:38:13-59
+44            android:value="@string/app_name" />
+44-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:39:13-45
+45
+46        <activity
+46-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:40:9-48:20
+47            android:name="tnefern.honeybeeframework.HoneybeeCrowdActivity"
+47-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:41:13-75
+48            android:label="@string/app_name" >
+48-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:42:13-45
+49            <intent-filter>
+49-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:43:13-47:29
+50                <action android:name="android.intent.action.MAIN" />
+50-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:44:17-69
+50-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:44:25-66
+51
+52                <category android:name="android.intent.category.LAUNCHER" />
+52-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:46:17-77
+52-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:46:27-74
+53            </intent-filter>
 54        </activity>
-55        <activity android:name="tnefern.honeybeeframework.apps.facematch.FaceMatchWorkerActivity" >
-55-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:50:9-51:20
-55-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:50:19-73
+55        <activity android:name="tnefern.honeybeeframework.apps.facematch.FaceMatchDelegatorActivity" >
+55-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:49:9-50:20
+55-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:49:19-76
 56        </activity>
-57        <activity android:name="tnefern.honeybeeframework.apps.facematch.FinishedFaceMatchDelegatorActivity" >
-57-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:52:9-53:20
-57-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:52:19-109
+57        <activity android:name="tnefern.honeybeeframework.apps.facematch.FaceMatchWorkerActivity" >
+57-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:51:9-52:20
+57-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:51:19-73
 58        </activity>
-59        <activity android:name="tnefern.honeybeeframework.worker.FinishedWorkerActivity" >
-59-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:54:9-55:20
-59-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:54:19-64
+59        <activity android:name="tnefern.honeybeeframework.apps.facematch.FinishedFaceMatchDelegatorActivity" >
+59-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:53:9-54:20
+59-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:53:19-109
 60        </activity>
-61
-62        <service android:name="tnefern.honeybeeframework.wifidirect.WiFiDirectWorkerNonOwnerService" />
-62-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:56:9-87
-62-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:56:18-76
+61        <activity android:name="tnefern.honeybeeframework.worker.FinishedWorkerActivity" >
+61-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:55:9-56:20
+61-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:55:19-64
+62        </activity>
 63
-64        <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.MandelbrotDelegatorActivity" />
-64-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:57:9-90
-64-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:57:19-78
-65        <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.MandelbrotWorkerActivity" />
-65-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:58:9-87
-65-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:58:19-75
-66        <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.FinishedMandelbrotDelegatorActivity" />
-66-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:59:9-98
-66-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:59:19-86
-67        <activity
-67-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:60:9-63:20
-68            android:name="tnefern.honeybeeframework.apps.takephoto.TakePhotoDelegatorActivity"
-68-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:60:19-76
-69            android:screenOrientation="landscape" >
-69-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:61:13-50
-70
-71            <!-- configure this activity to use landscape orientation -->
-72        </activity>
-73        <activity android:name="tnefern.honeybeeframework.apps.takephoto.TakePhotoWorkerActivity" />
-73-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:64:9-86
-73-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:64:19-73
-74        <activity android:name="tnefern.honeybeeframework.apps.takephoto.FinishedTakePhotoDelegatorActivity" />
-74-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:65:9-122
-74-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:65:19-109
-75    </application>
-76
-77</manifest>
+64        <service android:name="tnefern.honeybeeframework.wifidirect.WiFiDirectWorkerNonOwnerService" />
+64-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:57:9-87
+64-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:57:18-76
+65
+66        <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.MandelbrotDelegatorActivity" />
+66-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:58:9-90
+66-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:58:19-78
+67        <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.MandelbrotWorkerActivity" />
+67-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:59:9-87
+67-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:59:19-75
+68        <activity android:name="tnefern.honeybeeframework.apps.mandelbrot.FinishedMandelbrotDelegatorActivity" />
+68-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:60:9-98
+68-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:60:19-86
+69        <activity
+69-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:61:9-64:20
+70            android:name="tnefern.honeybeeframework.apps.takephoto.TakePhotoDelegatorActivity"
+70-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:61:19-76
+71            android:screenOrientation="landscape" >
+71-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:62:13-50
+72
+73            <!-- configure this activity to use landscape orientation -->
+74        </activity>
+75        <activity android:name="tnefern.honeybeeframework.apps.takephoto.TakePhotoWorkerActivity" />
+75-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:65:9-86
+75-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:65:19-73
+76        <activity android:name="tnefern.honeybeeframework.apps.takephoto.FinishedTakePhotoDelegatorActivity" />
+76-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:66:9-122
+76-->/Users/fernando/Documents/40thieves/honeybee/app/src/main/AndroidManifest.xml:66:19-109
+77    </application>
+78
+79</manifest>

@@ -24,6 +24,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,6 +36,7 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -57,6 +59,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import tnefern.honeybeeframework.R;
@@ -100,10 +103,26 @@ public class ShowPhotoFragment extends Fragment {
 //        im = (ImageView)view.findViewById(R.id.imageView);
         // Create an instance of Camera
         mCamera = getCameraInstance();
+
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this.getActivity(), mCamera);
+
+//        List<String> flash = mCamera.getParameters().getSupportedFlashModes();
+//        Iterator<String> iter = flash.iterator();
+//        while(iter.hasNext()){
+//            Log.d(TAG,"Flash: "+iter.next());
+//
+//
+//        }
+        Log.d(TAG,"Flash: "+getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH));
+        Camera.Parameters parametro = mCamera.getParameters();
+        parametro.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+        mCamera.setParameters(parametro);
+
         FrameLayout preview = (FrameLayout) view.findViewById(R.id.camera_preview);
-        preview.setLayoutParams(new LinearLayout.LayoutParams(400,400));
+        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(500, 500);
+        layoutParams.gravity= Gravity.CENTER;
+        preview.setLayoutParams(layoutParams);
         preview.addView(mPreview);
 
         Button captureButton = (Button) view.findViewById(R.id.button_capture);
@@ -112,6 +131,7 @@ public class ShowPhotoFragment extends Fragment {
             public void onClick(View v) {
                 JobPool.getInstance().setOpportunisticJobTrue();
                 mCamera.takePicture(null, null, mPicture);
+//                mCamera.startPreview();
 
 
 
@@ -204,6 +224,7 @@ public class ShowPhotoFragment extends Fragment {
 
             // set preview size and make any resize, rotate or
             // reformatting changes here
+            setCameraDisplayOrientation(getActivity(), 0, mCamera);
 
             // start preview with new settings
             try {
@@ -216,10 +237,115 @@ public class ShowPhotoFragment extends Fragment {
         }
     }
 
+    private static void setCameraDisplayOrientation(Activity activity, int cameraId, Camera camera) {
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(cameraId, info);
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
+        }
+
+        int result = (info.orientation - degrees + 360) % 360;
+        camera.setDisplayOrientation(result);
+    }
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
 
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
+
+//
+//            final File folder = getActivity().getExternalFilesDir(IMAGE_FOLDER);
+//            if (!folder.mkdirs()) {
+//                Log.e(TAG, "Directory not created");
+//            }
+//            final String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+//                    .format(new Date());
+//            final File pictureFile = new File(folder,IMAGE_PREFIX+timeStamp+"_"+photo_count+".JPG");
+//            try {
+//                pictureFile.createNewFile();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            if (pictureFile == null){
+//                Log.d(TAG, "Error creating media file, check storage permissions");
+//                return;
+//            }
+//
+//
+//
+//            try {
+//                FileOutputStream fos = new FileOutputStream(pictureFile);
+//                fos.write(data);
+//                fos.close();
+//                Log.d(TAG,"Photo "+photo_count+" saved at: "+pictureFile.getAbsolutePath());
+//
+//                JobParams jp = new JobParams(
+//                        CommonConstants.READ_STRING_MODE);
+//                Job j = new Job(pictureFile.getAbsolutePath(),CommonConstants.OPPORTUNISTIC_JOB,CommonConstants.READ_FILES_MODE,
+//                        CommonConstants.READ_STRING_MODE);
+//                Log.e(TAG,"Opportunistic Photo: "+j.toString());
+//                JobPool.getInstance().addJob(j);
+//            } catch (FileNotFoundException e) {
+//                Log.d(TAG, "File not found: " + e.getMessage());
+//            } catch (IOException e) {
+//                Log.d(TAG, "Error accessing file: " + e.getMessage());
+//            }
+//            photo_count++;
+//            mCamera.stopPreview();
+//            try {
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            mCamera.startPreview();
+
+            new SavePhotoTask().execute(data);
+            camera.startPreview();
+            if(photo_count<PHOTO_LIMIT){
+                mCamera.takePicture(null, null, mPicture);
+            }else{
+                JobPool.getInstance().finaliseOpportunisticJob();
+            }
+
+        }
+    };
+
+
+//    private void takePhoto() {
+//        Camera.PictureCallback pictureCB = new Camera.PictureCallback() {
+//            public void onPictureTaken(byte[] data, Camera cam) {
+//                new SavePhotoTask().execute(data);
+//                cam.startPreview();
+//            }
+//        };
+//        mCamera.takePicture(null, null, pictureCB);
+//    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        releaseCamera();
+
+    }
+
+    private void releaseCamera(){
+        if (mCamera != null){
+            mCamera.release();        // release the camera for other applications
+            mCamera = null;
+        }
+    }
+
+//    private File getOutputMediaFile(int type) {
+//
+//    }
+//
+    class SavePhotoTask extends AsyncTask<byte[], String, String> {
+        @Override
+        protected String doInBackground(byte[]... data) {
             final File folder = getActivity().getExternalFilesDir(IMAGE_FOLDER);
             if (!folder.mkdirs()) {
                 Log.e(TAG, "Directory not created");
@@ -235,14 +361,13 @@ public class ShowPhotoFragment extends Fragment {
 
             if (pictureFile == null){
                 Log.d(TAG, "Error creating media file, check storage permissions");
-                return;
+                return null;
             }
-
-
 
             try {
                 FileOutputStream fos = new FileOutputStream(pictureFile);
-                fos.write(data);
+                fos.write(data[0]);
+                fos.flush();
                 fos.close();
                 Log.d(TAG,"Photo "+photo_count+" saved at: "+pictureFile.getAbsolutePath());
 
@@ -258,35 +383,7 @@ public class ShowPhotoFragment extends Fragment {
                 Log.d(TAG, "Error accessing file: " + e.getMessage());
             }
             photo_count++;
-            mCamera.stopPreview();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            mCamera.startPreview();
-
-
-            if(photo_count<PHOTO_LIMIT){
-                mCamera.takePicture(null, null, mPicture);
-            }else{
-                JobPool.getInstance().finaliseOpportunisticJob();
-            }
-
-        }
-    };
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        releaseCamera();
-
-    }
-
-    private void releaseCamera(){
-        if (mCamera != null){
-            mCamera.release();        // release the camera for other applications
-            mCamera = null;
+            return null;
         }
     }
 

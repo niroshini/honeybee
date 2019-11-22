@@ -815,6 +815,7 @@ layout activity_face_finished_worker_layout
 layout activity_honeybee_crowd
 layout activity_mandel_finished_dele_layout
 layout activity_worker_layout
+layout custom_layout
 layout delegator_layout
 layout device_list
 layout fragment_take_photos_dele_layout
