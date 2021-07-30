@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:background="@color/black"
+    android:orientation="vertical" >
+    <TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+   <Button
+            android:id="@+id/btnLookforworkers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+ android:textColor="@color/white"
+            android:text="Look for other devices" />
+
+    </TableRow>
+
+</TableLayout>
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+</RelativeLayout>
+
+<RelativeLayout
+    android:id="@+id/relLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+</RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:background="@color/black"
+    android:orientation="vertical" >
+
+
+
+    <TextView
+        android:id="@+id/lblMandelResultText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WiFiDirectServerActivity"
+         android:textColor="@color/yellow"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/btnDeleteJobData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:textColor="@color/white"
+        android:text="Delete Job Data" />
+
+    <TextView
+        android:id="@+id/txtOnConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medium Text"
+         android:textColor="@color/yellow"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</LinearLayout>
