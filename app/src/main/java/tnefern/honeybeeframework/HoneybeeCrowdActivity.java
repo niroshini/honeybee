@@ -6,6 +6,7 @@ import tnefern.honeybeeframework.apps.mandelbrot.MandelbrotDelegatorActivity;
 import tnefern.honeybeeframework.apps.mandelbrot.MandelbrotWorkerActivity;
 import tnefern.honeybeeframework.apps.takephoto.TakePhotoDelegatorActivity;
 import tnefern.honeybeeframework.apps.takephoto.TakePhotoWorkerActivity;
+import tnefern.honeybeeframework.cloud.TestCloudNodeActivity;
 import tnefern.honeybeeframework.common.CommonConstants;
 import tnefern.honeybeeframework.worker.WorkerNotify;
 
@@ -17,8 +18,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -54,6 +55,7 @@ public class HoneybeeCrowdActivity extends Activity implements AdapterView.OnIte
     private              Button               workButton               = null;
     private              Button               deleteButton             = null;
     private              Button               lookforWorkersButton     = null;
+	private              Button               testCloudNodeButton 	   = null;
     private              Spinner              spinner                  = null;
     private              ArrayAdapter<String> modesArrayAdapter        = null;
     private              LinearLayout         body                     = null;
@@ -200,14 +202,14 @@ public class HoneybeeCrowdActivity extends Activity implements AdapterView.OnIte
     private void init() {
         initStringArr();
 
-        exitButton = (Button) findViewById(R.id.btnExit);
-        body       = (LinearLayout) findViewById(R.id.linLayout);
-        radioGroup = (RadioGroup) findViewById(R.id.radioGroupMode);
-        spinner    = (Spinner) findViewById(R.id.spinner);
+        exitButton 			= (Button) findViewById(R.id.btnExit);
+        body       			= (LinearLayout) findViewById(R.id.linLayout);
+        radioGroup 			= (RadioGroup) findViewById(R.id.radioGroupMode);
+        spinner    			= (Spinner) findViewById(R.id.spinner);
+		testCloudNodeButton = (Button) findViewById(R.id.btnTestCloudNode);
 
-        ArrayAdapter<String> spinnerArrayAdapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,
-                                         modes);
+		ArrayAdapter<CharSequence> spinnerArrayAdapter = ArrayAdapter.createFromResource(this, R.array.modes_array, android.R.layout.simple_spinner_dropdown_item);
+		spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //		spinnerArrayAdapter.se
         spinner.setAdapter(spinnerArrayAdapter);
         spinner.setOnItemSelectedListener(this);
@@ -228,7 +230,10 @@ public class HoneybeeCrowdActivity extends Activity implements AdapterView.OnIte
             }
         });
 
-    }
+		testCloudNodeButton.setOnClickListener(view -> {
+			startActivity(new Intent(HoneybeeCrowdActivity.this, TestCloudNodeActivity.class));
+		});
+	}
 
 
     private void modeSelect() {

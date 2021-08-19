@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/black"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/txtOnConnect"
@@ -15,12 +15,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <RadioGroup
             android:id="@+id/radioGroupMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/btnExit"
+            android:layout_toLeftOf="@+id/btnExit">
 
             <RadioButton
                 android:id="@+id/radioDele"
@@ -32,7 +34,7 @@
 
             <Spinner
                 android:id="@+id/spinner"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:foreground="@color/orange"
                 android:textColor="@color/blue" />
@@ -49,8 +51,10 @@
             android:id="@+id/btnExit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="51dp"
             android:layout_marginRight="51dp"
             android:text="@string/strExit"
             android:textColor="@color/white" />
@@ -60,14 +64,20 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </RelativeLayout>
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btnDeleteJobDataMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete All Job Data"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btnTestCloudNode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Cloud Node"
         android:textColor="@color/white" />
 
 </LinearLayout>

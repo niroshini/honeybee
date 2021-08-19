@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tnefern.honeybeeframework"
     android:versionCode="1"
-    android:versionName="1.0" >
-
-
+    android:versionName="1.0">
 
     <uses-feature
         android:name="android.hardware.wifi.direct"
@@ -24,47 +22,43 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-
-
         android:allowBackup="true"
         android:icon="@drawable/bee"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <meta-data
             android:name="com.robotemi.sdk.metadata.SKILL"
-            android:value="@string/app_name"/>
+            android:value="@string/app_name" />
+
         <activity
-            android:name="tnefern.honeybeeframework.HoneybeeCrowdActivity"
-            android:label="@string/app_name" >
+            android:name=".HoneybeeCrowdActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".apps.facematch.FaceMatchDelegatorActivity" >
-        </activity>
-        <activity android:name=".apps.facematch.FaceMatchWorkerActivity" >
-        </activity>
-        <activity android:name="tnefern.honeybeeframework.apps.facematch.FinishedFaceMatchDelegatorActivity" >
-        </activity>
-        <activity android:name=".worker.FinishedWorkerActivity" >
-        </activity>
-        <service android:name=".wifidirect.WiFiDirectWorkerNonOwnerService"></service>
-        <activity android:name=".apps.mandelbrot.MandelbrotDelegatorActivity"></activity>
-        <activity android:name=".apps.mandelbrot.MandelbrotWorkerActivity"></activity>
-        <activity android:name=".apps.mandelbrot.FinishedMandelbrotDelegatorActivity"></activity>
-        <activity android:name=".apps.takephoto.TakePhotoDelegatorActivity"></activity>
-        <activity android:name=".apps.takephoto.TakePhotoWorkerActivity" ></activity>
-        <activity android:name="tnefern.honeybeeframework.apps.takephoto.FinishedTakePhotoDelegatorActivity" ></activity>
+        <activity android:name=".apps.facematch.FaceMatchDelegatorActivity" />
+        <activity android:name=".apps.facematch.FaceMatchWorkerActivity" />
+        <activity android:name=".apps.facematch.FinishedFaceMatchDelegatorActivity" />
+        <activity android:name=".worker.FinishedWorkerActivity" />
 
+        <service android:name=".wifidirect.WiFiDirectWorkerNonOwnerService" />
 
-
+        <activity android:name=".apps.mandelbrot.MandelbrotDelegatorActivity" />
+        <activity android:name=".apps.mandelbrot.MandelbrotWorkerActivity" />
+        <activity android:name=".apps.mandelbrot.FinishedMandelbrotDelegatorActivity" />
+        <activity android:name=".apps.takephoto.TakePhotoDelegatorActivity" />
+        <activity android:name=".apps.takephoto.TakePhotoWorkerActivity" />
+        <activity android:name=".apps.takephoto.FinishedTakePhotoDelegatorActivity" />
+        <activity
+            android:name=".cloud.TestCloudNodeActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

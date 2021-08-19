@@ -76,11 +76,19 @@
     <string name="label_peers">PEERS</string>
     <string name="action_settings">Action Settings</string>
 
+    <string-array name="modes_array">
+        <item>\u003C Select App \u003E</item>
+        <item>Face detection</item>
+        <item>Take Photos</item>
+        <item>Mandelbrot</item>
+    </string-array>
+
+
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="orange">#A3FF9933</color>
     <color name="yellow">#F7F24E</color>
     <color name="gray">#A0A0A0</color>
-    
+
 
 </resources>
