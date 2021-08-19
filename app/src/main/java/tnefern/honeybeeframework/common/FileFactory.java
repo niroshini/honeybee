@@ -23,7 +23,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import tnefern.honeybeeframework.apps.facematch.FaceConstants;
 import tnefern.honeybeeframework.stats.JobInfo;
 import tnefern.honeybeeframework.stats.TimeMeter;
 
@@ -34,12 +33,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.util.Log;
 import dalvik.system.PathClassLoader;
-
-import static tnefern.honeybeeframework.apps.facematch.FaceConstants.SAVE_PHOTO_PATH;
 
 /**
  * 
