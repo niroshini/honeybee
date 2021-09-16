@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -21,7 +23,7 @@ import tnefern.honeybeeframework.common.ConnectionFactory;
 import tnefern.honeybeeframework.common.FileFactory;
 import tnefern.honeybeeframework.delegator.WorkerInfo;
 
-public class FinishedTakePhotoDelegatorActivity extends Activity {
+public class FinishedTakePhotoDelegatorActivity extends AppCompatActivity {
 	Button exitBtn = null;
 	private TextView numberFound = null;
 	private ImageView imageView = null;

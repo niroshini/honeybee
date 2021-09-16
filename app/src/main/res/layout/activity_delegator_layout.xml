@@ -18,10 +18,33 @@
         android:text="@string/app_name_facematch"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Check the server to delegate work" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black" >
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/cloudServerList"
+            android:layout_width="match_parent"
+            android:choiceMode="multipleChoice"
+            android:layout_height="wrap_content"
+            android:background="@color/gray" >
+        </ListView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/black">
 
         <TextView
             android:id="@+id/textView3"

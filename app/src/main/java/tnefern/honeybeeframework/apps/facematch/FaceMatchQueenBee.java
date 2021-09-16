@@ -15,7 +15,7 @@ public class FaceMatchQueenBee extends QueenBee {
 	private SearchImage imageSearch = null;
 
 	public FaceMatchQueenBee(Activity pAct) {
-		super(pAct);
+		super(pAct, true);
 		imageSearch = new SearchImage();
 	}
 

@@ -109,14 +109,15 @@ public class CommonConstants {
 
 	public static final String STEAL_STRING_TYPE = "org.com.honeybee.steal.string";
 
+	public static final String VICTIM_WORKER_CONNECTION_MODE = "org.com.honeybee.victim.workerConnectionMode";
 	public static final String VICTIM_WIFIADDRESS_TYPE = "org.com.honeybee.victim.wifiAddress";
 	public static final String VICTIM_MODE_TYPE = "org.com.honeybee.victim.modetype";
 	public static final String VICTIM_STRING_TYPE = "org.com.honeybee.victim.string";
 	public static final String VICTIM_FILE_TYPE = "org.com.honeybee.victim.file";
 
 	public static final int INIT_STEALING = 1;
-	public static final int STEAL_CHUNK = 5;// 3
-	public static final int STEAL_LIM = 5;
+	public static final int STEAL_CHUNK = 50;// 3
+	public static final int STEAL_LIM = 0;
 	public static final int NO_JOBS_TO_STEAL = 4;
 	public static final int TERM_STEALING = 5;
 

@@ -51,6 +51,12 @@ public abstract class QueenBee implements ResultsRead {
 		init();
 	}
 
+	public QueenBee(Activity pAct, boolean shouldDelegatorWork) {
+		this.parentContext = pAct;
+		this.isDelegatorWorking = shouldDelegatorWork;
+		init();
+	}
+
 	void init() {
 		if (!isInit) {
 			TimeMeter.getInstance().setDeleThreadGapTime(
@@ -195,16 +201,16 @@ public abstract class QueenBee implements ResultsRead {
 									JobPool.getInstance().incrementDoneJobCount();
 									break;
 								}
-								
+
 								break;
 						}
-							
-							
+
+
 					}
 					break;
 				}
-			
-				
+
+
 			}
 			JobPool.getInstance().removeGivenJobs(jobs, pRes.fromWorker);
 		}
@@ -291,7 +297,7 @@ public abstract class QueenBee implements ResultsRead {
 				+ " Time gap between QueenBee thread start and click Offload = "
 				+ TimeMeter.getInstance().getDeleThreadGapTime()+"\n battery start= "+startbattery+" battery end= "+batteryPct+"  Battery Usage= "+(batteryPct-startbattery));*/
 
-		
+
 		s.append("battery start= "+startbattery+" battery end= "+batteryPct+"  Battery Usage= "+(batteryPct-startbattery));
 		Log.d("Queenbee", s.toString());
 		System.out.println("ALL DONE!.  S = " + speedup);

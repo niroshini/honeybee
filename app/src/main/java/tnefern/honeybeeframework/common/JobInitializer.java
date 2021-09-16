@@ -34,6 +34,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import org.apache.commons.collections.functors.ConstantFactory;
+
 public class JobInitializer {
 	// private Mandelbrot mandelObj = null;
 	private static int iterations = -1;
@@ -217,7 +219,7 @@ public class JobInitializer {
 
 	/**
 	 * 
-	 * @param isOwnWork
+	 * @param isDeleWork
 	 *            indicates if Delegating device also work
 	 * @throws IOException
 	 */
@@ -538,7 +540,11 @@ public class JobInitializer {
 								sBuf.toString());
 						victimStringIntent.putExtra(
 								CommonConstants.VICTIM_WIFIADDRESS_TYPE,
-								pInfo.getWiFiDirectAddress());
+								pInfo.getAddress());
+						victimStringIntent.putExtra(
+								CommonConstants.VICTIM_WORKER_CONNECTION_MODE,
+								pInfo.connection_mode
+						);
 						theInstance.parentActivity
 								.sendBroadcast(victimStringIntent);
 
@@ -703,7 +709,11 @@ public class JobInitializer {
 										filesToSend);
 						victimIntent.putExtra(
 								CommonConstants.VICTIM_WIFIADDRESS_TYPE,
-								pInfo.getWiFiDirectAddress());
+								pInfo.getAddress());
+						victimIntent.putExtra(
+								CommonConstants.VICTIM_WORKER_CONNECTION_MODE,
+								pInfo.connection_mode
+						);
 						victimIntent.putExtra(CommonConstants.VICTIM_MODE_TYPE,
 								CommonConstants.VICTIM_FILE_TYPE);
 						theInstance.parentActivity.sendBroadcast(victimIntent);

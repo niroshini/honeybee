@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class FinishedMandelbrotDelegatorActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class FinishedMandelbrotDelegatorActivity extends AppCompatActivity {
 
 	private int numRows = -1;
 	private int iterations = -1;

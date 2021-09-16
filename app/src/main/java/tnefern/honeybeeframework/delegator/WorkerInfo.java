@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 
+import tnefern.honeybeeframework.cloud.CloudServer;
 import tnefern.honeybeeframework.common.CommonConstants;
 import tnefern.honeybeeframework.common.ConnectionFactory;
 import tnefern.honeybeeframework.common.FileFactory;
@@ -18,6 +19,8 @@ public class WorkerInfo {
 	private BluetoothDevice btdevice = null;
 	private BluetoothSocket btsocket = null;
 	private Socket socket = null;
+	private io.socket.client.Socket cloudSocket;
+	private CloudServer cloudServer;
 	private String wifiDirectAddress = null;
 	private WifiP2pDevice wifip2pDevice = null;
 	public boolean isConnected = false;
@@ -58,6 +61,12 @@ public class WorkerInfo {
 		this.btdevice = pDev;
 	}
 
+	public WorkerInfo(CloudServer cloudServer, int connectionMode, io.socket.client.Socket socket) {
+		this.cloudServer = cloudServer;
+		this.connection_mode = connectionMode;
+		this.cloudSocket = socket;
+	}
+
 	public BluetoothDevice getBtDevice() {
 		return btdevice;
 	}
@@ -80,33 +89,21 @@ public class WorkerInfo {
 				return this.wifiDirectAddress;
 			if (this.wifip2pDevice != null)
 				return this.wifip2pDevice.deviceAddress;
+		} else if (this.connection_mode == ConnectionFactory.CLOUD_MODE) {
+			if (this.cloudServer != null) {
+				return cloudServer.getIpAddress();
+			}
 		}
 		return "";
 
 	}
-
-	public Socket getSocket() {
-		return socket;
-	}
-
-	public void setSocket(Socket pSocket) {
-		this.socket = pSocket;
-	}
-
 	public void setObjectOutputStream(ObjectOutputStream pOos) {
 		this.oos = pOos;
 	}
 
-	public void setwifiDirectAddress(String pwifiDirectAddress) {
-		this.wifiDirectAddress = pwifiDirectAddress;
-	}
 
 	public BluetoothSocket getBTSocket() {
 		return btsocket;
-	}
-
-	public void setBTSocket(BluetoothSocket socket) {
-		this.btsocket = socket;
 	}
 
 	public String toString() {
@@ -118,12 +115,11 @@ public class WorkerInfo {
 			if(this.wifip2pDevice!=null){
 				return this.wifip2pDevice.deviceName;
 			}
-//			WifiP2PdeviceWrapper wifiDev = ConnectionFactory.getInstance()
-//					.getWifiDirectDeviceMap().get(this.wifiDirectAddress);
-//			if (wifiDev != null) {
-//				return wifiDev.getName();
-//			}
 			return "";
+		} else if (this.connection_mode == ConnectionFactory.CLOUD_MODE) {
+			if (cloudServer != null) {
+				return cloudServer.getUrl();
+			}
 		}
 		return "";
 	}
@@ -160,6 +156,9 @@ public class WorkerInfo {
 				this.oos.writeInt(CommonConstants.READ_INT_MODE);
 				this.oos.writeInt(CommonConstants.TERM_STEALING);
 			}
+		} else if (this.connection_mode == ConnectionFactory.CLOUD_MODE
+				&& this.cloudSocket != null) {
+			this.cloudSocket.emit("terminationSignal");
 		}
 	}
 	
@@ -181,6 +180,9 @@ public class WorkerInfo {
 				this.oos.writeInt(CommonConstants.READ_INT_MODE);
 				this.oos.writeInt(CommonConstants.NO_JOBS_TO_STEAL);
 			}
+		} else if (this.connection_mode == ConnectionFactory.CLOUD_MODE
+		&& this.cloudSocket != null) {
+			this.cloudSocket.emit("noJobsToSteal");
 		}
 	}
 

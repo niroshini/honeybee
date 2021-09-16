@@ -1,25 +1,29 @@
 package tnefern.honeybeeframework.cloud;
 
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "http://10.0.0.53:3000/api/";
-    private static RetrofitClient mInstance;
+    private String BASE_URL = "http://%s/api/";
+    private static Map<String,RetrofitClient> mInstances = new HashMap<>();
     private Retrofit retrofit;
 
-    private RetrofitClient() {
+    private RetrofitClient(String ipAndPort) {
         retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(String.format(Locale.ENGLISH, BASE_URL, ipAndPort))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
-    public static synchronized RetrofitClient getInstance() {
-        if (mInstance == null) {
-            mInstance = new RetrofitClient();
+    public static synchronized RetrofitClient getInstance(String ipAndPort) {
+        if (!mInstances.containsKey(ipAndPort)) {
+            mInstances.put(ipAndPort, new RetrofitClient(ipAndPort));
         }
-        return mInstance;
+        return mInstances.get(ipAndPort);
     }
 
     public API getAPI() {

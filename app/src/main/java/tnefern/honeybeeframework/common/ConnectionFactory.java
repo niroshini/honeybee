@@ -76,6 +76,7 @@ public class ConnectionFactory {
 	public int connectionMode = -1;
 	public static int BT_MODE = 0;
 	public static int WIFI_MODE = 1;
+	public static int CLOUD_MODE = 2;
 
 	// ExecutorService threadPoolWriter = Executors.newFixedThreadPool(3);
 

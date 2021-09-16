@@ -16,7 +16,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class FinishedWorkerActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class FinishedWorkerActivity extends AppCompatActivity {
 	
 	Button exitBtn = null;
 	/** Called when the activity is first created. */

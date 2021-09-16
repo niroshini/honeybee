@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -17,7 +18,20 @@ import java.util.Vector;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import io.socket.client.IO;
+import io.socket.emitter.Emitter;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tnefern.honeybeeframework.R;
+import tnefern.honeybeeframework.cloud.API;
+import tnefern.honeybeeframework.cloud.CloudServer;
+import tnefern.honeybeeframework.cloud.FileUploadResult;
+import tnefern.honeybeeframework.cloud.RetrofitClient;
+import tnefern.honeybeeframework.cloud.WorkForCloud;
 import tnefern.honeybeeframework.common.CommonConstants;
 import tnefern.honeybeeframework.common.ConnectionFactory;
 import tnefern.honeybeeframework.common.FileFactory;
@@ -30,7 +44,8 @@ import tnefern.honeybeeframework.stats.TimeMeter;
 import tnefern.honeybeeframework.wifidirect.WifiDirectConstants;
 import tnefern.honeybeeframework.worker.ResultTransmitObject;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -41,6 +56,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.NetworkInfo;
 import android.net.wifi.WpsInfo;
@@ -65,6 +81,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * This class represents the generic delegator. Any application classes
  * representing the delegator view must extend this class.
@@ -74,19 +99,22 @@ import android.widget.AdapterView.OnItemClickListener;
  *
  * @author tnefernando
  */
-public abstract class DelegatorActivity extends Activity {
+public abstract class DelegatorActivity extends AppCompatActivity {
     private String id = null;
 
     ProgressDialog progressDialog;
     private static final String TAG = "DelegatorActivity";
+    private static final String CLOUD_TAG = "Cloud";
     private ArrayList<String> areyouthereList = null;
     private ArrayAdapter<WorkerInfo> connected = null;
 
     // to get data from our WiFiDirectService
     private static final String TAG2 = "FaceMatchActivity";
+    private ArrayAdapter<CloudConnectionHelper> mCloudServersArrayAdapter;
     private ArrayAdapter<String> mNewDevicesArrayAdapter = null;
     private ListView newDevicesListView = null;
-//    public static final String BROADCAST_FACEMATCHDELEGATOR_ACTION = "org.com.honeybeecrowdDemo.apps.facematch";
+    private ListView cloudServerListView;
+    //    public static final String BROADCAST_FACEMATCHDELEGATOR_ACTION = "org.com.honeybeecrowdDemo.apps.facematch";
     boolean mBound = false;
     private Runnable deleThread = null;
     private Runnable deleStolenThread = null;
@@ -147,6 +175,13 @@ public abstract class DelegatorActivity extends Activity {
     }
 
     private void init() {
+        mCloudServersArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_checked);
+        cloudServerListView = findViewById(R.id.cloudServerList);
+        cloudServerListView.setOnItemClickListener((parent, view, position, id) -> {
+            mCloudServersArrayAdapter.getItem(position).connectToCloudServer();
+            view.setEnabled(false);
+        });
+        cloudServerListView.setAdapter(mCloudServersArrayAdapter );
 
         connected = new ArrayAdapter<WorkerInfo>(this,
                 android.R.layout.simple_list_item_1);
@@ -199,12 +234,13 @@ public abstract class DelegatorActivity extends Activity {
         }
         JobPool.getInstance().submitJobWorker(deleThread);
         this.initWiFiDirect();
+        initCloudServerConnection();
         initCustomUI();
     }
 
     public abstract void initJobs();
 
-    public void initCustomUI(){
+    public void initCustomUI() {
         //nothing here
     }
 
@@ -241,8 +277,6 @@ public abstract class DelegatorActivity extends Activity {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-
         try {
             if (wifireceiver != null) {
                 unregisterReceiver(wifireceiver);
@@ -253,6 +287,9 @@ public abstract class DelegatorActivity extends Activity {
         ConnectionFactory.getInstance().getWifiDirectDeviceMap().clear();
         ConnectionFactory.getInstance().getWorkerDeviceMap().clear();
         this.closeAllWifiDirectSockets();
+        this.closeAllCloudSockets();
+
+        super.onDestroy();
     }
 
     @Override
@@ -289,6 +326,12 @@ public abstract class DelegatorActivity extends Activity {
             e1.printStackTrace();
         }
 
+    }
+
+    private void closeAllCloudSockets() {
+        for (int index = 0; index < mCloudServersArrayAdapter.getCount(); index++) {
+            mCloudServersArrayAdapter.getItem(index).closeCloudServerConnection();
+        }
     }
 
     // ///////////////////////////////////////////////
@@ -585,15 +628,191 @@ public abstract class DelegatorActivity extends Activity {
 
     }
 
+    @SuppressLint("SetTextI18n")
+    private void initCloudServerConnection() {
+        wifireceiver = new ClientWiFiBroadcastReceiver(manager, channel, this);
+        registerReceiver(wifireceiver, intentFilter);
+
+        // add cloud servers to our list
+        // TODO : This is my pc as local server. Please change it to match your local server IP or another cloud server IP
+        CloudConnectionHelper helper = new CloudConnectionHelper(new CloudServer("10.0.0.53", 3000),
+                cloudConnectionHelper -> {
+            mCloudServersArrayAdapter.notifyDataSetChanged();
+        });
+        mCloudServersArrayAdapter.add(helper);
+        WorkerInfo cloudWorkerInfo = new WorkerInfo(helper.cloudServer, ConnectionFactory.CLOUD_MODE, helper.socket);
+        ConnectionFactory.getInstance().getWorkerDeviceMap().put(helper.cloudServer.getIpAddress(), cloudWorkerInfo);
+
+        // TODO: This my cloud server IP. Change it to match the cloud server IP before running
+        helper = new CloudConnectionHelper(new CloudServer("54.206.11.180", 3000),
+                cloudConnectionHelper -> {
+                    mCloudServersArrayAdapter.notifyDataSetChanged();
+                });
+        mCloudServersArrayAdapter.add(helper);
+        cloudWorkerInfo = new WorkerInfo(helper.cloudServer, ConnectionFactory.CLOUD_MODE, helper.socket);
+        ConnectionFactory.getInstance().getWorkerDeviceMap().put(helper.cloudServer.getIpAddress(), cloudWorkerInfo);
+    }
+
+    private interface CloudConnectionHelperInterface {
+        void onConnected(CloudConnectionHelper cloudConnectionHelper);
+    }
+
+    private class CloudConnectionHelper {
+
+        private CloudServer cloudServer;
+        private CloudConnectionHelperInterface cloudConnectionHelperInterface;
+        private io.socket.client.Socket socket;
+
+        private String serverStatus;
+
+        public CloudConnectionHelper(CloudServer cloudServer, CloudConnectionHelperInterface cloudConnectionHelperInterface) {
+            this.cloudServer = cloudServer;
+            this.cloudConnectionHelperInterface = cloudConnectionHelperInterface;
+            try {
+                this.socket = IO.socket(cloudServer.getUrl());
+                this.serverStatus = cloudServer.getUrl() + " (Available)";
+            } catch (URISyntaxException ex) {
+                Log.e(CLOUD_TAG, "could not connect to cloud due to " + ex.getMessage());
+            }
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return serverStatus;
+        }
+
+        private final Emitter.Listener onConnected = args -> runOnUiThread(() -> {
+            serverStatus = cloudServer.getUrl() + " (Connected)";
+            cloudConnectionHelperInterface.onConnected(this);
+
+            peersConnected.put(cloudServer.getIpAddress(), new ClientSocketThread(cloudServer.getIpAddress(), socket));
+            WorkerInfo cloudWorkerInfo = new WorkerInfo(cloudServer, ConnectionFactory.CLOUD_MODE, socket);
+            cloudWorkerInfo.isConnected = true;
+            ConnectionFactory.getInstance().getConnectedWorkerList().add(cloudWorkerInfo);
+            Log.d(CLOUD_TAG, "Connected");
+            socket.emit("initSignal");
+        });
+
+        private final Emitter.Listener onDisconnected = args -> runOnUiThread(() -> {
+            Log.d(CLOUD_TAG, "Disconnected");
+        });
+
+        private final Emitter.Listener onConnectionError = args -> runOnUiThread(() -> {
+            Log.d(CLOUD_TAG, "Connection Error");
+        });
+
+        private final Emitter.Listener onPingReceived = args -> runOnUiThread(() -> {
+            Log.d(CLOUD_TAG, "ping received from server");
+            heartbeatTimestamps.put(cloudServer.getIpAddress(), System.currentTimeMillis());
+        });
+
+        private final Emitter.Listener onStealRequestReceived = args -> {
+            Log.d(CLOUD_TAG, "Steal request from server");
+            try {
+                WorkerInfo worker = ConnectionFactory
+                        .getInstance()
+                        .getWorkerInfoFromAddress(cloudServer.getIpAddress());
+                if (worker != null) {
+                    JobInitializer.getInstance(
+                            DelegatorActivity.this)
+                            .startVictimizedForDelegator(worker, false);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                // comes here after disconnect
+                Log.d(CLOUD_TAG, "IOException " + e.getMessage());
+
+            }
+        };
+
+        private final Emitter.Listener onFileReceivedByWorker = args -> {
+            Log.d(CLOUD_TAG, "File received by worker. Continue sending file if left");
+            ClientSocketThread wifiCon;
+            synchronized (peersConnected) {
+                wifiCon = peersConnected.get(cloudServer.getIpAddress());
+
+                SendDataToCloudThread sendDataToCloudThread;
+                if (wifiCon != null) {
+                    if (!wifiCon.isStolen) {
+                        sendDataToCloudThread = new SendDataToCloudThread(
+                                CommonConstants.SEND_FILES, wifiCon);
+                    } else {
+                        sendDataToCloudThread = new SendDataToCloudThread(
+                                CommonConstants.SEND_STEAL_FILES, wifiCon);
+                    }
+                    sendDataToCloudThread.start();
+                } else {
+                    Log.d(CLOUD_TAG, "FILE_RECEIVED_FROM_DELEGATOR " + cloudServer.getIpAddress() + "wificon is NULL");
+                }
+
+            }
+        };
+
+        private final Emitter.Listener onResultsReceived = args -> {
+            Log.d(CLOUD_TAG, "Result received from server");
+            JSONObject data = (JSONObject) args[0];
+            String result;
+            try {
+                result = data.getString("result");
+                processStringRead(result, cloudServer.getIpAddress(), System.currentTimeMillis());
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+                Log.e(TAG, "Error in getting result due to " + ex.getMessage());
+            }
+            runOnUiThread(() -> {
+                socket.emit("resultsReceived");
+            });
+        };
+
+        private final Emitter.Listener onStolenJobsReceived = args -> runOnUiThread(() -> {
+            Log.d(CLOUD_TAG, "Jobs stolen by server");
+        });
+
+        private final Emitter.Listener onNoJobsReceived = args -> runOnUiThread(() -> {
+            Log.d(CLOUD_TAG, "Server has no jobs");
+        });
+
+        private void connectToCloudServer() {
+            socket.on(io.socket.client.Socket.EVENT_CONNECT, onConnected);
+            socket.on(io.socket.client.Socket.EVENT_DISCONNECT, onDisconnected);
+            socket.on(io.socket.client.Socket.EVENT_CONNECT_ERROR, onConnectionError);
+            socket.on("ping", onPingReceived);
+            socket.on("StealRequest", onStealRequestReceived);
+            socket.on("FileReceivedByWorker", onFileReceivedByWorker);
+            socket.on("Results", onResultsReceived);
+            socket.on("StolenJobs", onStolenJobsReceived);
+            socket.on("NoJobs", onNoJobsReceived);
+            socket.connect();
+        }
+
+        private void closeCloudServerConnection() {
+            socket.off(io.socket.client.Socket.EVENT_CONNECT, onConnected);
+            socket.off(io.socket.client.Socket.EVENT_DISCONNECT, onDisconnected);
+            socket.off(io.socket.client.Socket.EVENT_CONNECT_ERROR, onConnectionError);
+            socket.off("ping", onPingReceived);
+            socket.off("StealRequest", onStealRequestReceived);
+            socket.off("FileReceivedByWorker", onFileReceivedByWorker);
+            socket.off("Results", onResultsReceived);
+            socket.off("StolenJobs", onStolenJobsReceived);
+            socket.off("NoJobs", onNoJobsReceived);
+            socket.disconnect();
+        }
+    }
+
     private void stopReadingAllWorkers() {
         Iterator<String> keySet = peersConnected.keySet().iterator();
         while (keySet.hasNext()) {
             String wifiMac = keySet.next();
             ClientSocketThread wifiCon = peersConnected.get(wifiMac);
             if (wifiCon != null && wifiCon.dReader != null) {
-                wifiCon.dReader.stopReading();
-                OwnerWriteThread termTask = new OwnerWriteThread(CommonConstants.SEND_TERMINATION, wifiCon);
-                termTask.start();
+                if (wifiCon.cloudSocket != null) {
+                    wifiCon.cloudSocket.emit("terminationSignal");
+                } else {
+                    wifiCon.dReader.stopReading();
+                    OwnerWriteThread termTask = new OwnerWriteThread(CommonConstants.SEND_TERMINATION, wifiCon);
+                    termTask.start();
+                }
             }
 
         }
@@ -607,6 +826,11 @@ public abstract class DelegatorActivity extends Activity {
         if (timer != null) {
             timer.stop();
         }
+
+        ConnectionFactory.getInstance().getWifiDirectDeviceMap().clear();
+        ConnectionFactory.getInstance().getWorkerDeviceMap().clear();
+        this.closeAllWifiDirectSockets();
+        this.closeAllCloudSockets();
     }
 
     private void onWorkerTalkingAgain(String pAdr, long pTime) {
@@ -690,7 +914,7 @@ public abstract class DelegatorActivity extends Activity {
         /**
          * @param manager  WifiP2pManager system service
          * @param channel  Wifi p2p channel
-         * @param activity activity associated with the receiver
+         * @param pContext activity associated with the receiver
          */
         public ClientWiFiBroadcastReceiver(WifiP2pManager manager,
                                            Channel channel, Context pContext) {
@@ -798,6 +1022,10 @@ public abstract class DelegatorActivity extends Activity {
                         CommonConstants.VICTIM_MODE_TYPE);
                 String wifiAdr = (String) intent.getExtras().get(
                         CommonConstants.VICTIM_WIFIADDRESS_TYPE);// "org.com.honeybee.victim.string"
+                int workerConnectionMode = intent.getExtras().getInt(
+                        CommonConstants.VICTIM_WORKER_CONNECTION_MODE
+                );
+
                 ClientSocketThread wifiCon = peersConnected.get(wifiAdr);
                 wifiCon.fileIndex = 0;
                 wifiCon.isStolen = true;
@@ -816,9 +1044,15 @@ public abstract class DelegatorActivity extends Activity {
                         }
 
                         wifiCon.dataTosend = tosend;
-                        OwnerWriteThread task = new OwnerWriteThread(
-                                CommonConstants.SEND_STEAL_FILES, wifiCon);
-                        task.start();
+                        if (workerConnectionMode == ConnectionFactory.CLOUD_MODE) {
+                            SendDataToCloudThread sendDataToCloudThread = new SendDataToCloudThread(
+                                    CommonConstants.SEND_STEAL_FILES, wifiCon);
+                            sendDataToCloudThread.start();
+                        } else if (workerConnectionMode == ConnectionFactory.WIFI_MODE) {
+                            OwnerWriteThread task = new OwnerWriteThread(
+                                    CommonConstants.SEND_STEAL_FILES, wifiCon);
+                            task.start();
+                        }
                     }
                 } else if (modetype.equals(CommonConstants.VICTIM_STRING_TYPE)) {
                     String tosendstr = intent.getExtras().getString(
@@ -893,6 +1127,7 @@ public abstract class DelegatorActivity extends Activity {
     private class ClientSocketThread extends Thread {
         private String wifiMACAddress = null;
         Socket cWorker = null;
+        io.socket.client.Socket cloudSocket;
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
         InputStream is = null;
@@ -908,6 +1143,11 @@ public abstract class DelegatorActivity extends Activity {
         public ClientSocketThread(String pAdr, WifiP2pDevice pDev) {
             this.wifiMACAddress = pAdr;
             this.wifiDirectClient = pDev;
+        }
+
+        public ClientSocketThread(String ipAddress, io.socket.client.Socket cloudSocket) {
+            this.wifiMACAddress = ipAddress;
+            this.cloudSocket = cloudSocket;
         }
 
         public void run() {
@@ -1625,6 +1865,82 @@ public abstract class DelegatorActivity extends Activity {
 
     // ///////////////////////////////////////////////////////////////////////////END
     // class OwnerWriteThread
+
+    private class SendDataToCloudThread extends Thread {
+
+        private final String mode;
+        private final ClientSocketThread csThread;
+
+        public SendDataToCloudThread(String mode, ClientSocketThread csThread) {
+            this.mode = mode;
+            this.csThread = csThread;
+        }
+
+        @Override
+        public void run() {
+            Log.d(CLOUD_TAG, "SendDataToCloudThread run " + mode);
+            switch (mode) {
+                case CommonConstants.SEND_STEAL_FILES:
+                    sendFile();
+                    break;
+                default:
+
+            }
+        }
+
+        private void sendFile() {
+            Log.d(CLOUD_TAG, "sending file");
+            Object dataToSend = csThread.dataTosend;
+            if (dataToSend instanceof File[]) {
+                File[] filesToSend = (File[]) dataToSend;
+                int fileIndex = csThread.fileIndex;
+                if (fileIndex < filesToSend.length) {
+                    uploadFile(filesToSend[fileIndex]);
+                } else {// all the files have been sent. tell the worker so.
+                    Log.d(CLOUD_TAG, "ALL_INIT_JOBS_SENT to: "
+                            + csThread.wifiMACAddress);
+                    JobPool.getInstance().finishedTransmittingParams(
+                            csThread.wifiMACAddress);
+
+                    csThread.cloudSocket.emit("allInitJobsSent");
+                    csThread.isStolen = false;
+                }
+            }
+        }
+
+        public void uploadFile(File fileToSend) {
+            File zipF = fileToSend.getAbsoluteFile();
+
+            Log.d(CLOUD_TAG, "zipF " + zipF.getAbsolutePath());
+
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-file"), zipF);
+            MultipartBody.Part fileMultipart = MultipartBody.Part.createFormData("file", zipF.getName(), requestBody);
+            // TODO : fetch ip and port from helper instead of passing static port
+            API api = RetrofitClient.getInstance(csThread.wifiMACAddress + ":3000").getAPI();
+            Call<FileUploadResult> uploadCall = api.uploadFile(fileMultipart);
+            uploadCall.enqueue(new Callback<FileUploadResult>() {
+                @Override
+                public void onResponse(Call<FileUploadResult> call, Response<FileUploadResult> response) {
+                    if (response.isSuccessful()) {
+                        csThread.fileIndex++;
+                        zipF.delete();
+                        Log.d(CLOUD_TAG, "File uploaded");
+
+                        String uploadedFilePath = response.body().data.filePath;
+                        csThread.cloudSocket.emit("stolenJobs", new Gson().toJson(new WorkForCloud("faceDetect", uploadedFilePath)));
+                    } else {
+                        Log.d(CLOUD_TAG, "File upload error: " + response.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FileUploadResult> call, Throwable t) {
+                    t.printStackTrace();
+                    Log.d(CLOUD_TAG, "Error while uploading file : " + t.getMessage());
+                }
+            });
+        }
+    }
 
     // ///////////////////////////////////////////////////////////////////////
     private class ConnectAsOwner implements Runnable {

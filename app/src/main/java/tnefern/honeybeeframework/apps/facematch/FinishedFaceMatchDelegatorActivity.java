@@ -17,13 +17,15 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.WorkerThread;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class FinishedFaceMatchDelegatorActivity extends Activity {
+public class FinishedFaceMatchDelegatorActivity extends AppCompatActivity {
 	Button exitBtn = null;
 	private TextView numberFound = null;
 	public static TextView endResult = null;
