@@ -73,11 +73,4 @@
         android:text="Delete All Job Data"
         android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/btnTestCloudNode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Test Cloud Node"
-        android:textColor="@color/white" />
-
 </LinearLayout>

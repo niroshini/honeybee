@@ -6,7 +6,6 @@ import tnefern.honeybeeframework.apps.mandelbrot.MandelbrotDelegatorActivity;
 import tnefern.honeybeeframework.apps.mandelbrot.MandelbrotWorkerActivity;
 import tnefern.honeybeeframework.apps.takephoto.TakePhotoDelegatorActivity;
 import tnefern.honeybeeframework.apps.takephoto.TakePhotoWorkerActivity;
-import tnefern.honeybeeframework.cloud.TestCloudNodeActivity;
 import tnefern.honeybeeframework.common.CommonConstants;
 import tnefern.honeybeeframework.worker.WorkerNotify;
 
@@ -15,10 +14,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,7 +40,7 @@ import android.widget.Toast;
  *
  * @author tnefernando
  */
-public class HoneybeeCrowdActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class HoneybeeCrowdActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // mode strings
     private static       String[]             modes                    = null;
@@ -55,7 +54,6 @@ public class HoneybeeCrowdActivity extends Activity implements AdapterView.OnIte
     private              Button               workButton               = null;
     private              Button               deleteButton             = null;
     private              Button               lookforWorkersButton     = null;
-	private              Button               testCloudNodeButton 	   = null;
     private              Spinner              spinner                  = null;
     private              ArrayAdapter<String> modesArrayAdapter        = null;
     private              LinearLayout         body                     = null;
@@ -206,10 +204,10 @@ public class HoneybeeCrowdActivity extends Activity implements AdapterView.OnIte
         body       			= (LinearLayout) findViewById(R.id.linLayout);
         radioGroup 			= (RadioGroup) findViewById(R.id.radioGroupMode);
         spinner    			= (Spinner) findViewById(R.id.spinner);
-		testCloudNodeButton = (Button) findViewById(R.id.btnTestCloudNode);
 
 		ArrayAdapter<CharSequence> spinnerArrayAdapter = ArrayAdapter.createFromResource(this, R.array.modes_array, android.R.layout.simple_spinner_dropdown_item);
 		spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
 //		spinnerArrayAdapter.se
         spinner.setAdapter(spinnerArrayAdapter);
         spinner.setOnItemSelectedListener(this);
@@ -229,10 +227,6 @@ public class HoneybeeCrowdActivity extends Activity implements AdapterView.OnIte
                 System.exit(1);
             }
         });
-
-		testCloudNodeButton.setOnClickListener(view -> {
-			startActivity(new Intent(HoneybeeCrowdActivity.this, TestCloudNodeActivity.class));
-		});
 	}
 
 

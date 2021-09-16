@@ -56,9 +56,6 @@
         <activity android:name=".apps.takephoto.TakePhotoDelegatorActivity" />
         <activity android:name=".apps.takephoto.TakePhotoWorkerActivity" />
         <activity android:name=".apps.takephoto.FinishedTakePhotoDelegatorActivity" />
-        <activity
-            android:name=".cloud.TestCloudNodeActivity"
-            android:exported="true" />
     </application>
 
 </manifest>
