@@ -630,8 +630,8 @@ public abstract class DelegatorActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void initCloudServerConnection() {
-        wifireceiver = new ClientWiFiBroadcastReceiver(manager, channel, this);
-        registerReceiver(wifireceiver, intentFilter);
+//        wifireceiver = new ClientWiFiBroadcastReceiver(manager, channel, this);
+//        registerReceiver(wifireceiver, intentFilter);
 
         // add cloud servers to our list
         // TODO : This is my pc as local server. Please change it to match your local server IP or another cloud server IP
@@ -767,10 +767,44 @@ public abstract class DelegatorActivity extends AppCompatActivity {
 
         private final Emitter.Listener onStolenJobsReceived = args -> runOnUiThread(() -> {
             Log.d(CLOUD_TAG, "Jobs stolen by server");
+
+            JSONObject data = (JSONObject) args[0];
+            String stolenJobs;
+            try {
+                stolenJobs = data.getString("stolenJobs");
+                processStringRead(stolenJobs, cloudServer.getIpAddress(), System.currentTimeMillis());
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+                Log.e(TAG, "Error in getting result due to " + ex.getMessage());
+            }
         });
 
-        private final Emitter.Listener onNoJobsReceived = args -> runOnUiThread(() -> {
-            Log.d(CLOUD_TAG, "Server has no jobs");
+        private final Emitter.Listener onNoJobsToStealReceived = args -> runOnUiThread(() -> {
+            Log.d(CLOUD_TAG, this.cloudServer.getIpAddress() + " has no jobs");
+
+            WorkerInfo workerInfo = ConnectionFactory.getInstance()
+                    .getWorkerInfoFromAddress(this.cloudServer.getIpAddress());
+
+            if (workerInfo != null) {
+                workerInfo.hasJobs = false;
+            }
+
+            // now see if there are any expired jobs
+            // (jobs that were given to workers long
+            // ago. worker is still alive and sending
+            // heartbeat, but has not sent the results
+            // yet)
+            String expiredWorker = JobPool.getInstance().hasJobsExpired();
+            if (expiredWorker != null) {
+                Log.d("Reader", "expiredWorker: " + expiredWorker);
+                JobPool.getInstance().addLostWorkerJobsBack(expiredWorker);
+                executeAddedBackJobs();
+            } else {
+                if (!JobPool.getInstance().isJobPoolDone()) {
+                    StealFromWorkersThread tfw = new StealFromWorkersThread(DelegatorActivity.this);
+                    tfw.start();
+                }
+            }
         });
 
         private void connectToCloudServer() {
@@ -782,7 +816,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             socket.on("FileReceivedByWorker", onFileReceivedByWorker);
             socket.on("Results", onResultsReceived);
             socket.on("StolenJobs", onStolenJobsReceived);
-            socket.on("NoJobs", onNoJobsReceived);
+            socket.on("NoJobsToSteal", onNoJobsToStealReceived);
             socket.connect();
         }
 
@@ -795,7 +829,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             socket.off("FileReceivedByWorker", onFileReceivedByWorker);
             socket.off("Results", onResultsReceived);
             socket.off("StolenJobs", onStolenJobsReceived);
-            socket.off("NoJobs", onNoJobsReceived);
+            socket.off("NoJobsToSteal", onNoJobsToStealReceived);
             socket.disconnect();
         }
     }
@@ -1072,9 +1106,13 @@ public abstract class DelegatorActivity extends AppCompatActivity {
                 Log.d("Delegator", "steal..thief  " + wifiAdr);
                 if (wifiAdr != null && wifiAdr.length() > 0) {
                     ClientSocketThread wifiCon = peersConnected.get(wifiAdr);
-                    OwnerWriteThread task = new OwnerWriteThread("thief",
-                            wifiCon);
-                    task.start();
+                    if (wifiCon.cloudSocket != null) {
+                        wifiCon.cloudSocket.emit("stealRequest");
+                    } else {
+                        OwnerWriteThread task = new OwnerWriteThread(CommonConstants.SEND_THIEF,
+                                wifiCon);
+                        task.start();
+                    }
                 }
 
             } else if (CommonConstants.BROADCAST_DELE_STOP_READING

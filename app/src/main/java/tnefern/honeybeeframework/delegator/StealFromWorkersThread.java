@@ -26,6 +26,8 @@ public class StealFromWorkersThread extends Thread {
 				.getConnectedWorkerList().size(); i++) {
 			WorkerInfo value = ConnectionFactory.getInstance().getConnectedWorkerList()
 					.get(i);
+			Log.d("Trying to steal", "is connected: " + value.isConnected + " & has jobs: " + hasJobs(value) + " & jobs transmitted: " + JobPool.getInstance().hasJobsBeenTransmitted(
+					value.getAddress()));
 			if (value != null && value.isConnected && hasJobs(value) && JobPool.getInstance().hasJobsBeenTransmitted(
 					 value.getAddress())) {
 				try {
@@ -93,7 +95,7 @@ public class StealFromWorkersThread extends Thread {
 	private void steal(WorkerInfo pInfo) throws IOException {
 		
 		Intent stealIntent = new Intent(CommonConstants.BROADCAST_DELE_INIT_STEALING_ACTION);
-		stealIntent.putExtra(CommonConstants.STEAL_STRING_TYPE, pInfo.getWiFiDirectAddress());
+		stealIntent.putExtra(CommonConstants.STEAL_STRING_TYPE, pInfo.getAddress());
 		this.parent.sendBroadcast(stealIntent);
 	}
 

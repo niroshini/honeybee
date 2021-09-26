@@ -853,6 +853,11 @@ public class JobInitializer {
 				return ConnectionFactory.getInstance().getWorkerDeviceMap()
 						.get(pInfo.getWiFiDirectAddress()).hasJobs;
 			}
+		} else if (pInfo.connection_mode == ConnectionFactory.CLOUD_MODE) {
+			if (pInfo.getAddress() != null) {
+				return ConnectionFactory.getInstance().getWorkerDeviceMap()
+						.get(pInfo.getAddress()).hasJobs;
+			}
 		}
 		return false;
 
