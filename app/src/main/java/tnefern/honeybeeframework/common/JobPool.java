@@ -8,12 +8,9 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
@@ -648,7 +645,7 @@ public class JobPool {
 	 * this.handler.sendMessage(msg); } } } // } return stolenGoods; }
 	 */
 
-	public Job[] letThemSteal() {
+	public Job[] letThemSteal(int stealChunk) {
 		Job[] stolenGoods = null;
 		ArrayList<Job> stolen = new ArrayList<Job>();
 		Job firstStolen = null;
@@ -667,7 +664,7 @@ public class JobPool {
 					break stealingLoop;
 				}
 			}
-			if (stolen.size() >= CommonConstants.STEAL_CHUNK) {
+			if (stolen.size() >= stealChunk) {
 				break stealingLoop;
 			}
 

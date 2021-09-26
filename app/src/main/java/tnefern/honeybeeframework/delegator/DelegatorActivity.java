@@ -640,8 +640,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             mCloudServersArrayAdapter.notifyDataSetChanged();
         });
         mCloudServersArrayAdapter.add(helper);
-        WorkerInfo cloudWorkerInfo = new WorkerInfo(helper.cloudServer, ConnectionFactory.CLOUD_MODE, helper.socket);
-        ConnectionFactory.getInstance().getWorkerDeviceMap().put(helper.cloudServer.getIpAddress(), cloudWorkerInfo);
+        ConnectionFactory.getInstance().getWorkerDeviceMap().put(helper.cloudServer.getIpAddress(), helper.getCloudWorkerInfo());
 
         // TODO: This my cloud server IP. Change it to match the cloud server IP before running
         helper = new CloudConnectionHelper(new CloudServer("54.206.11.180", 3000),
@@ -649,8 +648,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
                     mCloudServersArrayAdapter.notifyDataSetChanged();
                 });
         mCloudServersArrayAdapter.add(helper);
-        cloudWorkerInfo = new WorkerInfo(helper.cloudServer, ConnectionFactory.CLOUD_MODE, helper.socket);
-        ConnectionFactory.getInstance().getWorkerDeviceMap().put(helper.cloudServer.getIpAddress(), cloudWorkerInfo);
+        ConnectionFactory.getInstance().getWorkerDeviceMap().put(helper.cloudServer.getIpAddress(), helper.getCloudWorkerInfo());
     }
 
     private interface CloudConnectionHelperInterface {
@@ -664,6 +662,8 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         private io.socket.client.Socket socket;
 
         private String serverStatus;
+
+        private WorkerInfo workerInfo;
 
         public CloudConnectionHelper(CloudServer cloudServer, CloudConnectionHelperInterface cloudConnectionHelperInterface) {
             this.cloudServer = cloudServer;
@@ -687,9 +687,8 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             cloudConnectionHelperInterface.onConnected(this);
 
             peersConnected.put(cloudServer.getIpAddress(), new ClientSocketThread(cloudServer.getIpAddress(), socket));
-            WorkerInfo cloudWorkerInfo = new WorkerInfo(cloudServer, ConnectionFactory.CLOUD_MODE, socket);
-            cloudWorkerInfo.isConnected = true;
-            ConnectionFactory.getInstance().getConnectedWorkerList().add(cloudWorkerInfo);
+            workerInfo.isConnected = true;
+            ConnectionFactory.getInstance().getConnectedWorkerList().add(workerInfo);
             Log.d(CLOUD_TAG, "Connected");
             socket.emit("initSignal");
         });
@@ -831,6 +830,14 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             socket.off("StolenJobs", onStolenJobsReceived);
             socket.off("NoJobsToSteal", onNoJobsToStealReceived);
             socket.disconnect();
+        }
+
+        public WorkerInfo getCloudWorkerInfo() {
+            if (workerInfo == null) {
+                workerInfo = new WorkerInfo(cloudServer, ConnectionFactory.CLOUD_MODE, socket);
+                workerInfo.setStealChunk(50);
+            }
+            return workerInfo;
         }
     }
 

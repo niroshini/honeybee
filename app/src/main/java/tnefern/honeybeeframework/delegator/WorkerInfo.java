@@ -27,6 +27,7 @@ public class WorkerInfo {
 	public boolean hasJobs = true;
 	public int jobsDone = 0;
 	public int connection_mode = -1;
+	private int stealChunk = CommonConstants.STEAL_CHUNK;
 	private ObjectOutputStream oos = null;
 
 	public WorkerInfo(BluetoothDevice pDev, BluetoothSocket pSoc) {
@@ -65,6 +66,14 @@ public class WorkerInfo {
 		this.cloudServer = cloudServer;
 		this.connection_mode = connectionMode;
 		this.cloudSocket = socket;
+	}
+
+	public void setStealChunk(int stealChunk) {
+		this.stealChunk = stealChunk;
+	}
+
+	public int getStealChunk() {
+		return stealChunk;
 	}
 
 	public BluetoothDevice getBtDevice() {

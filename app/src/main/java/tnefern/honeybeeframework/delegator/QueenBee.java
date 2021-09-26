@@ -316,6 +316,7 @@ public abstract class QueenBee implements ResultsRead {
 			String key = pairs.getKey();
 
 			String name = null;
+			int stealChunk = CommonConstants.STEAL_CHUNK;
 
 			Iterator<WorkerInfo> iter = ConnectionFactory.getInstance()
 					.getConnectedWorkerList().iterator();
@@ -323,11 +324,12 @@ public abstract class QueenBee implements ResultsRead {
 				WorkerInfo info = iter.next();
 				if (info != null && info.getAddress().equals(key)) {
 					name = info.toString();
+					stealChunk = info.getStealChunk();
 				}
 			}
 
 			Log.d("Queenbee", "key = " + key + " name: " + name);
-			s2.append(name + " = " + pairs.getValue() + "  ");
+			s2.append(name + "(steal_chunk=" + stealChunk + ") = " + pairs.getValue() + "  ");
 			it.remove(); // avoids a ConcurrentModificationException
 		}
 

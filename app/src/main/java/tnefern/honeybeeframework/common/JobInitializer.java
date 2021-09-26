@@ -335,9 +335,19 @@ public class JobInitializer {
 
 	private class GetJobsForStealing implements Callable<Job[]> {
 
+		private int stealChunk;
+
+		public GetJobsForStealing(int stealChunk) {
+			this.stealChunk = stealChunk;
+		}
+
+		public GetJobsForStealing() {
+			this.stealChunk = CommonConstants.STEAL_CHUNK;
+		}
+
 		@Override
 		public Job[] call() throws Exception {
-			return JobPool.getInstance().letThemSteal();
+			return JobPool.getInstance().letThemSteal(this.stealChunk);
 		}
 
 	}
@@ -496,7 +506,7 @@ public class JobInitializer {
 
 	private void stealFromDelegator(WorkerInfo pInfo, Context pContext) throws IOException {
 		if (!JobPool.getInstance().isJobListEmpty()) {
-			GetJobsForStealing gjfs = new GetJobsForStealing();
+			GetJobsForStealing gjfs = new GetJobsForStealing(pInfo.getStealChunk());
 			Future<Job[]> stolenJ = JobPool.getInstance()
 					.submitCallableforJobs(gjfs);
 			Job[] stolen = null;

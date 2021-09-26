@@ -8,7 +8,6 @@ import tnefern.honeybeeframework.delegator.QueenBee;
 import tnefern.honeybeeframework.delegator.WorkerInfo;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -266,6 +265,6 @@ public class Slave implements Runnable {
 	}
 
 	public Job[] letThemSteal() {
-		return JobPool.getInstance().letThemSteal();
+		return JobPool.getInstance().letThemSteal(CommonConstants.STEAL_CHUNK);
 	}
 }
