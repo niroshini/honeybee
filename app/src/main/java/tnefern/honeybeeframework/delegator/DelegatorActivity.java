@@ -277,6 +277,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         try {
             if (wifireceiver != null) {
                 unregisterReceiver(wifireceiver);
@@ -288,8 +289,6 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         ConnectionFactory.getInstance().getWorkerDeviceMap().clear();
         this.closeAllWifiDirectSockets();
         this.closeAllCloudSockets();
-
-        super.onDestroy();
     }
 
     @Override
@@ -635,24 +634,39 @@ public abstract class DelegatorActivity extends AppCompatActivity {
 
         // add cloud servers to our list
         // TODO : This is my pc as local server. Please change it to match your local server IP or another cloud server IP
-        CloudConnectionHelper helper = new CloudConnectionHelper(new CloudServer("10.0.0.53", 3000),
-                cloudConnectionHelper -> {
-            mCloudServersArrayAdapter.notifyDataSetChanged();
+        CloudConnectionHelper helper = new CloudConnectionHelper(new CloudServer("10.0.0.53", 3000), new CloudConnectionHelperInterface() {
+            @Override
+            public void onConnected(CloudConnectionHelper cloudConnectionHelper) {
+                mCloudServersArrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onHeartbeatReceived(String address, long time) {
+                heartbeatTimestamps.put(address, time);
+            }
         });
         mCloudServersArrayAdapter.add(helper);
         ConnectionFactory.getInstance().getWorkerDeviceMap().put(helper.cloudServer.getIpAddress(), helper.getCloudWorkerInfo());
 
         // TODO: This my cloud server IP. Change it to match the cloud server IP before running
-        helper = new CloudConnectionHelper(new CloudServer("54.206.11.180", 3000),
-                cloudConnectionHelper -> {
-                    mCloudServersArrayAdapter.notifyDataSetChanged();
-                });
+        helper = new CloudConnectionHelper(new CloudServer("54.206.11.180", 3000), new CloudConnectionHelperInterface() {
+            @Override
+            public void onConnected(CloudConnectionHelper cloudConnectionHelper) {
+                mCloudServersArrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onHeartbeatReceived(String address, long time) {
+                heartbeatTimestamps.put(address, time);
+            }
+        });
         mCloudServersArrayAdapter.add(helper);
         ConnectionFactory.getInstance().getWorkerDeviceMap().put(helper.cloudServer.getIpAddress(), helper.getCloudWorkerInfo());
     }
 
     private interface CloudConnectionHelperInterface {
         void onConnected(CloudConnectionHelper cloudConnectionHelper);
+        void onHeartbeatReceived(String address, long time);
     }
 
     private class CloudConnectionHelper {
@@ -683,6 +697,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         }
 
         private final Emitter.Listener onConnected = args -> runOnUiThread(() -> {
+            updateHeartbeat();
             serverStatus = cloudServer.getUrl() + " (Connected)";
             cloudConnectionHelperInterface.onConnected(this);
 
@@ -701,12 +716,13 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             Log.d(CLOUD_TAG, "Connection Error");
         });
 
-        private final Emitter.Listener onPingReceived = args -> runOnUiThread(() -> {
-            Log.d(CLOUD_TAG, "ping received from server");
-            heartbeatTimestamps.put(cloudServer.getIpAddress(), System.currentTimeMillis());
-        });
+        private void updateHeartbeat() {
+            Log.d(CLOUD_TAG, "update heartbeat for : " + cloudServer.getIpAddress());
+            cloudConnectionHelperInterface.onHeartbeatReceived(cloudServer.getIpAddress(), System.currentTimeMillis());
+        }
 
         private final Emitter.Listener onStealRequestReceived = args -> {
+            updateHeartbeat();
             Log.d(CLOUD_TAG, "Steal request from server");
             try {
                 WorkerInfo worker = ConnectionFactory
@@ -726,6 +742,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         };
 
         private final Emitter.Listener onFileReceivedByWorker = args -> {
+            updateHeartbeat();
             Log.d(CLOUD_TAG, "File received by worker. Continue sending file if left");
             ClientSocketThread wifiCon;
             synchronized (peersConnected) {
@@ -749,6 +766,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         };
 
         private final Emitter.Listener onResultsReceived = args -> {
+            updateHeartbeat();
             Log.d(CLOUD_TAG, "Result received from server");
             JSONObject data = (JSONObject) args[0];
             String result;
@@ -765,6 +783,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         };
 
         private final Emitter.Listener onStolenJobsReceived = args -> runOnUiThread(() -> {
+            updateHeartbeat();
             Log.d(CLOUD_TAG, "Jobs stolen by server");
 
             JSONObject data = (JSONObject) args[0];
@@ -779,6 +798,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         });
 
         private final Emitter.Listener onNoJobsToStealReceived = args -> runOnUiThread(() -> {
+            updateHeartbeat();
             Log.d(CLOUD_TAG, this.cloudServer.getIpAddress() + " has no jobs");
 
             WorkerInfo workerInfo = ConnectionFactory.getInstance()
@@ -810,7 +830,6 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             socket.on(io.socket.client.Socket.EVENT_CONNECT, onConnected);
             socket.on(io.socket.client.Socket.EVENT_DISCONNECT, onDisconnected);
             socket.on(io.socket.client.Socket.EVENT_CONNECT_ERROR, onConnectionError);
-            socket.on("ping", onPingReceived);
             socket.on("StealRequest", onStealRequestReceived);
             socket.on("FileReceivedByWorker", onFileReceivedByWorker);
             socket.on("Results", onResultsReceived);
@@ -823,7 +842,6 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             socket.off(io.socket.client.Socket.EVENT_CONNECT, onConnected);
             socket.off(io.socket.client.Socket.EVENT_DISCONNECT, onDisconnected);
             socket.off(io.socket.client.Socket.EVENT_CONNECT_ERROR, onConnectionError);
-            socket.off("ping", onPingReceived);
             socket.off("StealRequest", onStealRequestReceived);
             socket.off("FileReceivedByWorker", onFileReceivedByWorker);
             socket.off("Results", onResultsReceived);
@@ -868,10 +886,10 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             timer.stop();
         }
 
-        ConnectionFactory.getInstance().getWifiDirectDeviceMap().clear();
-        ConnectionFactory.getInstance().getWorkerDeviceMap().clear();
-        this.closeAllWifiDirectSockets();
-        this.closeAllCloudSockets();
+//        ConnectionFactory.getInstance().getWifiDirectDeviceMap().clear();
+//        ConnectionFactory.getInstance().getWorkerDeviceMap().clear();
+//        this.closeAllWifiDirectSockets();
+//        this.closeAllCloudSockets();
     }
 
     private void onWorkerTalkingAgain(String pAdr, long pTime) {
