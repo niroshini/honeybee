@@ -144,6 +144,9 @@ public class WorkerInfo {
 			this.socket.getInputStream().close();
 			this.socket.getOutputStream().close();
 			this.socket.close();
+		} else if (this.connection_mode == ConnectionFactory.CLOUD_MODE
+				&& this.cloudSocket != null) {
+			this.cloudSocket.disconnect();
 		}
 	}
 

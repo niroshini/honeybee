@@ -49,7 +49,7 @@ public class ConnectionFactory {
 	 */
 	private static HashMap<String, WorkerInfo> workerMap = new HashMap<String, WorkerInfo>();
 	private static HashMap<String, WifiP2PdeviceWrapper> wifiDirectDevicesMap = new HashMap<String, WifiP2PdeviceWrapper>();;
-	private static ArrayList<WorkerInfo> connectedWorkerList =  new ArrayList<WorkerInfo>();;
+//	private static ArrayList<WorkerInfo> connectedWorkerList =  new ArrayList<WorkerInfo>();;
 	private static ArrayList<String> silentWorkers =  new ArrayList<String>();;
 	private static BluetoothSocket delegatingSocket = null;
 	private BroadcastReceiver bcastReceiver = null;
@@ -507,21 +507,26 @@ public class ConnectionFactory {
 	}
 
 	public ArrayList<WorkerInfo> getConnectedWorkerList() {
+		ArrayList<WorkerInfo> connectedWorkerList = new ArrayList<>();
+		for (String workerAddress : workerMap.keySet()) {
+			WorkerInfo workerInfo = workerMap.get(workerAddress);
+			if (workerInfo.isConnected) {
+				connectedWorkerList.add(workerMap.get(workerAddress));
+			}
+		}
 		return connectedWorkerList;
 	}
 
 	public void addToConnectedWorkers(WorkerInfo pInfo) {
-		connectedWorkerList.add(pInfo);
+		workerMap.put(pInfo.getAddress(), pInfo);
 	}
 
 	public void onWorkerSilentAtConnectedWorkers(String pAdr) {
-		Iterator<WorkerInfo>iter = connectedWorkerList.iterator();
-		while(iter.hasNext()){
-			WorkerInfo info = iter.next();
-			if(info!=null && info.getAddress().equals(pAdr)){
-				info.isConnected = false;
-			}
+		WorkerInfo workerInfo = workerMap.get(pAdr);
+		if (workerInfo != null) {
+			workerInfo.isConnected = false;
 		}
+
 		
 		if(!silentWorkers.contains(pAdr)){
 			silentWorkers.add(pAdr);
@@ -530,21 +535,11 @@ public class ConnectionFactory {
 	}
 	
 	public void onWorkerSilentAtConnectedWorkersRemove(String pAdr) {
-		int i = 0;
-		int index = 0;
-		Iterator<WorkerInfo>iter = connectedWorkerList.iterator();
-		while(iter.hasNext()){
-			WorkerInfo info = iter.next();
-			if(info!=null && info.getAddress().equals(pAdr)){
-				info.isConnected = false;
-				index = i;
-			}
-			i++;
-			
+		WorkerInfo workerInfo = workerMap.get(pAdr);
+		if (workerInfo != null) {
+			workerInfo.isConnected = false;
 		}
-		
-		connectedWorkerList.remove(index);
-		
+
 		if(!silentWorkers.contains(pAdr)){
 			silentWorkers.add(pAdr);
 		}
@@ -554,15 +549,10 @@ public class ConnectionFactory {
 		if(silentWorkers.contains(pAdr)){
 			silentWorkers.remove(pAdr);
 		}
-		getWorkerDeviceMap().get(pAdr).isConnected = true;
-		Iterator<WorkerInfo>iter = connectedWorkerList.iterator();
-		while(iter.hasNext()){
-			WorkerInfo info = iter.next();
-			if(info!=null && info.getAddress().equals(pAdr)){
-				info.isConnected = true;
-			}
+		WorkerInfo workerInfo = workerMap.get(pAdr);
+		if (workerInfo != null) {
+			workerInfo.isConnected = false;
 		}
-		
 	}
 	
 	public boolean wasISilent(String pAdr){

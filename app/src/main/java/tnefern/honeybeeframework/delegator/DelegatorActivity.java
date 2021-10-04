@@ -513,8 +513,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
                     WorkerInfo w = new WorkerInfo(device,
                             ConnectionFactory.WIFI_MODE);
                     w.isConnected = true;
-                    ConnectionFactory.getInstance().getConnectedWorkerList()
-                            .add(w);
+                    ConnectionFactory.getInstance().getWorkerDeviceMap().put(device.deviceAddress, w);
                     Log.d("WiFiBroadcastReceiver", "onSuccess!!");
 
                 }
@@ -638,6 +637,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             @Override
             public void onConnected(CloudConnectionHelper cloudConnectionHelper) {
                 mCloudServersArrayAdapter.notifyDataSetChanged();
+                ConnectionFactory.getInstance().getWorkerDeviceMap().put(cloudConnectionHelper.cloudServer.getIpAddress(), cloudConnectionHelper.workerInfo);
             }
 
             @Override
@@ -653,6 +653,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             @Override
             public void onConnected(CloudConnectionHelper cloudConnectionHelper) {
                 mCloudServersArrayAdapter.notifyDataSetChanged();
+                ConnectionFactory.getInstance().getWorkerDeviceMap().put(cloudConnectionHelper.cloudServer.getIpAddress(), cloudConnectionHelper.workerInfo);
             }
 
             @Override
@@ -699,11 +700,11 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         private final Emitter.Listener onConnected = args -> runOnUiThread(() -> {
             updateHeartbeat();
             serverStatus = cloudServer.getUrl() + " (Connected)";
+            workerInfo.isConnected = true;
             cloudConnectionHelperInterface.onConnected(this);
 
             peersConnected.put(cloudServer.getIpAddress(), new ClientSocketThread(cloudServer.getIpAddress(), socket));
             workerInfo.isConnected = true;
-            ConnectionFactory.getInstance().getConnectedWorkerList().add(workerInfo);
             Log.d(CLOUD_TAG, "Connected");
             socket.emit("initSignal");
         });
@@ -864,13 +865,15 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         while (keySet.hasNext()) {
             String wifiMac = keySet.next();
             ClientSocketThread wifiCon = peersConnected.get(wifiMac);
-            if (wifiCon != null && wifiCon.dReader != null) {
+            if (wifiCon != null) {
                 if (wifiCon.cloudSocket != null) {
                     wifiCon.cloudSocket.emit("terminationSignal");
                 } else {
-                    wifiCon.dReader.stopReading();
-                    OwnerWriteThread termTask = new OwnerWriteThread(CommonConstants.SEND_TERMINATION, wifiCon);
-                    termTask.start();
+                    if (wifiCon.dReader != null) {
+                        wifiCon.dReader.stopReading();
+                        OwnerWriteThread termTask = new OwnerWriteThread(CommonConstants.SEND_TERMINATION, wifiCon);
+                        termTask.start();
+                    }
                 }
             }
 
