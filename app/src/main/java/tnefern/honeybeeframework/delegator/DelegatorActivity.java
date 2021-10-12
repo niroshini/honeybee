@@ -113,6 +113,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
     private static final String TAG2 = "FaceMatchActivity";
     private ArrayAdapter<CloudConnectionHelper> mCloudServersArrayAdapter;
     private ArrayAdapter<String> mNewDevicesArrayAdapter = null;
+    private TextView workProgressTV;
     private ListView newDevicesListView = null;
     private ListView cloudServerListView;
     //    public static final String BROADCAST_FACEMATCHDELEGATOR_ACTION = "org.com.honeybeecrowdDemo.apps.facematch";
@@ -177,6 +178,8 @@ public abstract class DelegatorActivity extends AppCompatActivity {
     }
 
     private void init() {
+        workProgressTV = findViewById(R.id.workProgressTV);
+
         mCloudServersArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_checked);
         cloudServerListView = findViewById(R.id.cloudServerList);
         cloudServerListView.setOnItemClickListener((parent, view, position, id) -> {
@@ -238,6 +241,15 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         this.initWiFiDirect();
         initCloudServerConnection();
         initCustomUI();
+
+        updateProgressInView();
+    }
+
+    private void updateProgressInView() {
+        int doneJobs = JobPool.getInstance().getDoneJobs();
+        int remainingJobs = JobPool.getInstance().getAllJobSize();
+        long estimatedMinuteRemaining = (System.currentTimeMillis()-TimeMeter.getInstance().getInitJobsTime())*remainingJobs/(doneJobs*60*1000);
+        workProgressTV.setText(String.format("Progress:%d Completed & %d remaining\nEstimated time remaining (min):%d", doneJobs, remainingJobs, estimatedMinuteRemaining));
     }
 
     public abstract void initJobs();
@@ -538,6 +550,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             if (!isTerminated) {
                 discoverWiFiDirectPeers();
                 checkHeartbeats();
+                updateProgressInView();
             }
 
         }
@@ -651,7 +664,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         ConnectionFactory.getInstance().getWorkerDeviceMap().put(helper.cloudServer.getIpAddress(), helper.getCloudWorkerInfo());
 
         // TODO: This my cloud server IP. Change it to match the cloud server IP before running
-        helper = new CloudConnectionHelper(new CloudServer("54.206.11.180", 3000), new CloudConnectionHelperInterface() {
+        helper = new CloudConnectionHelper(new CloudServer("13.211.80.147", 3000), new CloudConnectionHelperInterface() {
             @Override
             public void onConnected(CloudConnectionHelper cloudConnectionHelper) {
                 mCloudServersArrayAdapter.notifyDataSetChanged();

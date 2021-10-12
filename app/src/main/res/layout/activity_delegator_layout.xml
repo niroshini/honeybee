@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -19,26 +19,24 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
+        android:id="@+id/workProgressTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Progress:-" />
+
+    <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Check the server to delegate work" />
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/cloudServerList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ListView
-            android:id="@+id/cloudServerList"
-            android:layout_width="match_parent"
-            android:choiceMode="multipleChoice"
-            android:layout_height="wrap_content"
-            android:background="@color/gray" >
-        </ListView>
-
-    </LinearLayout>
+        android:background="@color/gray"
+        android:choiceMode="multipleChoice" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,23 +64,21 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <ListView
             android:id="@+id/btdevsFoundList"
             android:layout_width="143dp"
             android:layout_height="wrap_content"
             android:layout_weight="2.05"
-            android:background="@color/black" >
-        </ListView>
+            android:background="@color/black"></ListView>
 
         <ListView
             android:id="@+id/peersFoundList"
             android:layout_width="161dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/gray" >
-        </ListView>
+            android:background="@color/gray"></ListView>
     </LinearLayout>
 
     <TextView
@@ -100,36 +96,31 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <TableRow
             android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </TableRow>
+            android:layout_height="wrap_content"></TableRow>
 
         <TableRow
             android:id="@+id/tableRow3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </TableRow>
+            android:layout_height="wrap_content"></TableRow>
 
         <TableRow
             android:id="@+id/optionMap"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </TableRow>
+            android:layout_height="wrap_content"></TableRow>
 
         <TableRow
             android:id="@+id/tableRow5"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </TableRow>
+            android:layout_height="wrap_content"></TableRow>
     </TableLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </RelativeLayout>
+        android:layout_height="wrap_content"></RelativeLayout>
 
 </LinearLayout>
