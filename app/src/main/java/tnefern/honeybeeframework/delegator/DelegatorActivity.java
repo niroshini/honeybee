@@ -75,6 +75,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -148,6 +149,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delegator_layout);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 //        this.customUIFragment = getFragmentManager().findFragmentById(R.id.frag_custom);
         TimeMeter.getInstance().setInitJobsTime(System.currentTimeMillis());
 
