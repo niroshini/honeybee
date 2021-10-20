@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ public abstract class WorkerActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_worker_layout);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 //		Bundle bundle = getIntent().getExtras();
 //		String workerActivityClass = bundle
 //				.getString(CommonConstants.ACTIVITY_CLASS_NAME);
