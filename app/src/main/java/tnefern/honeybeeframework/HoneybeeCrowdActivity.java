@@ -71,6 +71,7 @@ public class HoneybeeCrowdActivity extends AppCompatActivity implements AdapterV
 
         ActivityCompat.requestPermissions(this,
                                           new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                                                       Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                                        Manifest.permission.ACCESS_COARSE_LOCATION,
                                                        Manifest.permission.ACCESS_FINE_LOCATION,
                                                        Manifest.permission.ACCESS_WIFI_STATE,
