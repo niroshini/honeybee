@@ -247,9 +247,11 @@ public abstract class DelegatorActivity extends AppCompatActivity {
 
     private void updateProgressInView() {
         int doneJobs = JobPool.getInstance().getDoneJobs();
-        int remainingJobs = JobPool.getInstance().getAllJobSize();
-        long estimatedMinuteRemaining = (System.currentTimeMillis()-TimeMeter.getInstance().getInitJobsTime())*remainingJobs/(doneJobs*60*1000);
-        workProgressTV.setText(String.format("Progress:%d Completed & %d remaining\nEstimated time remaining (min):%d", doneJobs, remainingJobs, estimatedMinuteRemaining));
+        if (doneJobs > 0) {
+            int remainingJobs = JobPool.getInstance().getAllJobSize();
+            long estimatedMinuteRemaining = (System.currentTimeMillis() - TimeMeter.getInstance().getInitJobsTime()) * remainingJobs / (doneJobs * 60 * 1000);
+            workProgressTV.setText(String.format("Progress:%d Completed & %d remaining\nEstimated time remaining (min):%d", doneJobs, remainingJobs, estimatedMinuteRemaining));
+        }
     }
 
     public abstract void initJobs();
