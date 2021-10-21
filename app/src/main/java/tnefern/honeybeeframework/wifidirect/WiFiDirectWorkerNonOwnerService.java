@@ -40,7 +40,7 @@ import android.util.Log;
 
 /**
  * For the Worker
- * 
+ *
  * A service that process each file transfer request i.e Intent by opening a
  * socket connection with the WiFi Direct Group Owner and writing the file/ This
  * is used to SEND the file.
@@ -190,6 +190,19 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 
 	}
 
+	private void sendResultsAsString(String result) {
+		Log.d("sendResultsAsString", "before send");
+		if (writeResultscount <= 0) {
+			Log.d("sendResultsAsString", "writeResultscount<=0");
+			Writer w = new Writer(SEND_RESULTS_TO_DELEGATOR, result);
+			w.start();
+		} else {
+			Log.d("sendResultsAsString", "resultsThreads.offer(w)");
+			Writer w = new Writer(SEND_RESULTS_TO_DELEGATOR, result);
+			resultsThreads.offer(w);
+		}
+	}
+
 	private void sendResultsAsObjects(Object pObjt) {
 		Log.d("sendResultsAsObjects", "before send");
 		if (writeResultscount <= 0) {
@@ -265,9 +278,9 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 	}
 
 	private class Writer extends Thread {
-		Intent resultIntent = null;
 		String runmode = null;
 		// private boolean isthreadwriting = false;
+		String result;
 		Object objs;
 
 		Writer(String pMode) {
@@ -279,21 +292,30 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 			this.objs = pObjs;
 		}
 
-		Writer(String pMode, Intent pIntent) {
-			resultIntent = pIntent;
+		Writer(String pMode, String result) {
 			this.runmode = pMode;
+			this.result = result;
 		}
 
 		public void run() {
 			if (this.runmode != null) {
-				if (this.runmode.equals(SEND_RESULTS_TO_DELEGATOR)) {
-					this.sendResultsArray();
-				} else if (this.runmode.equals(NOTHING_TO_GIVE_DELEGATOR)) {
-					this.nojobstoSteal();
-				} else if (this.runmode.equals(STEAL_FROM_DELEGATOR)) {
-					this.steal();
-				} else if (this.runmode.equals(SEND_STOLEN_JOBS_TO_DELEGATOR)) {
-					this.sendStolenJobs();
+				switch (this.runmode) {
+					case SEND_RESULTS_TO_DELEGATOR:
+						if (this.result != null) {
+							this.sendResultsString();
+						} else if (this.objs != null) {
+							this.sendResultsArray();
+						}
+						break;
+					case NOTHING_TO_GIVE_DELEGATOR:
+						this.nojobstoSteal();
+						break;
+					case STEAL_FROM_DELEGATOR:
+						this.steal();
+						break;
+					case SEND_STOLEN_JOBS_TO_DELEGATOR:
+						this.sendStolenJobs();
+						break;
 				}
 			}
 		}
@@ -352,95 +374,42 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 			}
 		}
 
-		private void sendResults_() {
-			Log.d("WorkerBroadcastReceiver",
-					"before sending results INIT stage");
-			String results = resultIntent
-					.getStringExtra(CommonConstants.RESULT_STRING_TYPE);
-
-			if (oos != null && results != null && results.length() > 0) {
-				synchronized (oos) {
-					try {
-						while (iswriting) {
-							try {
-								this.wait();
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						}
-						iswriting = true;
-						Log.d("WorkerBroadcastReceiver",
-								"before sending results " + results);
-						oos.writeInt(CommonConstants.READ_STRING_MODE);
-						oos.writeUTF(results);
-						oos.flush();
-
-						Log.d("WorkerBroadcastReceiver",
-								"after sending results");
-						JobPool.getInstance().setSentResults(true);
-
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					iswriting = false;
-					this.notifyAll();
-				}
-
-			} else {
-				Object objs = resultIntent.getExtras().getSerializable(
-						CommonConstants.RESULT_COMPLETED_JOB_ARRAY_TYPE);
-				if (objs != null && objs instanceof Object[]) {
-					Object[] cjobs = (Object[]) objs;
-					// ResultTransmitObject[] cjobs =
-					// (ResultTransmitObject[]) objs;
-					Log.d("WorkerBroadcastReceiver",
-							"before sending results CompletedJob[] cjobs= "
-									+ cjobs.length);
-					if (oos != null && cjobs.length > 0) {
-						synchronized (this) {
-							// for (CompletedJob cj : cjobs) {
-							while (iswriting) {
-								try {
-									this.wait();
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-							}
-							iswriting = true;
-							try {
-								oos.writeInt(CommonConstants.READ_COMPLETED_JOB_OBJECT_ARRAY_MODE);
-								oos.writeObject(cjobs);
-								oos.flush();
-
-								// JobPool.getInstance().setSentResults(true);
-
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-
-							// }
-
-							Log.d("WorkerBroadcastReceiver",
-									"after sending results CompletedJob[] cjobs");
-							JobPool.getInstance().setSentResults(true);
-							iswriting = false;
-							this.notifyAll();
+		private void sendResultsString() {
+			synchronized (this) {
+				try {
+					while (iswriting) {
+						try {
+							this.wait();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
 					}
-				} else {
+					iswriting = true;
 					Log.d("WorkerBroadcastReceiver",
-							"cjobs was not serialized properly");
+							"before sending results " + result);
+					oos.writeInt(CommonConstants.READ_STRING_MODE);
+					oos.writeUTF(result);
+					oos.flush();
+
+					Log.d("WorkerBroadcastReceiver",
+							"after sending results");
+					JobPool.getInstance().setSentResults(true);
+
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
+				iswriting = false;
+				this.notifyAll();
 			}
+			writecount++;
 
-			//
 			if (JobPool.getInstance().isJobListEmpty()) {
 
 				if (JobPool.getInstance().isAllInitialJobsReceived()) {
 					if (ConnectionFactory.getInstance().isStealing) {
 						Log.d("WorkerBroadcastReceiver",
-								"Ive done and sent my jobs. going to STEAL!");
-						steal();
+								"Ive done and sent my jobs. going to STEAL!"); // steal();
+						stealFromDelegator();
 
 					}
 				}
@@ -510,7 +479,7 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 						oos.writeUTF(s);
 						oos.flush();
 					}
-					
+
 					iswriting = false;
 					oos.notifyAll();
 				}
@@ -550,47 +519,7 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 						.getStringExtra(CommonConstants.RESULT_STRING_TYPE);
 
 				if (oos != null && results != null && results.length() > 0) {
-					synchronized (this) {
-						try {
-							while (iswriting) {
-								try {
-									this.wait();
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-							}
-							iswriting = true;
-							Log.d("WorkerBroadcastReceiver",
-									"before sending results " + results);
-							oos.writeInt(CommonConstants.READ_STRING_MODE);
-							oos.writeUTF(results);
-							oos.flush();
-
-							Log.d("WorkerBroadcastReceiver",
-									"after sending results");
-							JobPool.getInstance().setSentResults(true);
-
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						iswriting = false;
-						this.notifyAll();
-					}
-					writecount++;
-
-					if (JobPool.getInstance().isJobListEmpty()) {
-
-						if (JobPool.getInstance().isAllInitialJobsReceived()) {
-							if (ConnectionFactory.getInstance().isStealing) {
-								Log.d("WorkerBroadcastReceiver",
-										"Ive done and sent my jobs. going to STEAL!"); // steal();
-								stealFromDelegator();
-
-							}
-						}
-
-					}
-
+					sendResultsAsString(results);
 				} else {
 					Object objs = intent.getExtras().getSerializable(
 							CommonConstants.RESULT_COMPLETED_JOB_ARRAY_TYPE);
@@ -606,7 +535,7 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 					 * (CommonConstants.READ_COMPLETED_JOB_OBJECT_ARRAY_MODE);
 					 * oos.writeObject(cjobs); oos.flush(); } catch (IOException
 					 * e) { e.printStackTrace(); }
-					 * 
+					 *
 					 * Log.d("WorkerBroadcastReceiver",
 					 * "after sending results CompletedJob[] cjobs");
 					 * JobPool.getInstance().setSentResults(true); iswriting =
@@ -620,15 +549,15 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 
 				/*
 				 * if (JobPool.getInstance().isJobListEmpty()) {
-				 * 
+				 *
 				 * if (JobPool.getInstance().isAllInitialJobsReceived()) { if
 				 * (ConnectionFactory.getInstance().isStealing) {
 				 * Log.d("WorkerBroadcastReceiver",
 				 * "Ive done and sent my jobs. going to STEAL!"); // steal();
 				 * stealFromDelegator();
-				 * 
+				 *
 				 * } }
-				 * 
+				 *
 				 * }
 				 */
 
@@ -907,7 +836,7 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 					}
 				}
 
-				
+
 				if (!stolenThreads.isEmpty()) {
 					Writer w = stolenThreads.poll();
 					w.setPriority(Thread.MIN_PRIORITY);
@@ -915,7 +844,7 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 						w.start();
 					}
 				}
-				
+
 				if (!wrtingThreads.isEmpty()) {
 					Writer w = wrtingThreads.poll();
 					w.setPriority(Thread.MIN_PRIORITY);
