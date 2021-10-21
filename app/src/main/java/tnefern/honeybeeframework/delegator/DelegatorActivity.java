@@ -842,6 +842,11 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             }
         });
 
+        private final Emitter.Listener onHeartbeatReceived = args -> runOnUiThread(() -> {
+            Log.d(CLOUD_TAG, "received heartbeat");
+            updateHeartbeat();
+        });
+
         private void connectToCloudServer() {
             socket.on(io.socket.client.Socket.EVENT_CONNECT, onConnected);
             socket.on(io.socket.client.Socket.EVENT_DISCONNECT, onDisconnected);
@@ -851,6 +856,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             socket.on("Results", onResultsReceived);
             socket.on("StolenJobs", onStolenJobsReceived);
             socket.on("NoJobsToSteal", onNoJobsToStealReceived);
+            socket.on("ping", onHeartbeatReceived);
             socket.connect();
         }
 
@@ -863,6 +869,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
             socket.off("Results", onResultsReceived);
             socket.off("StolenJobs", onStolenJobsReceived);
             socket.off("NoJobsToSteal", onNoJobsToStealReceived);
+            socket.off("ping", onHeartbeatReceived);
             socket.disconnect();
         }
 
