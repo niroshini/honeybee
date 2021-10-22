@@ -45,8 +45,8 @@ public class FaceMatchQueenBee extends QueenBee {
 						fileName);
 				if ((extension
 						.equalsIgnoreCase(FaceConstants.FILE_EXTENSION_JPEG))
-						|| (extension
-								.equalsIgnoreCase(FaceConstants.FILE_EXTENSION_JPG))) {
+						|| (extension.equalsIgnoreCase(FaceConstants.FILE_EXTENSION_JPG))
+						|| (extension.equalsIgnoreCase(FaceConstants.FILE_EXTENSION_PNG))) {
 					Integer res = Integer.valueOf(imageSearch.search(fileName));
 					cj = new CompletedJob(CommonConstants.READ_STRING_MODE,
 							FileFactory.getInstance().getFileNameFromFullPath(

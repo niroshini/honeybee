@@ -1,6 +1,7 @@
 package tnefern.honeybeeframework.worker;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,6 +11,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import tnefern.honeybeeframework.apps.facematch.FaceConstants;
 import tnefern.honeybeeframework.apps.facematch.JpegFilter;
+import tnefern.honeybeeframework.apps.facematch.PngFilter;
 import tnefern.honeybeeframework.common.CommonConstants;
 import tnefern.honeybeeframework.common.FileFactory;
 import tnefern.honeybeeframework.common.Job;
@@ -133,7 +135,7 @@ public class WorkerNotify {
 				}
 				Collection<File> filesInfolder = FileFactory.getInstance()
 						.listFiles(new File(getUnzipDirectoryPath(index)),
-								new JpegFilter[] { new JpegFilter() }, 0);
+								new FilenameFilter[] { new JpegFilter(), new PngFilter()}, 0);
 				// Log.d("WorkerNotify", "files logged");
 				if (this.isStolen) {
 					if (filesInfolder != null && !filesInfolder.isEmpty()) {
@@ -360,7 +362,7 @@ public class WorkerNotify {
 		}
 		Collection<File> filesInfolder = FileFactory.getInstance().listFiles(
 				new File(getUnzipDirectoryPath(index)),
-				new JpegFilter[] { new JpegFilter() }, 0);
+				new FilenameFilter[] { new JpegFilter(), new PngFilter() }, 0);
 		// Log.d("WorkerNotify", "files logged");
 		if (this.isStolen) {
 			if (filesInfolder != null && !filesInfolder.isEmpty()) {

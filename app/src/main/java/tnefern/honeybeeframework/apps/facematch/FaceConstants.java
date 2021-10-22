@@ -13,7 +13,8 @@ public class FaceConstants {
 	public static final String FILE_EXTENSION_ZIP = "zip";
 	public static final String FILE_EXTENSION_JPEG = "jpeg";
 	public static final String FILE_EXTENSION_JPG = "jpg";
-	
+	public static final String FILE_EXTENSION_PNG = "png";
+
 	//unzip locations
 	public static final String UNZIP_FILE_PATH = "faceMatch/faceMatchUnzip";
 	public static final String FACE_MATCH_DIR = "faceMatch";

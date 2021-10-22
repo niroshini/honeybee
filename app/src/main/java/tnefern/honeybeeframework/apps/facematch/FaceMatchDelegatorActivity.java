@@ -2,6 +2,7 @@ package tnefern.honeybeeframework.apps.facematch;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class FaceMatchDelegatorActivity extends DelegatorActivity {
 		Log.d(TAG,"folderSaved: "+folderSaved);
 		FaceResult.getInstance().setFileList(
 				FileFactory.getInstance().listFiles(new File(folderSaved),
-						new JpegFilter[] { new JpegFilter() }, 0));
+						new FilenameFilter[] { new JpegFilter(), new PngFilter() }, 0));
 
 		for (File file : FaceResult.getInstance().getFilesInFolder()) {
 			fileList.add(new FaceInfo(file.getAbsolutePath(), file.getName()));
