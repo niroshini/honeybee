@@ -101,8 +101,12 @@ public abstract class QueenBee implements ResultsRead {
 		Job job = JobPool.getInstance().getFirst();
 		while (job != null) {
 			if (job.jobParams != null) {
+				long jobStartTime = System.currentTimeMillis();
 //				this.doneJobs.add(doAppSpecificJob(job.jobParams));
 				CompletedJob cj = doAppSpecificJob(job);
+				long jobEndTime = System.currentTimeMillis();
+				cj.setJobStartTime(jobStartTime);
+				cj.setJobEndTime(jobEndTime);
 				this.doneJobs.add(cj);
 				if(job.status == CommonConstants.JOB_BEEN_STOLEN){
 					JobPool.getInstance().removeGivenJobs(cj);
@@ -342,7 +346,7 @@ public abstract class QueenBee implements ResultsRead {
 					CommonConstants.DEBUG_FILE_PATH, s2.toString());
 			FileFactory.getInstance().logCalcTimesToFile();
 			FileFactory.getInstance().writeJobsDoneToFile();
-
+			FileFactory.getInstance().writeCompletedJobsStatsToFile(parentContext, doneJobs);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

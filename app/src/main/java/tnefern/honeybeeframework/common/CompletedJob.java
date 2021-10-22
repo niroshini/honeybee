@@ -46,7 +46,16 @@ public class CompletedJob implements Serializable {
 	public int[] mixedModeArray = null;
 	public transient Object data = null;
 	public String id = null;
-	
+
+	/******************* FIELDS FOR STATS **********************/
+	private long jobStartTime;
+	private long jobEndTime;
+	/**
+	 * Can be either "Delegator" when completed by delegator or
+	 * the id/address of the worker who completed the job
+	 */
+	private String completedBy = "Delegator";
+
 	public CompletedJob(){
 		
 	}
@@ -59,7 +68,50 @@ public class CompletedJob implements Serializable {
 		this.data = pData;
 	}
 
-//	public int[][] getResultSet() {
+	public long getJobStartTime() {
+		return jobStartTime;
+	}
+
+	public void setJobStartTime(long jobStartTime) {
+		this.jobStartTime = jobStartTime;
+	}
+
+	public long getJobEndTime() {
+		return jobEndTime;
+	}
+
+	public void setJobEndTime(long jobEndTime) {
+		this.jobEndTime = jobEndTime;
+	}
+
+	public void setCompletedBy(String workerId) {
+		this.completedBy = workerId;
+	}
+
+	public long getComputationTime() {
+		return jobEndTime - jobStartTime;
+	}
+
+	public String getCompletedBy() {
+		return completedBy;
+	}
+
+	public static String getStatsTitle() {
+		return "Job_id" + "," +
+				"Start_time" + "," +
+				"End_time" + "," +
+				"Computation_time" + "," +
+				"Completed_by";
+	}
+	public String getStats() {
+		return stringValue + "," +
+				jobStartTime + "," +
+				jobEndTime + "," +
+				getComputationTime() + "," +
+				getCompletedBy();
+	}
+
+	//	public int[][] getResultSet() {
 //		return resultSet;
 //	}
 //

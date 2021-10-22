@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -110,6 +111,22 @@ public class FileFactory {
 		// osw.flush();
 		// osw.close();
 
+	}
+
+	public void writeCompletedJobsStatsToFile(Activity parentContext, ArrayList<CompletedJob> doneJobs) throws IOException {
+		File sdDir = new File(parentContext.getExternalFilesDir(null), "stats");
+		if (!sdDir.exists()) {
+			sdDir.mkdir();
+		}
+		File txtfile = new File(sdDir, CommonConstants.DEBUG_FILE_PATH);
+
+		FileWriter fOut = new FileWriter(txtfile);
+		fOut.append(CompletedJob.getStatsTitle());
+		for (CompletedJob completedJob : doneJobs) {
+			fOut.append("\n").append(completedJob.getStats());
+		}
+		fOut.flush();
+		fOut.close();
 	}
 
 	/*
@@ -964,5 +981,4 @@ public class FileFactory {
 			f.delete();
 		}
 	}
-
 }
