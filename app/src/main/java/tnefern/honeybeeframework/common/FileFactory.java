@@ -118,9 +118,9 @@ public class FileFactory {
 		if (!sdDir.exists()) {
 			sdDir.mkdir();
 		}
-		File txtfile = new File(sdDir, CommonConstants.DEBUG_FILE_PATH);
+		File csvFile = new File(sdDir, CommonConstants.RUN_STAT_FILE_PATH);
 
-		FileWriter fOut = new FileWriter(txtfile);
+		FileWriter fOut = new FileWriter(csvFile);
 		fOut.append(CompletedJob.getStatsTitle());
 		for (CompletedJob completedJob : doneJobs) {
 			fOut.append("\n").append(completedJob.getStats());
