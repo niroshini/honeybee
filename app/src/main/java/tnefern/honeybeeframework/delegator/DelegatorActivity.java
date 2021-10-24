@@ -1793,6 +1793,8 @@ public abstract class DelegatorActivity extends AppCompatActivity {
                     // now delete the zip files
                     zipF.delete();
 
+                    JobPool.getInstance().setTransmitEndTimeInZippedJob(zipF.getName(), System.currentTimeMillis());
+
                 } else {// all the files have been sent. tell the worker so.
                     Log.d("WifiDirectService", "ALL_INIT_JOBS_SENT to: "
                             + pWifiCon.wifiMACAddress);
