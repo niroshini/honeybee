@@ -1,5 +1,7 @@
 package tnefern.honeybeeframework.common;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 
 public class CompletedJob implements Serializable {
@@ -51,10 +53,20 @@ public class CompletedJob implements Serializable {
 	private long jobStartTime;
 	private long jobEndTime;
 	/**
-	 * Can be either "Delegator" when completed by delegator or
+	 * Can be either null when completed by delegator or
 	 * the id/address of the worker who completed the job
 	 */
-	private String completedBy = "Delegator";
+	private String completedBy;
+	private long zipStartTime;
+	private long zipEndTime;
+	private long zipTime;
+	private long transmitStartTime;
+	private long transmitEndTime;
+	private long transmissionTime;
+	private long resultReceivedTime;
+	private long resultProcessedTime;
+	private long computationTime;
+	/******************* FIELDS FOR STATS **********************/
 
 	public CompletedJob(){
 		
@@ -68,8 +80,21 @@ public class CompletedJob implements Serializable {
 		this.data = pData;
 	}
 
+	private boolean completedByDelegator() {
+		return TextUtils.isEmpty(completedBy);
+	}
+
+	/**
+	 * When done by Delegator jobStartTime is the time job started and
+	 * when done by workers, zipStartTime is the time job started (from Delegator's perspective)
+	 * @return job start time in millis
+	 */
 	public long getJobStartTime() {
-		return jobStartTime;
+		if (completedByDelegator()) {
+			return jobStartTime;
+		} else {
+			return zipStartTime;
+		}
 	}
 
 	public void setJobStartTime(long jobStartTime) {
@@ -88,27 +113,121 @@ public class CompletedJob implements Serializable {
 		this.completedBy = workerId;
 	}
 
-	public long getComputationTime() {
+	public long getJobDuration() {
 		return jobEndTime - jobStartTime;
 	}
 
 	public String getCompletedBy() {
-		return completedBy;
+		if (completedByDelegator()) {
+			return "Delegator";
+		} else {
+			return completedBy;
+		}
+	}
+
+	public long getZipStartTime() {
+		return zipStartTime;
+	}
+
+	public void setZipStartTime(long zipStartTime) {
+		this.zipStartTime = zipStartTime;
+	}
+
+	public long getZipEndTime() {
+		return zipEndTime;
+	}
+
+	public void setZipEndTime(long zipEndTime) {
+		this.zipEndTime = zipEndTime;
+	}
+
+	public long getZipTime() {
+		return zipTime;
+	}
+
+	public void setZipTime(long zipTime) {
+		this.zipTime = zipTime;
+	}
+
+	public long getTransmitStartTime() {
+		return transmitStartTime;
+	}
+
+	public void setTransmitStartTime(long transmitStartTime) {
+		this.transmitStartTime = transmitStartTime;
+	}
+
+	public long getTransmitEndTime() {
+		return transmitEndTime;
+	}
+
+	public void setTransmitEndTime(long transmitEndTime) {
+		this.transmitEndTime = transmitEndTime;
+	}
+
+	public long getTransmissionTime() {
+		return transmissionTime;
+	}
+
+	public void setTransmissionTime(long transmissionTime) {
+		this.transmissionTime = transmissionTime;
+	}
+
+	public long getResultReceivedTime() {
+		return resultReceivedTime;
+	}
+
+	public void setResultReceivedTime(long resultReceivedTime) {
+		this.resultReceivedTime = resultReceivedTime;
+	}
+
+	public long getResultProcessedTime() {
+		return resultProcessedTime;
+	}
+
+	public void setResultProcessedTime(long resultProcessedTime) {
+		this.resultProcessedTime = resultProcessedTime;
+	}
+
+	public long getComputationTime() {
+		return computationTime;
+	}
+
+	public void setComputationTime(long computationTime) {
+		this.computationTime = computationTime;
 	}
 
 	public static String getStatsTitle() {
 		return "Job_id" + "," +
 				"Start_time" + "," +
 				"End_time" + "," +
-				"Computation_time" + "," +
-				"Completed_by";
+				"Job_duration" + "," +
+				"Completed_by" + "," +
+				"Zip_start_time" + "," +
+				"Zip_end_time" + "," +
+				"Zip_time(Avg)" + ","+
+				"Transmission_start_time" + "," +
+				"Transmission_end_time" + "," +
+				"Transmission_time(Avg)" + "," +
+				"Result_received_time" + "," +
+				"Result_processed_time" + "," +
+				"Computation_time";
 	}
 	public String getStats() {
 		return stringValue + "," +
-				jobStartTime + "," +
-				jobEndTime + "," +
-				getComputationTime() + "," +
-				getCompletedBy();
+				getJobStartTime() + "," +
+				getJobEndTime() + "," +
+				getJobDuration() + "," +
+				getCompletedBy() + "," +
+				getZipStartTime() + "," +
+				getZipEndTime() + "," +
+				getZipTime() + "," +
+				getTransmitStartTime() + "," +
+				getTransmitEndTime() + "," +
+				getTransmissionTime() + "," +
+				getResultReceivedTime() + "," +
+				getResultProcessedTime() + "," +
+				getComputationTime();
 	}
 
 	//	public int[][] getResultSet() {

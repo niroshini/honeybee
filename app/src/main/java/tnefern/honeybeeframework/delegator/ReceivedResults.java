@@ -6,6 +6,7 @@ public class ReceivedResults {
 	public Object resultData = null;
 	public int resultMode = -1;
 	public String fromWorker = "";
+	public long resultReceivedTime;
 
 	public ReceivedResults() {
 

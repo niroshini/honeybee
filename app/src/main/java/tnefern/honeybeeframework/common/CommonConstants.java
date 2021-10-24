@@ -30,6 +30,7 @@ public class CommonConstants {
 	public static final String INCOMING_SYMBOL = "INCOMING";
 	public static final String TERM_SYMBOL = "TERMINATE";
 	public static final String APP_REQUEST_SEPERATOR = ":";
+	public static final String COMPUTATION_TIME_SEPARATOR = ",";
 	public static final String RESULT_SYMBOL = "RESULT";
 	public static final String BROADCAST_WORKER_SEND_RESULTS_ACTION = "org.com.honeybeecrowdDemo.workersendresultaction";
 	public static final String BROADCAST_WORKER_NO_JOBS_TO_STEAL_ACTION = "org.com.honeybeecrowdDemo.workernojabstostealaction";

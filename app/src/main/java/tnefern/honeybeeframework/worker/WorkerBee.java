@@ -78,7 +78,13 @@ public abstract class WorkerBee extends Slave {
 			while (job != null) {
 				if (job.jobParams != null) {
 					// runFaceMatch(job.jobParams);
-					this.doneJobs.add(this.doAppSpecificJob(job.jobParams));
+					long jobStartTime = System.currentTimeMillis();
+					CompletedJob cj = this.doAppSpecificJob(job.jobParams);
+					long jobEndTime = System.currentTimeMillis();
+					cj.setJobStartTime(jobStartTime);
+					cj.setJobEndTime(jobEndTime);
+					cj.setComputationTime(cj.getJobDuration());
+					this.doneJobs.add(cj);
 					/*
 					 * the following code is for testing purposes ONLY. It aims
 					 * to simulate a 'weak' worker device by sleeping the
@@ -176,6 +182,8 @@ public abstract class WorkerBee extends Slave {
 						res.append(cj.stringValue);
 						res.append(CommonConstants.APP_REQUEST_SEPERATOR);
 						res.append(cj.intValue);
+						res.append(CommonConstants.COMPUTATION_TIME_SEPARATOR);
+						res.append(cj.getComputationTime());
 
 					}
 					res.append(CommonConstants.MSG_BREAK);

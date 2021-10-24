@@ -1778,6 +1778,8 @@ public abstract class DelegatorActivity extends AppCompatActivity {
                     File zipF = filesToSend[pWifiCon.fileIndex]
                             .getAbsoluteFile();
 
+                    JobPool.getInstance().setTransmitStartTimeInZippedJob(zipF.getName(), System.currentTimeMillis());
+
                     Log.d(TAG, "zipF " + zipF.getAbsolutePath());
 
                     pWifiCon.oos.writeInt(CommonConstants.READ_FILE_MODE);
@@ -1985,7 +1987,10 @@ public abstract class DelegatorActivity extends AppCompatActivity {
                 File[] filesToSend = (File[]) dataToSend;
                 int fileIndex = csThread.fileIndex;
                 if (fileIndex < filesToSend.length) {
-                    uploadFile(filesToSend[fileIndex]);
+                    File fileToSend = filesToSend[fileIndex];
+                    JobPool.getInstance().setTransmitStartTimeInZippedJob(fileToSend.getName(), System.currentTimeMillis());
+                    uploadFile(fileToSend);
+                    JobPool.getInstance().setTransmitEndTimeInZippedJob(fileToSend.getName(), System.currentTimeMillis());
                 } else {// all the files have been sent. tell the worker so.
                     Log.d(CLOUD_TAG, "ALL_INIT_JOBS_SENT to: "
                             + csThread.wifiMACAddress);

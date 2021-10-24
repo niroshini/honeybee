@@ -325,7 +325,7 @@ public class FileFactory {
 
 	public final synchronized String zipFilesIntoDirectory(
 			String[] sourceFiles, String zipFileName, Context pContext) throws IOException {
-//		long time = System.currentTimeMillis();
+		long zipStartTime = System.currentTimeMillis();
 		Log.d(TAG,zipFileName);
 		StringBuffer zipName = new StringBuffer(
 				getFileNameWithoutExtension(zipFileName));
@@ -354,6 +354,9 @@ public class FileFactory {
 		ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(f1));
 		zip(sources, zos);
 		zos.close();
+
+		long zipEndTime = System.currentTimeMillis();
+		JobPool.getInstance().addZippedJob(new ZippedJob(zipName.toString(), sources, zipStartTime, zipEndTime));
 //		TimeMeter.getInstance().addToZipTime(
 //				(System.currentTimeMillis() - time));
 		

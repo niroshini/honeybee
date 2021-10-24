@@ -107,6 +107,7 @@ public abstract class QueenBee implements ResultsRead {
 				long jobEndTime = System.currentTimeMillis();
 				cj.setJobStartTime(jobStartTime);
 				cj.setJobEndTime(jobEndTime);
+				cj.setComputationTime(cj.getJobDuration());
 				this.doneJobs.add(cj);
 				if(job.status == CommonConstants.JOB_BEEN_STOLEN){
 					JobPool.getInstance().removeGivenJobs(cj);
@@ -165,11 +166,22 @@ public abstract class QueenBee implements ResultsRead {
 					.split(FaceConstants.FACE_RESULT_BREAKER);
 			for (int i = 0; i < results.length; i++) {
 				num = results[i].split(":");
-				getResultFactory().addToMap(num[0], Integer.parseInt(num[1]));
+				String[] result = num[1].split(CommonConstants.COMPUTATION_TIME_SEPARATOR);
+				getResultFactory().addToMap(num[0], Integer.parseInt(result[0]));
 
 				CompletedJob cj = new CompletedJob(
 						CommonConstants.READ_STRING_MODE, num[0], -1, null);
-				cj.intValue = Integer.parseInt(num[1]);
+				cj.intValue = Integer.parseInt(result[0]);
+
+				cj.setCompletedBy(pRes.fromWorker);
+				cj.setComputationTime(Long.parseLong(result[1]));
+				// Write zip time and transmission time for the job from the ZippedJob list
+				JobPool.getInstance().setTimeFromZippedJob(cj);
+				// Also set the result time
+				cj.setResultReceivedTime(pRes.resultReceivedTime);
+				cj.setResultProcessedTime(System.currentTimeMillis());
+				cj.setJobEndTime(System.currentTimeMillis());
+
 				this.doneJobs.add(cj);
 
 				getResultFactory().addToDoneDobMap(pRes.fromWorker);

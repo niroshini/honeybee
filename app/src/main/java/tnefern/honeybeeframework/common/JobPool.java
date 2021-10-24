@@ -49,6 +49,7 @@ public class JobPool {
 	private ConcurrentLinkedQueue<Job> jobList = new ConcurrentLinkedQueue<Job>();// for
 																					// worker
 	private HashMap<String, JobsGiven> givenJobsList = new  HashMap<String, JobsGiven>();
+	private HashMap<String, ZippedJob> zippedJobList = new HashMap<>();
 	// private ArrayBlockingQueue<Job> tempjobList = null;// for worker
 	private int completedJobs = 0;
 	private Handler handler = null;
@@ -60,7 +61,8 @@ public class JobPool {
 	private JobsReceived callBackObj = null;
 	private boolean isAllinitialJobsReceived = false;
 	private CountDownLatch singlecountdown = null;
-	
+
+
 //	private boolean isStealRequestSent = false;
 //	private boolean isStealReplyReceived = false;
 
@@ -173,6 +175,49 @@ public class JobPool {
 		}
 		
 	}
+	public void addZippedJob(ZippedJob zippedJob) {
+		this.zippedJobList.put(zippedJob.getZipName(), zippedJob);
+	}
+
+	public void setTimeFromZippedJob(CompletedJob completedJob) {
+		for (String zipFileName : this.zippedJobList.keySet()) {
+			ZippedJob zippedJob = zippedJobList.get(zipFileName);
+			if (zippedJob != null) {
+				if (zippedJob.getFilesInZip().contains(completedJob.stringValue)) {
+					completedJob.setJobStartTime(zippedJob.getZipStartTime());
+					completedJob.setZipStartTime(zippedJob.getZipStartTime());
+					completedJob.setZipEndTime(zippedJob.getZipEndTime());
+					completedJob.setZipTime(zippedJob.getAverageZipTime());
+					completedJob.setTransmitStartTime(zippedJob.getTransmitStartTime());
+					completedJob.setTransmitEndTime(zippedJob.getTransmitEndTime());
+					completedJob.setTransmissionTime(zippedJob.getAverageTransmissionTime());
+
+					// now remove the job from the list and remove the zipped job if empty
+					zippedJob.getFilesInZip().remove(completedJob.stringValue);
+					if (zippedJob.getFilesInZip().isEmpty()) {
+						zippedJobList.remove(zippedJob);
+					}
+
+					break;
+				}
+			}
+		}
+	}
+
+	public void setTransmitStartTimeInZippedJob(String zipFileName, long transmitStartTime) {
+		ZippedJob zippedJob = this.zippedJobList.get(zipFileName);
+		if (zippedJob != null) {
+			zippedJob.setTransmitStartTime(transmitStartTime);
+		}
+	}
+
+	public void setTransmitEndTimeInZippedJob(String zipFileName, long transmitStartTime) {
+		ZippedJob zippedJob = this.zippedJobList.get(zipFileName);
+		if (zippedJob != null) {
+			zippedJob.setTransmitEndTime(transmitStartTime);
+		}
+	}
+
 	public boolean isJobListEmpty() {
 		if (this.jobList == null) {
 			return true;
@@ -1313,7 +1358,7 @@ public class JobPool {
 								ArrayList<Job>givenlist = given.getGivenList();
 								Iterator<Job>iter = givenlist.iterator();
 								while(iter.hasNext()){
-									Job j = iter.next();;
+									Job j = iter.next();
 									if(j!=null){
 										name =FileFactory.getInstance().getFileNameFromFullPath(j.jobParams);
 										if(sjobs[0].equals(name)){
@@ -1370,5 +1415,4 @@ public class JobPool {
 		
 		return null;
 	}
-	
 }
