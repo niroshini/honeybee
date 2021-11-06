@@ -3,7 +3,9 @@ package tnefern.honeybeeframework.cloud;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -13,8 +15,14 @@ public class RetrofitClient {
     private Retrofit retrofit;
 
     private RetrofitClient(String ipAndPort) {
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(2, TimeUnit.MINUTES)
+                .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(String.format(Locale.ENGLISH, BASE_URL, ipAndPort))
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
