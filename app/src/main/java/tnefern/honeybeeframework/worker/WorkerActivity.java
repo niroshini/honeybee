@@ -5,8 +5,10 @@ import java.io.File;
 
 
 import tnefern.honeybeeframework.R;
+import tnefern.honeybeeframework.common.BatteryHelper;
 import tnefern.honeybeeframework.common.CommonConstants;
 import tnefern.honeybeeframework.common.FileFactory;
+import tnefern.honeybeeframework.stats.TimeMeter;
 import tnefern.honeybeeframework.wifidirect.WiFiDirectSearcher;
 import tnefern.honeybeeframework.wifidirect.WifiDirectConstants;
 import android.app.Activity;
@@ -14,6 +16,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -54,6 +57,9 @@ public abstract class WorkerActivity extends Activity {
 		registerReceiver(workerReceiver, intentFilter);
 		WorkerNotify.getInstance().setWorkerBee(getWorkerBee());
 		this.initWifiD("");
+
+		TimeMeter.getInstance().setInitJobsTime(System.currentTimeMillis());
+		TimeMeter.getInstance().setBatteryLevel(BatteryHelper.getCurrentBatteryPercent(this));
 	}
 
 	private void initWifiD(String pClass) {

@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import tnefern.honeybeeframework.common.CommonConstants;
+import tnefern.honeybeeframework.stats.TimeMeter;
 
 
 import android.content.BroadcastReceiver;
@@ -296,6 +297,7 @@ public class WiFiDirectSearcher {
 
 				Log.d("ConnectionListenerClass",
 						"Worker I AM THE NON OWNER");
+				TimeMeter.getInstance().setWorkerStealStartTime(System.currentTimeMillis());
 
 				Intent uiintent= new Intent(WifiDirectConstants.NOTIFY_UI_UPON_CONNECTION);
 				parent.sendBroadcast(uiintent);

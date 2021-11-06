@@ -84,6 +84,7 @@ public abstract class WorkerBee extends Slave {
 					cj.setJobStartTime(jobStartTime);
 					cj.setJobEndTime(jobEndTime);
 					cj.setComputationTime(cj.getJobDuration());
+					TimeMeter.getInstance().setTimeFromZippedJob(cj);
 					this.doneJobs.add(cj);
 					/*
 					 * the following code is for testing purposes ONLY. It aims
@@ -194,6 +195,11 @@ public abstract class WorkerBee extends Slave {
 							res.toString());
 					this.parentActivity.sendBroadcast(resultIntent);
 
+					long resultSentTime = System.currentTimeMillis();
+					for (CompletedJob cj : cjobs) {
+						cj.setResultSentTime(resultSentTime);
+					}
+					FileFactory.getInstance().logJobDoneByWorker(cjobs);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

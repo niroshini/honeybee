@@ -258,7 +258,102 @@ public class CompletedJob implements Serializable {
 				getTransmissionTime() + "," +
 				getResultReceivedTime() + "," +
 				getResultProcessedTime() + "," +
-				getComputationTime();
+				getComputationTime() + "," +
+				getResult() + "," +
+				isCorrect();
+	}
+
+	public long getStealRequestTime() {
+		return stealRequestTime;
+	}
+
+	public void setStealRequestTime(long stealRequestTime) {
+		this.stealRequestTime = stealRequestTime;
+	}
+
+	public long getJobReceivedStartTime() {
+		return jobReceivedStartTime;
+	}
+
+	public void setJobReceivedStartTime(long jobReceivedStartTime) {
+		this.jobReceivedStartTime = jobReceivedStartTime;
+	}
+
+	public long getJobReceivedEndTime() {
+		return jobReceivedEndTime;
+	}
+
+	public void setJobReceivedEndTime(long jobReceivedEndTime) {
+		this.jobReceivedEndTime = jobReceivedEndTime;
+	}
+
+	public long getAvgJobWaitTime() {
+		return avgJobWaitTime;
+	}
+
+	public void setAvgJobWaitTime(long avgJobWaitTime) {
+		this.avgJobWaitTime = avgJobWaitTime;
+	}
+
+	public long getAvgJobTransmissionTime() {
+		return avgJobTransmissionTime;
+	}
+
+	public void setAvgJobTransmissionTime(long avgJobTransmissionTime) {
+		this.avgJobTransmissionTime = avgJobTransmissionTime;
+	}
+
+	public long getUnzipStartTime() {
+		return unzipStartTime;
+	}
+
+	public void setUnzipStartTime(long unzipStartTime) {
+		this.unzipStartTime = unzipStartTime;
+	}
+
+	public long getUnzipEndTime() {
+		return unzipEndTime;
+	}
+
+	public void setUnzipEndTime(long unzipEndTime) {
+		this.unzipEndTime = unzipEndTime;
+	}
+
+	public long getResultSentTime() {
+		return resultSentTime;
+	}
+
+	public void setResultSentTime(long resultSentTime) {
+		this.resultSentTime = resultSentTime;
+	}
+
+	public static String getWorkerStatsTitle() {
+		return "JobId," +
+				"StealRequestTime," +
+				"JobReceivedStartTime," +
+				"JobReceivedEndTime," +
+				"JobWaitTime(Avg)," +
+				"JobTransmissionTime(Avg)," +
+				"UnzipStartTime," +
+				"UnzipEndTime," +
+				"JobStartTime," +
+				"JobEndTime," +
+				"ComputationTime," +
+				"ResultSentTime";
+	}
+	public String getWorkerStats() {
+		return stringValue + "," +
+				getStealRequestTime() + "," +
+				getJobReceivedStartTime() + "," +
+				getJobReceivedEndTime() + "," +
+				getAvgJobWaitTime() + "," +
+				getAvgJobTransmissionTime() + "," +
+				getUnzipStartTime() + "," +
+				getUnzipEndTime() + "," +
+				getJobStartTime() + "," +
+				getJobEndTime() + "," +
+				getComputationTime() + "," +
+				getResultSentTime();
 	}
 
 	//	public int[][] getResultSet() {

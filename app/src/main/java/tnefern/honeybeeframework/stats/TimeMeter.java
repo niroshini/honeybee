@@ -2,10 +2,13 @@ package tnefern.honeybeeframework.stats;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import android.util.Log;
+import tnefern.honeybeeframework.common.CompletedJob;
+import tnefern.honeybeeframework.common.InZippedJob;
 
 /**
  * Records the time durations spent on establishing the piconet, setting up the
@@ -82,9 +85,10 @@ public class TimeMeter {
 	private ArrayList<JobInfo> jobCalTimes = null;
 	
 	private float batteryLevel = -1.0f;
-	
 
-	
+	private long workerStealStartTime;
+	private Map<String, InZippedJob> inZippedJobs;
+
 
 	private TimeMeter() {
 		sendJobTimes = Collections.synchronizedList(new ArrayList<JobInfo>());
@@ -278,5 +282,55 @@ public class TimeMeter {
 
 	public void setBatteryLevel(float batteryLevel) {
 		this.batteryLevel = batteryLevel;
+	}
+
+	public void setWorkerStealStartTime(long workerStealStartTime) {
+		this.workerStealStartTime = workerStealStartTime;
+	}
+
+	public long getWorkerStealStartTime() {
+		return workerStealStartTime;
+	}
+
+	public void addIncomingZippedJobs(InZippedJob inZippedJob) {
+		if (inZippedJobs == null) {
+			inZippedJobs = new HashMap<>();
+		}
+		this.inZippedJobs.put(inZippedJob.getZipName(), inZippedJob);
+	}
+
+	public void updateUnzipTimings(String zipName, long unzipStartTime, long unzipEndTime, List<String> filesInZip) {
+		InZippedJob inZippedJob = inZippedJobs.get(zipName);
+		if (inZippedJob != null) {
+			inZippedJob.setFilesInZip(filesInZip);
+			inZippedJob.setUnzipStartTime(unzipStartTime);
+			inZippedJob.setUnzipEndTime(unzipEndTime);
+		}
+	}
+
+	public void setTimeFromZippedJob(CompletedJob completedJob) {
+		for (String zipFileName : this.inZippedJobs.keySet()) {
+			InZippedJob inZippedJob = inZippedJobs.get(zipFileName);
+			if (inZippedJob != null) {
+				if (inZippedJob.getFilesInZip().contains(completedJob.stringValue)) {
+					completedJob.setStealRequestTime(inZippedJob.getStealRequestTime());
+					completedJob.setJobReceivedStartTime(inZippedJob.getJobReceivedStartTime());
+					completedJob.setJobReceivedEndTime(inZippedJob.getJobReceivedEndTime());
+					completedJob.setAvgJobWaitTime(inZippedJob.getAvgJobWaitTime());
+
+					completedJob.setAvgJobTransmissionTime(inZippedJob.getAvgJobTransmissionTime());
+					completedJob.setUnzipStartTime(inZippedJob.getUnzipStartTime());
+					completedJob.setUnzipEndTime(inZippedJob.getUnzipEndTime());
+
+					// now remove the job from the list and remove the zipped job if empty
+					inZippedJob.getFilesInZip().remove(completedJob.stringValue);
+					if (inZippedJob.getFilesInZip().isEmpty()) {
+						inZippedJobs.remove(inZippedJob);
+					}
+
+					break;
+				}
+			}
+		}
 	}
 }

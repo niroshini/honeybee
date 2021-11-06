@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import tnefern.honeybeeframework.apps.facematch.FaceConstants;
@@ -18,6 +19,7 @@ import tnefern.honeybeeframework.common.Job;
 import tnefern.honeybeeframework.common.JobParams;
 import tnefern.honeybeeframework.common.JobPool;
 import tnefern.honeybeeframework.common.Slave;
+import tnefern.honeybeeframework.stats.TimeMeter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -124,7 +126,10 @@ public class WorkerNotify {
 							File dir = new File(sdDir,
 									FaceConstants.UNZIP_FILE_PATH + index);
 							dir.mkdir();
-							FileFactory.getInstance().unzip(unFile, dir);
+							long unzipStartTime = System.currentTimeMillis();
+							List<String> filesInZip = FileFactory.getInstance().unzip(unFile, dir);
+							long unzipEndTime = System.currentTimeMillis();
+							TimeMeter.getInstance().updateUnzipTimings(unFile.getName(), unzipStartTime, unzipEndTime, filesInZip);
 							unFile.delete();
 
 						} catch (IOException e) {

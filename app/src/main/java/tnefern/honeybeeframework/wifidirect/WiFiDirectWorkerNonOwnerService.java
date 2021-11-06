@@ -9,22 +9,18 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Stack;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
+import tnefern.honeybeeframework.common.BatteryHelper;
 import tnefern.honeybeeframework.common.CommonConstants;
-import tnefern.honeybeeframework.common.CompletedJob;
 import tnefern.honeybeeframework.common.ConnectionFactory;
 import tnefern.honeybeeframework.common.FileFactory;
+import tnefern.honeybeeframework.common.InZippedJob;
 import tnefern.honeybeeframework.common.JobInitializer;
 import tnefern.honeybeeframework.common.JobParams;
 import tnefern.honeybeeframework.common.JobPool;
 import tnefern.honeybeeframework.stats.TimeMeter;
 import tnefern.honeybeeframework.worker.FinishedWorkerActivity;
-import tnefern.honeybeeframework.worker.ResultTransmitObject;
 import tnefern.honeybeeframework.worker.WorkerNotify;
 
 import android.app.IntentService;
@@ -35,7 +31,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.Environment;
-import android.util.JsonReader;
 import android.util.Log;
 
 /**
@@ -243,6 +238,7 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 	}
 
 	private void stealFromDelegator() {
+		TimeMeter.getInstance().setWorkerStealStartTime(System.currentTimeMillis());
 		Log.d("stealFromDelegator", "before steal");
 		if (writecount <= 0) {
 			Log.d("stealFromDelegator", "writecount<=0");
@@ -658,7 +654,7 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 							TimeMeter.getInstance().setTotalWorkerTime(
 									System.currentTimeMillis()
 											- TimeMeter.getInstance()
-													.getTotalWorkerTime());
+													.getInitJobsTime());
 							FileFactory.getInstance().logJobDoneWithDate(
 									"Total Worker time = "
 											+ TimeMeter.getInstance()
@@ -678,8 +674,16 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 									"Transmit jobs time = "
 											+ TimeMeter.getInstance()
 													.getTransmitJobsTime());
+							float startBatteryPercent = TimeMeter.getInstance().getBatteryLevel();
+							float endBatteryPercent = BatteryHelper.getCurrentBatteryPercent(getApplicationContext());
+							FileFactory.getInstance().logJobDone(
+									"Battery start=" + startBatteryPercent +
+											", Battery end=" + endBatteryPercent +
+											", Battery usage=" + (startBatteryPercent - endBatteryPercent)
+							);
 							FileFactory.getInstance().writeJobsDoneToFile();
 							FileFactory.getInstance().logCalcTimesToFile();
+							FileFactory.getInstance().writeWorkerStatToFile(context.getApplicationContext());
 
 							// Intent deleIntent = new Intent(
 							// WiFiDirectWorkerNonOwnerService.this,
@@ -708,6 +712,7 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 						readMode = 0;
 						break;
 					case CommonConstants.READ_FILE_MODE:
+						long jobReceivedStartTime = System.currentTimeMillis();
 						final File f = new File(
 								Environment.getExternalStorageDirectory() + "/"
 										+ context.getPackageName() + "/"
@@ -748,11 +753,16 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 						fos.flush();
 						fos.close();
 						readMode = 0;
+
+						long stealRequestTime = TimeMeter.getInstance().getWorkerStealStartTime();
+						long jobReceivedTime = System.currentTimeMillis();
+						TimeMeter.getInstance().addIncomingZippedJobs(new InZippedJob(f.getName(), stealRequestTime, jobReceivedStartTime, jobReceivedTime));
 						synchronized (oos) {
 							oos.writeInt(CommonConstants.READ_INT_MODE);
 							oos.writeInt(WifiDirectConstants.FILE_RECEIVED_FROM_DELEGATOR);
 							oos.flush();
 							oos.notify();
+							TimeMeter.getInstance().setWorkerStealStartTime(System.currentTimeMillis());
 						}
 
 						// start workerbee

@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -265,8 +266,27 @@ public class FileFactory {
 		}
 	}
 
+	public void logJobDoneByWorker(CompletedJob[] cjobs) {
+		for (CompletedJob cj : cjobs) {
+			workerStatLogger.append("\n").append(cj.getWorkerStats());
+		}
+	}
+
 	public void writeJobsDoneToFile() throws IOException {
 		this.writeFileWithDate(this.stealTracer.toString());
+	}
+
+	public void writeWorkerStatToFile(Context context) throws IOException {
+		File sdDir = new File(context.getExternalFilesDir(null), "stats");
+		if (!sdDir.exists()) {
+			sdDir.mkdir();
+		}
+		File csvFile = new File(sdDir, CommonConstants.RUN_STAT_FILE_PATH);
+
+		FileWriter fOut = new FileWriter(csvFile);
+		fOut.append(workerStatLogger.toString());
+		fOut.flush();
+		fOut.close();
 	}
 
 	public Class<?> getClassFromName(String pName, Context pContext)
@@ -431,7 +451,8 @@ public class FileFactory {
 		}
 	}
 
-	public void unzip(File zip, File extractTo) throws IOException {
+	public List<String> unzip(File zip, File extractTo) throws IOException {
+		List<String> filesInZip = new ArrayList<>();
 		if(zip!=null){
 			ZipFile archive = new ZipFile(zip);
 			Enumeration e = archive.entries();
@@ -458,12 +479,13 @@ public class FileFactory {
 
 					in.close();
 					out.close();
+					filesInZip.add(entry.getName());
 				}
 			}
 		}else{
 			Log.d("ZIP","zip is null");
 		}
-		
+		return filesInZip;
 	}
 
 	public File[] listFilesAsArray(File directory, FilenameFilter[] filter,

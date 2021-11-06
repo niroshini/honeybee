@@ -12,7 +12,7 @@ public class WifiDirectConstants {
 	
 	//heartbeat related constants
 	public static final int WORKER_HEARTBEAT = 222;
-	public static final int WORKER_HEARTBEAT_SLEEP = 2500;//milliseconds
+	public static final int WORKER_HEARTBEAT_SLEEP = 4000;//milliseconds
 	public static final int WORKER_HEARTBEAT_TIMEOUT_MULTIPLE = 12;
 	public static final int WORKER_ARE_YOU_THERE = 333;
 	
