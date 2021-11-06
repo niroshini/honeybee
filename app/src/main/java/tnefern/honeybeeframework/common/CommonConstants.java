@@ -163,7 +163,10 @@ public class CommonConstants {
 	// public static final long MONOTIME = 27301;//26322;//numberOfRows =
 	// 300;,iter = 200;
 	//public static final long MONOTIME = 185910;//iter=1500
-	public static final long MONOTIME = 372954;//iter=3000
+//	public static final long MONOTIME = 372954;//iter=3000
+
+
+	public static final long MONOTIME = 1042548;//faceMatch, Oneplus6, 1000 FlickerHQ png images, detect 3 times
 
 //64398;
 //33584;// 26322;//numberOfRows =

@@ -3,6 +3,7 @@ package tnefern.honeybeeframework.apps.facematch;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -10,6 +11,16 @@ import android.graphics.BitmapFactory;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.face.FaceDetection;
+import com.google.mlkit.vision.face.FaceDetectorOptions;
 
 public class SearchImage {
 	Bitmap myBitmap = null;
@@ -62,40 +73,33 @@ public class SearchImage {
 	
 	
 	private int detectFace(String pFile) {
-//		if(!pFile.contains("Flower")){
-			try {
-//				BitmapScaler scaler = new BitmapScaler(new File(pFile), 1000);
-//				myBitmap = scaler.getScaled();
-				
-				myBitmap = BitmapFactory.decodeFile(pFile, bitmapFatoryOptions);
-				width = myBitmap.getWidth();
-				height = myBitmap.getHeight();
-				detectedFaces = new FaceDetector.Face[NUMBER_OF_FACES];
-				faceDetector = new FaceDetector(width, height, NUMBER_OF_FACES);
-				NUMBER_OF_FACE_DETECTED = faceDetector.findFaces(myBitmap,
-						detectedFaces);
-//				System.out.println(pFile+" : "+"Number of faces = " + NUMBER_OF_FACE_DETECTED);
-				myBitmap.recycle();
-				myBitmap = null;
-				faceDetector = null;
-				System.gc();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-//		}
-		
-//		imageView.setImageBitmap(scaler.getScaled());
-		
-//		myBitmap = BitmapFactory.decodeFile(pFile, bitmapFatoryOptions);
-//		width = myBitmap.getWidth();
-//		height = myBitmap.getHeight();
-//		Log.d("SearchImage", "original width = "+width+" o height = "+height);//w = 1024
-		
-		
-		
-		
+		try {
+			FaceDetectorOptions highAccuracyOptions = new FaceDetectorOptions.Builder()
+					.setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+					.setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
+					.setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
+					.build();
 
+			myBitmap = BitmapFactory.decodeFile(pFile, bitmapFatoryOptions);
+			InputImage image = InputImage.fromBitmap(myBitmap, 0);
+
+			com.google.mlkit.vision.face.FaceDetector detector = FaceDetection.getClient(highAccuracyOptions);
+
+			Task<List<com.google.mlkit.vision.face.Face>> result = null;
+
+			for (int i = 0; i < 3; i++) {
+				result = detector.process(image);
+			}
+			
+
+			List<com.google.mlkit.vision.face.Face> faces = Tasks.await(result);
+			NUMBER_OF_FACE_DETECTED = faces.size();
+
+			myBitmap.recycle();
+			myBitmap = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return NUMBER_OF_FACE_DETECTED;
 	}
 	
