@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ZippedJob {
+public class OutZippedJob {
 
 
     private final String zipName;
@@ -16,7 +16,7 @@ public class ZippedJob {
     private long transmitEndTime;
     private long averageTransmissionTime;
 
-    public ZippedJob(String zipName, File[] filesInZip, long zipStartTime, long zipEndTime) {
+    public OutZippedJob(String zipName, File[] filesInZip, long zipStartTime, long zipEndTime) {
         this.zipName = zipName;
         this.filesInZip = new ArrayList<>();
         for (File file : filesInZip) {

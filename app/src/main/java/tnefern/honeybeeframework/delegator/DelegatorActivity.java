@@ -878,7 +878,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         public WorkerInfo getCloudWorkerInfo() {
             if (workerInfo == null) {
                 workerInfo = new WorkerInfo(cloudServer, ConnectionFactory.CLOUD_MODE, socket);
-                workerInfo.setStealChunk(50);
+                workerInfo.setStealChunk(5);
             }
             return workerInfo;
         }
@@ -1617,6 +1617,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
                             CommonConstants.READ_STRING_MODE);
                     resObj.stringResults = pS;
                     resObj.fromWorker = pWifi;
+                    resObj.resultReceivedTime = pT;
 
                     if (ConnectionFactory.getInstance().getResultsReader() != null) {
                         ConnectionFactory.getInstance().getResultsReader()
@@ -2006,6 +2007,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         }
 
         public void uploadFile(File fileToSend) {
+            JobPool.getInstance().setTransmitStartTimeInZippedJob(fileToSend.getName(), System.currentTimeMillis());
             File zipF = fileToSend.getAbsoluteFile();
 
             Log.d(CLOUD_TAG, "zipF " + zipF.getAbsolutePath());
@@ -2019,6 +2021,8 @@ public abstract class DelegatorActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<FileUploadResult> call, Response<FileUploadResult> response) {
                     if (response.isSuccessful()) {
+                        JobPool.getInstance().setTransmitEndTimeInZippedJob(fileToSend.getName(), System.currentTimeMillis());
+
                         csThread.fileIndex++;
                         zipF.delete();
                         Log.d(CLOUD_TAG, "File uploaded");

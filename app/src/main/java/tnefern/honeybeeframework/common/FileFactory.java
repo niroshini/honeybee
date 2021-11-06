@@ -47,6 +47,7 @@ public class FileFactory {
 
 	private static FileFactory theInstance = null;
 	private StringBuffer stealTracer = null;
+	private StringBuffer workerStatLogger = null;
 	private int fileCount = 0;
 
 	public final static String TAG = "FileFactory";
@@ -62,6 +63,7 @@ public class FileFactory {
 
 	private FileFactory() {
 		stealTracer = new StringBuffer();
+		workerStatLogger = new StringBuffer(CompletedJob.getWorkerStatsTitle());
 	}
 
 	public void writeFileWithDate(String pStr) throws IOException {
@@ -86,23 +88,24 @@ public class FileFactory {
 	}
 
 	public void writeFile(String path, String pStr) throws IOException {
-		File sdDir = Environment.getExternalStorageDirectory();
+		File sdDir = new File(Environment.getExternalStorageDirectory(), "/Android/data/tnefern.honeybeeframework/files/stats");
 
-		if (sdDir.canWrite()) {
-			File txtfile = new File(sdDir, path);
-			// FileWriter txwriter = new FileWriter(txtfile);
-			// BufferedWriter out = new BufferedWriter(txwriter);
-			// out.write(pStr);
-			// out.close();
-
-			FileOutputStream fOut = new FileOutputStream(txtfile, true);
-			OutputStreamWriter osw = new OutputStreamWriter(fOut);
-			osw.write(pStr);
-			osw.write("\n");
-			osw.flush();
-			osw.close();
-
+		if (!sdDir.exists()) {
+			sdDir.mkdir();
 		}
+
+		File txtfile = new File(sdDir, path);
+		// FileWriter txwriter = new FileWriter(txtfile);
+		// BufferedWriter out = new BufferedWriter(txwriter);
+		// out.write(pStr);
+		// out.close();
+
+		FileOutputStream fOut = new FileOutputStream(txtfile, true);
+		OutputStreamWriter osw = new OutputStreamWriter(fOut);
+		osw.write(pStr);
+		osw.write("\n");
+		osw.flush();
+		osw.close();
 
 		// FileOutputStream fOut = pAct.openFileOutput(path, pAct.MODE_APPEND);
 		// OutputStreamWriter osw = new OutputStreamWriter(fOut);
@@ -121,9 +124,9 @@ public class FileFactory {
 		File csvFile = new File(sdDir, CommonConstants.RUN_STAT_FILE_PATH);
 
 		FileWriter fOut = new FileWriter(csvFile);
-		fOut.append(CompletedJob.getStatsTitle());
+		fOut.append(CompletedJob.getDelegatorStatsTitle());
 		for (CompletedJob completedJob : doneJobs) {
-			fOut.append("\n").append(completedJob.getStats());
+			fOut.append("\n").append(completedJob.getDelegatorStats());
 		}
 		fOut.flush();
 		fOut.close();
@@ -356,7 +359,7 @@ public class FileFactory {
 		zos.close();
 
 		long zipEndTime = System.currentTimeMillis();
-		JobPool.getInstance().addZippedJob(new ZippedJob(zipName.toString(), sources, zipStartTime, zipEndTime));
+		JobPool.getInstance().addZippedJob(new OutZippedJob(zipName.toString(), sources, zipStartTime, zipEndTime));
 //		TimeMeter.getInstance().addToZipTime(
 //				(System.currentTimeMillis() - time));
 		

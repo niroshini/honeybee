@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import tnefern.honeybeeframework.R;
 import tnefern.honeybeeframework.apps.facematch.FaceConstants;
-import tnefern.honeybeeframework.apps.facematch.FinishedFaceMatchDelegatorActivity;
 import tnefern.honeybeeframework.common.CommonConstants;
 import tnefern.honeybeeframework.common.CompletedJob;
 import tnefern.honeybeeframework.common.ConnectionFactory;
@@ -26,14 +24,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.util.Log;
-import android.widget.TextView;
 
 /**
  * The QueenBee represents the work the delegator has to do, if the delegator is
  * working.
- * 
+ *
  * @author tnfernando
- * 
+ *
  */
 public abstract class QueenBee implements ResultsRead {
 	private Activity parentContext = null;
@@ -161,26 +158,30 @@ public abstract class QueenBee implements ResultsRead {
 			pRes.stringResults = pRes.stringResults.substring(
 					CommonConstants.RESULT_SYMBOL.length() + 1,
 					pRes.stringResults.length());
-			// filename0:3:Pfilename1:0
+			// filename0:detected_face_count,computation_time,!filename1:detected_face_count,computation_time
 			results = pRes.stringResults
 					.split(FaceConstants.FACE_RESULT_BREAKER);
 			for (int i = 0; i < results.length; i++) {
 				num = results[i].split(":");
-				String[] result = num[1].split(CommonConstants.COMPUTATION_TIME_SEPARATOR);
-				getResultFactory().addToMap(num[0], Integer.parseInt(result[0]));
+				String fileName = num[0];
+				String[] resultAndComputationTime = num[1].split(CommonConstants.COMPUTATION_TIME_SEPARATOR);
+				int result = Integer.parseInt(resultAndComputationTime[0]);
+				long computationTime = Long.parseLong(resultAndComputationTime[1]);
+				getResultFactory().addToMap(num[0], result);
 
 				CompletedJob cj = new CompletedJob(
 						CommonConstants.READ_STRING_MODE, num[0], -1, null);
-				cj.intValue = Integer.parseInt(result[0]);
+				cj.intValue = result;
 
 				cj.setCompletedBy(pRes.fromWorker);
-				cj.setComputationTime(Long.parseLong(result[1]));
+				cj.setComputationTime(computationTime);
 				// Write zip time and transmission time for the job from the ZippedJob list
 				JobPool.getInstance().setTimeFromZippedJob(cj);
 				// Also set the result time
 				cj.setResultReceivedTime(pRes.resultReceivedTime);
 				cj.setResultProcessedTime(System.currentTimeMillis());
 				cj.setJobEndTime(System.currentTimeMillis());
+				cj.setIsCorrect(result == 1);
 
 				this.doneJobs.add(cj);
 
@@ -205,13 +206,13 @@ public abstract class QueenBee implements ResultsRead {
 								switch(rto.mixedModeArray[1]){
 								case CommonConstants.READ_INT_ARRAY_MODE:
 									getResultFactory().addToMap(String.valueOf(intval), rto.intArrayValue);
-									
+
 									CompletedJob cj = new CompletedJob(
 											CommonConstants.READ_INT_ARRAY_MODE, String.valueOf(intval), intval,  null);
 									cj.intArrayValue = rto.intArrayValue;
 									cj.id = String.valueOf(intval);
 									this.doneJobs.add(cj);
-									
+
 									getResultFactory().addToDoneDobMap(pRes.fromWorker);
 									Log.d("Results", "index: "+rto.intValue);
 									JobPool.getInstance().incrementDoneJobCount();
@@ -260,15 +261,15 @@ public abstract class QueenBee implements ResultsRead {
 		endReading();
 
 		ConnectionFactory.getInstance().isJobDone = true;
-		
-		
+
+
 		IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 		Intent batteryStatus = this.parentContext.registerReceiver(null, ifilter);
 		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
 		int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
 		float batteryPct = level / (float)scale;
-		
+
 		this.testAndCompare(t, batteryPct);
 	}
 
@@ -316,6 +317,17 @@ public abstract class QueenBee implements ResultsRead {
 
 		s.append("battery start= "+startbattery+" battery end= "+batteryPct+"  Battery Usage= "+(batteryPct-startbattery));
 		Log.d("Queenbee", s.toString());
+
+		// calculate accuracy
+		int totalCorrect = 0;
+		for (CompletedJob completedJob : doneJobs) {
+			if (completedJob.isCorrect()) {
+                totalCorrect++;
+            }
+		}
+		float accuracy = totalCorrect * 100f / doneJobs.size();
+		s.append(" accuracy= " + accuracy);
+
 		System.out.println("ALL DONE!.  S = " + speedup);
 		getResultFactory().setSpeedup(speedup);
 

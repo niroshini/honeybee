@@ -52,6 +52,7 @@ public class FaceMatchQueenBee extends QueenBee {
 							FileFactory.getInstance().getFileNameFromFullPath(
 									fileName), -1, null);
 					cj.intValue = res.intValue();
+					cj.setIsCorrect(res == 1);
 					FaceResult.getInstance().addToMap(cj.stringValue,
 							cj.intValue);
 					JobPool.getInstance().incrementDoneJobCount();

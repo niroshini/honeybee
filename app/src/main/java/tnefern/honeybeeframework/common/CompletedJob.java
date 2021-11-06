@@ -52,6 +52,9 @@ public class CompletedJob implements Serializable {
 	/******************* FIELDS FOR STATS **********************/
 	private long jobStartTime;
 	private long jobEndTime;
+	private long computationTime;
+
+	/*------------------- DELEGATOR ONLY START *****************/
 	/**
 	 * Can be either null when completed by delegator or
 	 * the id/address of the worker who completed the job
@@ -65,7 +68,21 @@ public class CompletedJob implements Serializable {
 	private long transmissionTime;
 	private long resultReceivedTime;
 	private long resultProcessedTime;
-	private long computationTime;
+	/*------------------- DELEGATOR ONLY END********************/
+
+	/*------------------- WORKER ONLY START ********************/
+	private long stealRequestTime;
+	private long jobReceivedStartTime;
+	private long jobReceivedEndTime;
+	private long avgJobWaitTime;
+	private long avgJobTransmissionTime;
+	private long unzipStartTime;
+	private long unzipEndTime;
+	private long resultSentTime;
+	private int result;
+	private boolean isCorrect;
+	/*------------------- WORKER ONLY END **********************/
+
 	/******************* FIELDS FOR STATS **********************/
 
 	public CompletedJob(){
@@ -197,7 +214,19 @@ public class CompletedJob implements Serializable {
 		this.computationTime = computationTime;
 	}
 
-	public static String getStatsTitle() {
+	public int getResult() {
+		return intValue;
+	}
+
+	public boolean isCorrect() {
+		return isCorrect;
+	}
+
+	public void setIsCorrect(boolean isCorrect) {
+		this.isCorrect = isCorrect;
+	}
+
+	public static String getDelegatorStatsTitle() {
 		return "Job_id" + "," +
 				"Start_time" + "," +
 				"End_time" + "," +
@@ -211,9 +240,11 @@ public class CompletedJob implements Serializable {
 				"Transmission_time(Avg)" + "," +
 				"Result_received_time" + "," +
 				"Result_processed_time" + "," +
-				"Computation_time";
+				"Computation_time" + "," +
+				"Result" + "," +
+				"Is_correct";
 	}
-	public String getStats() {
+	public String getDelegatorStats() {
 		return stringValue + "," +
 				getJobStartTime() + "," +
 				getJobEndTime() + "," +

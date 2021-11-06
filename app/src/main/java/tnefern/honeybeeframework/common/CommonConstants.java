@@ -63,7 +63,7 @@ public class CommonConstants {
 	// public static final String DEBUG_FILE_PATH = "debugText.txt";
 	// public static final String DEBUG_FILE_PATH = "chunkText.txt";
 	public static final String RUN_STAT_FILE_PATH = "runStat.csv";
-	public static final String DEBUG_FILE_PATH = "faceDebugDemoI7.txt";
+	public static final String DEBUG_FILE_PATH = "runLog.txt";
 	public static final String ZIP_FILE_PATH = "faceMatch.zip";
 	public static final String COPY_FILE_PATH = "hBeeTemp";
 	public static final String ZIPSTORE_FILE_PATH = "honeyZipStore";
