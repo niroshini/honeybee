@@ -216,6 +216,19 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 		}
 	}
 
+	private void sendNoJobsToSteal() {
+		Log.d("sendNoJobsToSteal", "before sendNoJobsToSteal");
+		if (writecount <= 0) {
+			Log.d("sendNoJobsToSteal", "writecount<=0");
+			Writer w = new Writer(NOTHING_TO_GIVE_DELEGATOR);
+			w.start();
+		} else {
+			Log.d("sendNoJobsToSteal", "wrtingThreads.offer(w)");
+			Writer w = new Writer(NOTHING_TO_GIVE_DELEGATOR);
+			stolenThreads.offer(w);
+		}
+	}
+
 	private void sendStolenJobs(Object o) {
 		Log.d("sendStolenJobs", "before sendStolenJobs");
 		if (writecount <= 0) {
@@ -563,29 +576,7 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 
 			} else if (intent.getAction().equals(
 					CommonConstants.BROADCAST_WORKER_NO_JOBS_TO_STEAL_ACTION)) {
-				Log.d("WorkerBroadcastReceiver",
-						"BROADCAST_WORKER_NO_JOBS_TO_STEAL_ACTION");
-				try {
-					synchronized (this) {
-						while (iswriting) {
-							this.wait();
-						}
-
-						oos.writeInt(CommonConstants.READ_INT_MODE);
-						oos.writeInt(CommonConstants.NO_JOBS_TO_STEAL);
-						oos.flush();
-						iswriting = false;
-						this.notifyAll();
-					}
-
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
+				sendNoJobsToSteal();
 			} else if (intent.getAction().equals(
 					CommonConstants.BROADCAST_WORKER_HAVE_JOBS_STEAL_ACTION)) {
 				int mode = intent.getIntExtra(CommonConstants.RESULT_INT_TYPE,
