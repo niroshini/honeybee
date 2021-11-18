@@ -713,12 +713,15 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 						break;
 					case CommonConstants.READ_FILE_MODE:
 						long jobReceivedStartTime = System.currentTimeMillis();
-						final File f = new File(
-								Environment.getExternalStorageDirectory() + "/"
-										+ context.getPackageName() + "/"
-										+ CommonConstants.RECEV_FILES_PATH
-										+ "/" + System.currentTimeMillis()
-										+ ".zip");
+						final File f = new File(context.getExternalFilesDir(null),
+								CommonConstants.RECEV_FILES_PATH
+										+ "/" + System.currentTimeMillis() + ".zip");
+//
+//								Environment.getExternalStorageDirectory() + "/"
+//										+ context.getPackageName() + "/"
+//										+ CommonConstants.RECEV_FILES_PATH
+//										+ "/" + System.currentTimeMillis()
+//										+ ".zip");
 
 						File dirs = new File(f.getParent());
 						if (!dirs.exists())
@@ -737,7 +740,7 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 						int readsofar = 0;
 						Log.d("WorkerReadWriteThread", "File length = "
 								+ lengthOfFile);
-						whilelooplabel: while ((bytesRead = is.read(
+						while ((bytesRead = is.read(
 								buffer,
 								0,
 								Math.min(buffer.length, lengthOfFile
@@ -746,7 +749,7 @@ public class WiFiDirectWorkerNonOwnerService extends IntentService {
 							readsofar += bytesRead;
 
 							if (readsofar >= lengthOfFile) {
-								break whilelooplabel;
+								break;
 							}
 						}
 

@@ -42,8 +42,10 @@ public class FinishedWorkerActivity extends AppCompatActivity {
 	
 	public void onDestroy(){
 		super.onDestroy();
-		File dir = new File(Environment.getExternalStorageDirectory() + "/"
-				+ FaceConstants.FACE_MATCH_DIR);
+//		File dir = new File(Environment.getExternalStorageDirectory() + "/"
+//				+ FaceConstants.FACE_MATCH_DIR);
+		File dir = new File(getExternalFilesDir(null),
+				FaceConstants.FACE_MATCH_DIR);
 		// delete the contents of the faceMatch folder
 		FileFactory.getInstance().deleteFolderContents(dir);
 	}

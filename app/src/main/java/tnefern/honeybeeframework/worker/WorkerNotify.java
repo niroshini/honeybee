@@ -32,12 +32,12 @@ import android.util.Log;
  * This class is used by the Worker side. When the jobs are received by the
  * WifiD/BT service, the service calls this class. This class stores an instance
  * of WorkerBee thread.
- * 
+ *
  * Previously assignJobsForWorker() was in class Stealer. It has been moved to
  * here.
- * 
+ *
  * @author tnfernando
- * 
+ *
  */
 public class WorkerNotify {
 	private static WorkerNotify theInstance = null;
@@ -70,7 +70,7 @@ public class WorkerNotify {
 
 	/**
 	 * Called when ever files are received by the Worker
-	 * 
+	 *
 	 * @param pMsg
 	 *            Jobs received
 	 * @param pClass
@@ -97,8 +97,10 @@ public class WorkerNotify {
 	}
 
 	public void deleteJobData() {
-		File dir = new File(Environment.getExternalStorageDirectory() + "/"
-				+ FaceConstants.FACE_MATCH_DIR);
+//		File dir = new File(Environment.getExternalStorageDirectory() + "/"
+//				+ FaceConstants.FACE_MATCH_DIR);
+		File dir = new File(parentActivity.getExternalFilesDir(null),
+				FaceConstants.FACE_MATCH_DIR);
 		// delete the contents of the faceMatch folder
 		FileFactory.getInstance().deleteFolderContents(dir);
 	}
@@ -121,9 +123,11 @@ public class WorkerNotify {
 					if (extension
 							.equalsIgnoreCase(FaceConstants.FILE_EXTENSION_ZIP)) {
 						try {
-							File sdDir = Environment
-									.getExternalStorageDirectory();
-							File dir = new File(sdDir,
+//							File sdDir = Environment
+//									.getExternalStorageDirectory();
+//							File dir = new File(sdDir,
+//									FaceConstants.UNZIP_FILE_PATH + index);
+							File dir = new File(parentActivity.getExternalFilesDir(null),
 									FaceConstants.UNZIP_FILE_PATH + index);
 							dir.mkdir();
 							long unzipStartTime = System.currentTimeMillis();
@@ -315,8 +319,11 @@ public class WorkerNotify {
 	}
 
 	private String getUnzipDirectoryPath(int i) {
-		return Environment.getExternalStorageDirectory().getAbsolutePath()
-				+ "/" + FaceConstants.UNZIP_FILE_PATH + i;
+//		return Environment.getExternalStorageDirectory().getAbsolutePath()
+//				+ "/" + FaceConstants.UNZIP_FILE_PATH + i;
+
+		return new File(parentActivity.getExternalFilesDir(null),
+				FaceConstants.UNZIP_FILE_PATH + index).getAbsolutePath();
 	}
 
 	public void populateWithJob(Job pToAdd) {
@@ -329,8 +336,10 @@ public class WorkerNotify {
 						.equalsIgnoreCase(FaceConstants.FILE_EXTENSION_ZIP)) {
 
 					try {
-						File sdDir = Environment.getExternalStorageDirectory();
-						File dir = new File(sdDir,
+//						File sdDir = Environment.getExternalStorageDirectory();
+//						File dir = new File(sdDir,
+//								FaceConstants.UNZIP_FILE_PATH + index);
+						File dir = new File(parentActivity.getExternalFilesDir(null),
 								FaceConstants.UNZIP_FILE_PATH + index);
 						dir.mkdir();
 						File unFile = new File(fileNames[x]);
@@ -352,9 +361,11 @@ public class WorkerNotify {
 					unFile.getAbsolutePath());
 			if (extension.equalsIgnoreCase(FaceConstants.FILE_EXTENSION_ZIP)) {
 				try {
-					File sdDir = Environment.getExternalStorageDirectory();
-					File dir = new File(sdDir, FaceConstants.UNZIP_FILE_PATH
-							+ index);
+//					File sdDir = Environment.getExternalStorageDirectory();
+//					File dir = new File(sdDir, FaceConstants.UNZIP_FILE_PATH
+//							+ index);
+					File dir = new File(parentActivity.getExternalFilesDir(null),
+							FaceConstants.UNZIP_FILE_PATH + index);
 					dir.mkdir();
 					FileFactory.getInstance().unzip(unFile, dir);
 					unFile.delete();
