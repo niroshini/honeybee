@@ -262,6 +262,7 @@ public class WiFiDirectSearcher {
 
 	// ///////////////////////////////////////////////////////////////////////////
 	private class ConnectionListenerClass implements ConnectionInfoListener {
+		private boolean groupFormed = false;
 
 		@Override
 		public void onConnectionInfoAvailable(WifiP2pInfo connectionInfo) {
@@ -294,29 +295,33 @@ public class WiFiDirectSearcher {
 //				serviceIntent.putExtra(CommonConstants.ACTIVITY_CLASS_NAME, workerClass);
 //				parent.startService(serviceIntent);
 			} else if (connectionInfo.groupFormed) {
+				if (!groupFormed) {
 
-				Log.d("ConnectionListenerClass",
-						"Worker I AM THE NON OWNER");
-				TimeMeter.getInstance().setWorkerStealStartTime(System.currentTimeMillis());
+					Log.d("ConnectionListenerClass",
+							"Worker I AM THE NON OWNER");
+					TimeMeter.getInstance().setWorkerStealStartTime(System.currentTimeMillis());
 
-				Intent uiintent= new Intent(WifiDirectConstants.NOTIFY_UI_UPON_CONNECTION);
-				parent.sendBroadcast(uiintent);
-				
-				Intent serviceIntent = new Intent(parent,
-						WiFiDirectWorkerNonOwnerService.class);
-				serviceIntent
-						.setAction(WiFiDirectWorkerNonOwnerService.ACTION_INIT_WIFID_CONNECTION);
-				serviceIntent
-						.putExtra(
-								WiFiDirectWorkerNonOwnerService.EXTRAS_GROUP_OWNER_ADDRESS,
-								connectionInfo.groupOwnerAddress
-										.getHostAddress());
-				serviceIntent.putExtra(
-						WiFiDirectWorkerNonOwnerService.EXTRAS_GROUP_OWNER_PORT,
-						WifiDirectConstants.FILE_TRANSFER_PORT);
-				
-				serviceIntent.putExtra(CommonConstants.ACTIVITY_CLASS_NAME, workerClass);
-				parent.startService(serviceIntent);
+					Intent uiintent= new Intent(WifiDirectConstants.NOTIFY_UI_UPON_CONNECTION);
+					parent.sendBroadcast(uiintent);
+
+					Intent serviceIntent = new Intent(parent,
+							WiFiDirectWorkerNonOwnerService.class);
+					serviceIntent
+							.setAction(WiFiDirectWorkerNonOwnerService.ACTION_INIT_WIFID_CONNECTION);
+					serviceIntent
+							.putExtra(
+									WiFiDirectWorkerNonOwnerService.EXTRAS_GROUP_OWNER_ADDRESS,
+									connectionInfo.groupOwnerAddress
+											.getHostAddress());
+					serviceIntent.putExtra(
+							WiFiDirectWorkerNonOwnerService.EXTRAS_GROUP_OWNER_PORT,
+							WifiDirectConstants.FILE_TRANSFER_PORT);
+
+					serviceIntent.putExtra(CommonConstants.ACTIVITY_CLASS_NAME, workerClass);
+					parent.startService(serviceIntent);
+
+					groupFormed = true;
+				}
 			}
 
 			if (connectionInfo.groupFormed) {// comes here
