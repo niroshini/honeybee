@@ -28,6 +28,7 @@ public class WorkerInfo {
 	public int jobsDone = 0;
 	public int connection_mode = -1;
 	private int stealChunk = CommonConstants.STEAL_CHUNK;
+	private int maxFilesPerMsg = CommonConstants.MAX_FILES_PER_MSG;
 	private ObjectOutputStream oos = null;
 
 	public WorkerInfo(BluetoothDevice pDev, BluetoothSocket pSoc) {
@@ -74,6 +75,14 @@ public class WorkerInfo {
 
 	public int getStealChunk() {
 		return stealChunk;
+	}
+
+	public int getMaxFilesPerMsg() {
+		return maxFilesPerMsg;
+	}
+
+	public void setMaxFilesPerMsg(int maxFilesPerMsg) {
+		this.maxFilesPerMsg = maxFilesPerMsg;
 	}
 
 	public BluetoothDevice getBtDevice() {

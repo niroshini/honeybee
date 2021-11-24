@@ -755,6 +755,9 @@ public class JobPool {
 //	}
 
 	public JobParams fetchJobsToTransmitToWorker(int pNumJobs, String pAdr, Context pContext) {
+		WorkerInfo workerInfo = ConnectionFactory.getInstance().getWorkerDeviceMap()
+				.get(pAdr);
+
 //		StringBuffer sb = new StringBuffer();
 		ArrayList<Job> list = fetchFilesToWorkerTransmit(pNumJobs);
 		JobParams jParams = null;
@@ -763,19 +766,19 @@ public class JobPool {
 			jParams = new JobParams(CommonConstants.READ_FILES_MODE);
 			String[][] sarr = null;
 			ArrayList<String> fileNames = new ArrayList<String>();
-			if (list.size() > CommonConstants.MAX_FILES_PER_MSG) {
-				int times = list.size() / CommonConstants.MAX_FILES_PER_MSG;
-				int rem = list.size() % CommonConstants.MAX_FILES_PER_MSG;
+			if (list.size() > workerInfo.getMaxFilesPerMsg()) {
+				int times = list.size() / workerInfo.getMaxFilesPerMsg();
+				int rem = list.size() % workerInfo.getMaxFilesPerMsg();
 				;
 				if (rem > 0) {
-					sarr = new String[times + 1][CommonConstants.MAX_FILES_PER_MSG];
+					sarr = new String[times + 1][workerInfo.getMaxFilesPerMsg()];
 				} else {
-					sarr = new String[times][CommonConstants.MAX_FILES_PER_MSG];
+					sarr = new String[times][workerInfo.getMaxFilesPerMsg()];
 				}
 
 				int x = 0;
 				for (int k = 0; k < times; k++) {
-					for (int l = 0; l < CommonConstants.MAX_FILES_PER_MSG; l++) {
+					for (int l = 0; l < workerInfo.getMaxFilesPerMsg(); l++) {
 						sarr[k][l] = list.get(x).jobParams;
 						x++;
 					}

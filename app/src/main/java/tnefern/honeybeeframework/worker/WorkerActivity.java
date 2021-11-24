@@ -55,7 +55,7 @@ public abstract class WorkerActivity extends Activity {
 		workerReceiver = new WorkerBroadcastReceiver();
 		intentFilter.addAction(WifiDirectConstants.NOTIFY_UI_UPON_CONNECTION);
 		registerReceiver(workerReceiver, intentFilter);
-		WorkerNotify.getInstance().setWorkerBee(getWorkerBee());
+		WorkerNotify.getInstance(getApplicationContext()).setWorkerBee(getWorkerBee());
 		this.initWifiD("");
 
 		TimeMeter.getInstance().setInitJobsTime(System.currentTimeMillis());

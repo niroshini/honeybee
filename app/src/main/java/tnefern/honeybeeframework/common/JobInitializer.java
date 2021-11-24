@@ -612,24 +612,24 @@ public class JobInitializer {
 						String[][] sarr = null;
 						ArrayList<String[]> sList = null;
 
-						if (sNames.length > CommonConstants.MAX_FILES_PER_MSG) {
+						if (sNames.length > pInfo.getMaxFilesPerMsg()) {
 							int times = sNames.length
-									/ CommonConstants.MAX_FILES_PER_MSG;
+									/ pInfo.getMaxFilesPerMsg();
 							int rem = sNames.length
-									% CommonConstants.MAX_FILES_PER_MSG;
+									% pInfo.getMaxFilesPerMsg();
 							;
 							if (rem > 0) {
 								sList = new ArrayList<String[]>();
 								// sarr = new String[times +
-								// 1][CommonConstants.MAX_FILES_PER_MSG];
+								// 1][pInfo.getMaxFilesPerMsg()];
 								// Log.d("stealFromMe : times ", times +
 								// " rem: "
 								// + rem);
 
 								int x = 0;
 								for (int k = 0; k < times; k++) {
-									String[] sEle = new String[CommonConstants.MAX_FILES_PER_MSG];
-									for (int l = 0; l < CommonConstants.MAX_FILES_PER_MSG; l++) {
+									String[] sEle = new String[pInfo.getMaxFilesPerMsg()];
+									for (int l = 0; l < pInfo.getMaxFilesPerMsg(); l++) {
 										sEle[l] = sNames[x];
 										x++;
 									}
@@ -644,12 +644,12 @@ public class JobInitializer {
 
 							} else {
 
-								sarr = new String[times][CommonConstants.MAX_FILES_PER_MSG];
+								sarr = new String[times][pInfo.getMaxFilesPerMsg()];
 								// Log.d("stealFromMe : times ", times + " ");
 
 								int x = 0;
 								for (int k = 0; k < times; k++) {
-									for (int l = 0; l < CommonConstants.MAX_FILES_PER_MSG; l++) {
+									for (int l = 0; l < pInfo.getMaxFilesPerMsg(); l++) {
 										sarr[k][l] = sNames[x];
 										// if (sNames[x] == null) {
 										// Log.d("stealFromMe",

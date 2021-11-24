@@ -153,7 +153,7 @@ public class HoneybeeCrowdActivity extends AppCompatActivity implements AdapterV
 
                     @Override
                     public void onClick(View v) {
-                        WorkerNotify.getInstance().deleteJobData();// niro
+                        WorkerNotify.getInstance(getApplicationContext()).deleteJobData();// niro
                     }
                 });
             }
