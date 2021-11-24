@@ -742,20 +742,23 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         private final Emitter.Listener onStealRequestReceived = args -> {
             updateHeartbeat();
             Log.d(CLOUD_TAG, "Steal request from server");
-            try {
-                WorkerInfo worker = ConnectionFactory
-                        .getInstance()
-                        .getWorkerInfoFromAddress(cloudServer.getIpAddress());
-                if (worker != null) {
-                    JobInitializer.getInstance(
-                            DelegatorActivity.this)
-                            .startVictimizedForDelegator(worker, false);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                // comes here after disconnect
-                Log.d(CLOUD_TAG, "IOException " + e.getMessage());
+            WorkerInfo worker = ConnectionFactory
+                    .getInstance()
+                    .getWorkerInfoFromAddress(cloudServer.getIpAddress());
+            if (worker != null) {
+                Thread delegatorBeingVictimThread = new Thread(() -> {
+                    try {
+                        JobInitializer.getInstance(
+                                DelegatorActivity.this)
+                                .startVictimizedForDelegator(worker, false);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        // comes here after disconnect
+                        Log.d(CLOUD_TAG, "IOException " + e.getMessage());
 
+                    }
+                });
+                delegatorBeingVictimThread.start();
             }
         };
 
@@ -1395,15 +1398,19 @@ public abstract class DelegatorActivity extends AppCompatActivity {
                                                 .getInstance()
                                                 .getWorkerInfoFromAddress(wifiAdr);
                                         if (worker != null) {
-                                            FileFactory
-                                                    .getInstance()
-                                                    .logJobDoneWithDate(
-                                                            worker.toString()
-                                                                    + " is trying to steal from me");
-                                            JobInitializer.getInstance(
-                                                    DelegatorActivity.this)
-                                                    .startVictimizedForDelegator(
-                                                            worker, false);
+                                            Thread delegatorBeingVictimThread = new Thread(() -> {
+                                                try {
+                                                    JobInitializer.getInstance(
+                                                            DelegatorActivity.this)
+                                                            .startVictimizedForDelegator(worker, false);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                    // comes here after disconnect
+                                                    Log.d(CLOUD_TAG, "IOException " + e.getMessage());
+
+                                                }
+                                            });
+                                            delegatorBeingVictimThread.start();
                                         }
 
                                     } else if (readInt == CommonConstants.NO_JOBS_TO_STEAL) {
