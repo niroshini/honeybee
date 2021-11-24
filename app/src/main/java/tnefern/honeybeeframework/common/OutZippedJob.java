@@ -1,6 +1,7 @@
 package tnefern.honeybeeframework.common;
 
 import java.io.File;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,11 @@ public class OutZippedJob {
         }
         this.zipStartTime = zipStartTime;
         this.zipEndTime = zipEndTime;
-        this.averageZipTime = (zipEndTime - zipStartTime) / filesInZip.length;
+        if (filesInZip.length > 0) {
+            this.averageZipTime = (zipEndTime - zipStartTime) / filesInZip.length;
+        } else {
+            throw new InvalidParameterException("There are no files to zip");
+        }
     }
 
     public String getZipName() {
@@ -61,7 +66,9 @@ public class OutZippedJob {
 
     public void setTransmitEndTime(long transmitEndTime) {
         this.transmitEndTime = transmitEndTime;
-        this.averageTransmissionTime = (transmitEndTime - transmitStartTime) / filesInZip.size();
+        if (filesInZip.size() > 0) {
+            this.averageTransmissionTime = (transmitEndTime - transmitStartTime) / filesInZip.size();
+        }
     }
 
     public long getAverageTransmissionTime() {

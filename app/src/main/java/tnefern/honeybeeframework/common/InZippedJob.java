@@ -47,8 +47,10 @@ public class InZippedJob {
 
     public void setFilesInZip(List<String> filesInZip) {
         this.filesInZip = filesInZip;
-        this.avgJobWaitTime = (getJobReceivedStartTime() - getStealRequestTime()) / filesInZip.size();
-        this.avgJobTransmissionTime = (getJobReceivedEndTime() - getJobReceivedStartTime()) / filesInZip.size();
+        if (filesInZip.size() > 0) {
+            this.avgJobWaitTime = (getJobReceivedStartTime() - getStealRequestTime()) / filesInZip.size();
+            this.avgJobTransmissionTime = (getJobReceivedEndTime() - getJobReceivedStartTime()) / filesInZip.size();
+        }
     }
 
     public List<String> getFilesInZip() {
