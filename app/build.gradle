@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "28.0.3"
 
     defaultConfig {
         applicationId "tnefern.honeybeeframework"
         minSdkVersion 16
-        targetSdkVersion 30
+        targetSdkVersion 31
     }
 
     buildTypes {
@@ -31,9 +31,9 @@ dependencies {
     implementation ('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     implementation 'com.google.mlkit:face-detection:16.1.2'
 }
