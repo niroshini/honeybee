@@ -118,8 +118,8 @@ public class CommonConstants {
 	public static final String VICTIM_FILE_TYPE = "org.com.honeybee.victim.file";
 
 	public static final int INIT_STEALING = 1;
-	public static final int STEAL_CHUNK = 50;// 3
-	public static final int STEAL_LIM = 0;
+	public static final int STEAL_CHUNK = 5;// 3
+	public static final int STEAL_LIM = 5;
 	public static final int NO_JOBS_TO_STEAL = 4;
 	public static final int TERM_STEALING = 5;
 
@@ -167,6 +167,7 @@ public class CommonConstants {
 
 
 	public static final long MONOTIME = 1042548;//faceMatch, Oneplus6, 1000 FlickerHQ png images, detect 3 times
+//	public static final long MONOTIME = 3900012;//faceMatch, MotoG5s plus, 1000 FlickerHQ png images, detect 3 times
 
 //64398;
 //33584;// 26322;//numberOfRows =
