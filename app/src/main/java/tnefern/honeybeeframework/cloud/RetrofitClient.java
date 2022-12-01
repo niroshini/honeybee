@@ -16,9 +16,9 @@ public class RetrofitClient {
 
     private RetrofitClient(String ipAndPort) {
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(2, TimeUnit.MINUTES)
+                .connectTimeout(5, TimeUnit.MINUTES)
+                .readTimeout(10, TimeUnit.MINUTES)
+                .writeTimeout(20, TimeUnit.MINUTES)
                 .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(String.format(Locale.ENGLISH, BASE_URL, ipAndPort))
