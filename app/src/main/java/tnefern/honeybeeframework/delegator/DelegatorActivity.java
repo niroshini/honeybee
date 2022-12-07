@@ -13,6 +13,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.Map.Entry;
@@ -246,11 +247,37 @@ public abstract class DelegatorActivity extends AppCompatActivity {
     }
 
     private void updateProgressInView() {
+        connectToAdditionalCloudWorker(false);
         int doneJobs = JobPool.getInstance().getDoneJobs();
         if (doneJobs > 0) {
             int remainingJobs = JobPool.getInstance().getAllJobSize();
             long estimatedMinuteRemaining = (System.currentTimeMillis() - TimeMeter.getInstance().getInitJobsTime()) * remainingJobs / (doneJobs * 60 * 1000);
             workProgressTV.setText(String.format("Progress:%d Completed & %d remaining\nEstimated time remaining (min):%d", doneJobs, remainingJobs, estimatedMinuteRemaining));
+        }
+    }
+
+    /**
+     * Connect to additional server when certain number of jobs from job pool have been completed.
+     * This is not always required, only needed for certain experiments.
+     *
+     * @param enable [true] to enable (a single) additional cloud [false] otherwise
+     */
+    private void connectToAdditionalCloudWorker(boolean enable) {
+        if (enable) {
+            int completedJobThreshold = 500;
+            // connect to additional server on meeting certain condition
+            // For now the cloud server need to be manually added from the code
+            String cloudServerToConnect = "13.238.224.147";
+            if (JobPool.getInstance().getAllJobSize() <= completedJobThreshold && !peersConnected.containsKey(cloudServerToConnect)) {
+                for (int i = 0; i < mCloudServersArrayAdapter.getCount(); i++) {
+                    if (cloudServerToConnect.equals(mCloudServersArrayAdapter.getItem(i).cloudServer.getIpAddress())) {
+                        mCloudServersArrayAdapter.getItem(i).connectToCloudServer();
+                        return;
+                    }
+                }
+            }
+
+            Log.e(TAG, "Additional cloud worker connection error, could not connect to:" + cloudServerToConnect);
         }
     }
 
@@ -528,6 +555,9 @@ public abstract class DelegatorActivity extends AppCompatActivity {
                             workerIP, device));
                     WorkerInfo w = new WorkerInfo(device,
                             ConnectionFactory.WIFI_MODE);
+                    // set default steal chunk and max files per message to 5
+                    w.setStealChunk(5);
+                    w.setMaxFilesPerMsg(5);
                     w.isConnected = true;
                     ConnectionFactory.getInstance().getWorkerDeviceMap().put(device.deviceAddress, w);
                     Log.d("WiFiBroadcastReceiver", "onSuccess!!");
@@ -650,7 +680,7 @@ public abstract class DelegatorActivity extends AppCompatActivity {
 
         // add cloud servers to our list
         // TODO : This is my pc as local server. Please change it to match your local server IP or another cloud server IP
-        CloudConnectionHelper helper = new CloudConnectionHelper(new CloudServer("10.0.0.53", 3000), new CloudConnectionHelperInterface() {
+        CloudConnectionHelper helper = new CloudConnectionHelper(new CloudServer("192.168.42.17", 3000), new CloudConnectionHelperInterface() {
             @Override
             public void onConnected(CloudConnectionHelper cloudConnectionHelper) {
                 mCloudServersArrayAdapter.notifyDataSetChanged();
@@ -662,24 +692,39 @@ public abstract class DelegatorActivity extends AppCompatActivity {
                 heartbeatTimestamps.put(address, time);
             }
         });
+        helper.getCloudWorkerInfo().setStealChunk(5);
+        helper.getCloudWorkerInfo().setMaxFilesPerMsg(5);
         mCloudServersArrayAdapter.add(helper);
         ConnectionFactory.getInstance().getWorkerDeviceMap().put(helper.cloudServer.getIpAddress(), helper.getCloudWorkerInfo());
 
         // TODO: This my cloud server IP. Change it to match the cloud server IP before running
-        helper = new CloudConnectionHelper(new CloudServer("13.211.80.147", 3000), new CloudConnectionHelperInterface() {
-            @Override
-            public void onConnected(CloudConnectionHelper cloudConnectionHelper) {
-                mCloudServersArrayAdapter.notifyDataSetChanged();
-                ConnectionFactory.getInstance().getWorkerDeviceMap().put(cloudConnectionHelper.cloudServer.getIpAddress(), cloudConnectionHelper.workerInfo);
-            }
+        List<String> ipList = new ArrayList<>();
+        ipList.add("3.106.87.148");
 
-            @Override
-            public void onHeartbeatReceived(String address, long time) {
-                heartbeatTimestamps.put(address, time);
-            }
-        });
-        mCloudServersArrayAdapter.add(helper);
-        ConnectionFactory.getInstance().getWorkerDeviceMap().put(helper.cloudServer.getIpAddress(), helper.getCloudWorkerInfo());
+//        ipList.add("");
+
+        for (String ip : ipList) {
+            helper = new CloudConnectionHelper(new CloudServer(ip, 3000), new CloudConnectionHelperInterface() {
+                @Override
+                public void onConnected(CloudConnectionHelper cloudConnectionHelper) {
+                    mCloudServersArrayAdapter.notifyDataSetChanged();
+                    ConnectionFactory.getInstance().getWorkerDeviceMap().put(cloudConnectionHelper.cloudServer.getIpAddress(), cloudConnectionHelper.workerInfo);
+                }
+
+                @Override
+                public void onHeartbeatReceived(String address, long time) {
+                    heartbeatTimestamps.put(address, time);
+                }
+            });
+            helper.getCloudWorkerInfo().setStealChunk(5);
+            mCloudServersArrayAdapter.add(helper);
+            ConnectionFactory.getInstance().getWorkerDeviceMap().put(helper.cloudServer.getIpAddress(), helper.getCloudWorkerInfo());
+        }
+        // connect to the cloud server automatically after setup
+        // uncomment the following to auto-connect to every available cloud/edge workers
+//        /*for (int i = 1; i <= ipList.size(); i++) {
+//            mCloudServersArrayAdapter.getItem(i).connectToCloudServer();
+//        }*/
     }
 
     private interface CloudConnectionHelperInterface {
@@ -742,23 +787,25 @@ public abstract class DelegatorActivity extends AppCompatActivity {
         private final Emitter.Listener onStealRequestReceived = args -> {
             updateHeartbeat();
             Log.d(CLOUD_TAG, "Steal request from server");
-            WorkerInfo worker = ConnectionFactory
-                    .getInstance()
-                    .getWorkerInfoFromAddress(cloudServer.getIpAddress());
-            if (worker != null) {
-                Thread delegatorBeingVictimThread = new Thread(() -> {
-                    try {
-                        JobInitializer.getInstance(
-                                DelegatorActivity.this)
-                                .startVictimizedForDelegator(worker, false);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        // comes here after disconnect
-                        Log.d(CLOUD_TAG, "IOException " + e.getMessage());
+            try {
+                WorkerInfo worker = ConnectionFactory
+                        .getInstance()
+                        .getWorkerInfoFromAddress(cloudServer.getIpAddress());
+                if (worker != null) {
+                    // pause for 10 seconds for the fog server when 50% of the total jobs is completed
+                    // TODO: uncomment the following and replace it with the desired worker ip to delay that worker
+//                    if (worker.getAddress().equals("10.0.0.53") && JobPool.getInstance().getAllJobSize() <= 500) {
+//                        Thread.sleep(10000);
+//                    }
+                    JobInitializer.getInstance(
+                            DelegatorActivity.this)
+                            .startVictimizedForDelegator(worker, false);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                // comes here after disconnect
+                Log.d(CLOUD_TAG, "IOException " + e.getMessage());
 
-                    }
-                });
-                delegatorBeingVictimThread.start();
             }
         };
 
@@ -1398,19 +1445,15 @@ public abstract class DelegatorActivity extends AppCompatActivity {
                                                 .getInstance()
                                                 .getWorkerInfoFromAddress(wifiAdr);
                                         if (worker != null) {
-                                            Thread delegatorBeingVictimThread = new Thread(() -> {
-                                                try {
-                                                    JobInitializer.getInstance(
-                                                            DelegatorActivity.this)
-                                                            .startVictimizedForDelegator(worker, false);
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                    // comes here after disconnect
-                                                    Log.d(CLOUD_TAG, "IOException " + e.getMessage());
-
-                                                }
-                                            });
-                                            delegatorBeingVictimThread.start();
+                                            FileFactory
+                                                    .getInstance()
+                                                    .logJobDoneWithDate(
+                                                            worker.toString()
+                                                                    + " is trying to steal from me");
+                                            JobInitializer.getInstance(
+                                                    DelegatorActivity.this)
+                                                    .startVictimizedForDelegator(
+                                                            worker, false);
                                         }
 
                                     } else if (readInt == CommonConstants.NO_JOBS_TO_STEAL) {
